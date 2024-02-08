@@ -1,20 +1,38 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import HamsterImage from "../../img/Hamster.png";
+import Switch from "../../img/Switch.png";
 
 export default function MyPageNavbar() {
   return (
     <NavbarContainer>
       <ProfileContainer>
-        <Img alt="No Image" />
+        <h3>고객님</h3>
+        <Img1
+          style={{
+            background: `url(${HamsterImage}) center/cover`,
+          }}
+        />
         <h1>햄스터</h1>
-        <Button>사장님으로 전환</Button>
+        <SwitchBtn to="/mypageSeller/EditProfile">
+          <Img2
+            style={{
+              background: `url(${Switch}) center/cover`,
+            }}
+          />
+          사장님으로 전환
+        </SwitchBtn>
       </ProfileContainer>
 
       <ListContainer>
         <h1>내 정보</h1>
 
-        <LinkPage to="/mypage/EditProfile">
+        <LinkPage
+          to="/mypage/EditProfile"
+          style={({ isActive }) => ({
+            color: isActive ? "#f0c920" : "black",
+          })}
+        >
           <h2>프로필 수정</h2>
         </LinkPage>
         <LinkPage to="/mypage/ManagePurchase">
@@ -43,17 +61,17 @@ export default function MyPageNavbar() {
 
         <h1>나의 구매 후기</h1>
 
-        <LinkPage to="/mypage/Review">
+        <LinkPage to="/mypage/MyReview">
           <h2>내가 쓴 후기</h2>
         </LinkPage>
         <hr />
 
         <h1>도움 센터</h1>
 
-        <LinkPage to="/mypage/Report">
+        <LinkPage to="/Report">
           <h2>신고하기</h2>
         </LinkPage>
-        <LinkPage to="/mypage/Report_Details">
+        <LinkPage to="/Report_Details">
           <h2>신고내역</h2>
         </LinkPage>
         <LinkPage to="/Notice">
@@ -62,7 +80,6 @@ export default function MyPageNavbar() {
         <LinkPage to="/Event">
           <h2>이벤트</h2>
         </LinkPage>
-        <hr />
       </ListContainer>
     </NavbarContainer>
   );
@@ -70,67 +87,143 @@ export default function MyPageNavbar() {
 
 export const NavbarContainer = styled.div`
   flex-direction: row;
-  width: 30vw;
-  height: 97.2vh;
-  padding: 20px;
-  border-right: 1px solid gray;
-  margin: 3%;
+  width: 300px;
+  height: 972px;
+  border-top: 3px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+  border-left: 3px solid rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
 `;
 
 export const ProfileContainer = styled.div`
-  width: 30vw;
-  height: 33.3vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 296px;
+  height: 280px;
+  padding-bottom: 0px;
+  padding-top: 15%;
+  border: 3px solid #f0c920;
+  border-radius: 2px;
   text-align: center;
 
   h1 {
-    font-family: "Noto Sans KR";
+    font-family: "Noto Sans";
     font-style: normal;
-    font-size: 20px;
     font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+
     color: #000000;
+  }
+
+  h3 {
+    position: absolute;
+    width: 44px;
+    height: 22px;
+    padding-top: 3px;
+    margin-left: 90px;
+    border-radius: 5px;
+
+    background-color: #f0c920;
+
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #ffffff;
   }
 `;
 
-export const Img = styled.img`
+export const Img1 = styled.div`
   display: flex;
-  width: 14.5vw;
-  height: 14.5vh;
-  background-image: url(${ HamsterImage }); /* 수정된 부분 */
-  background-size: cover; /* 배경 이미지 크기 조정 */
+  width: 145px;
+  height: 145px;
   border-radius: 50%;
   margin: 0 auto;
 `;
 
-export const Button = styled.button`
-  width: 18vw;
-  height: 4vh;
+export const Img2 = styled.div`
+  display: flex;
+  width: 18px;
+  height: 15px;
+  margin: 0;
+`;
+
+export const SwitchBtn = styled(NavLink)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 40px;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid rgba(156, 156, 156, 0.5);
   border-radius: 20px;
+
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #202123;
 `;
 
 export const ListContainer = styled.div`
   flex-direction: row;
-  width: 30vw;
-  height: 63.9vh;
+  width: 285px;
+  height: 639px;
+  padding-top: 5%;
+  padding-left: 3.5%; /* 카테고리 */
 
   h1 {
-    font-size: 18px;
-    font-weight: bolder;
+    padding-left: 5%;
+    padding-top: 3%;
     margin: 0px;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 15px;
+    color: #202123;
   }
 
-  h2 {
-    font-size: 15px;
-    margin: 0px;
-    color: black;
-
-    &:hover {
-      color: #f0c920;
-    }
+  hr {
+    width: 240px;
+    height: 0px;
+    border: 1px solid rgba(156, 156, 156, 0.5);
   }
 `;
 
-export const LinkPage = styled(Link)`
+export const LinkPage = styled(NavLink)`
   color: black;
   text-decoration: none;
   margin: 5px;
+
+  h2 {
+    padding-left: 5%;
+    margin: 0px;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 0.7;
+    color: #202123;
+
+    &:hover {
+      padding-left: 5%;
+      margin: 0px;
+      font-family: "Noto Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      color: #f0c920;
+    }
+
+    &.active {
+      color: #f0c920;
+    }
+  }
 `;

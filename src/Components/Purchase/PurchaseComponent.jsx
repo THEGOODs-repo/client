@@ -14,7 +14,6 @@ export const RightContainer = styled.div`
   width: 15vw;
   height: 15vh;
   background-color: #9c9c9c;
-  
 `;
 
 export const InformationContainer = styled.div`

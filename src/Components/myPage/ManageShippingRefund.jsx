@@ -27,39 +27,76 @@ export default function ManageShippingRefund() {
 }
 
 const MainContainer = styled.div`
-  width: 87vw;
-  height: 97.2vh;
-  margin: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 870px;
+  height: 972px;
+  border: 3px solid rgba(0, 0, 0, 0.05);
 
   h1 {
+    align-self: flex-start;
+    margin-top: 5%;
+    margin-left: 5%;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
     font-size: 26px;
-    font-weight: bolder;
+    line-height: 35px;
+    color: #202123;
   }
 
   h2 {
+    align-self: flex-start;
+    margin-top: 5%;
+    margin-left: 5%;
+
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
     font-size: 20px;
-    margin-top: 5vh;
+    line-height: 27px;
+    color: #202123;
   }
 `;
 
 const SubContainer = styled.div`
-  width: 79.4vw;
-  height: 19.3vh;
-  border: 1.5px dashed;
-  border-radius: 5px;
-
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 794px;
+  height: 193px;
+  margin: 0px;
+  border: 1.5px dashed #202123;
+  border-radius: 3px;
 
   h3 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
     font-size: 16px;
+    line-height: 22px;
+    color: #202123;
   }
 `;
 
 const Button = styled.button`
-  width: 10vw;
-  height: 4vh;
+  width: 100px;
+  height: 40px;
+  background: #f0c920;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border: none;
   border-radius: 5px;
-  color: white;
-  background: #f0c920;
+
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+
+  color: #ffffff;
 `;

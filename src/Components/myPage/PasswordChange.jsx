@@ -29,13 +29,22 @@ export default function PasswordChange() {
 }
 
 const MainContainer = styled.div`
-  width: 87vw;
-  height: 97.2vh;
-  margin: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 870px;
+  height: 972px;
+  border: 3px solid rgba(0, 0, 0, 0.05);
 
   h1 {
+    align-self: flex-start;
+    margin-top: 5%;
+    margin-left: 5%;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
     font-size: 26px;
-    font-weight: bolder;
+    line-height: 35px;
     color: #202123;
   }
 `;
@@ -43,36 +52,60 @@ const MainContainer = styled.div`
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 78.3vw;
-  height: 49.8vh;
-  padding: 7%;
-  border: 1px solid gray;
+  justify-content: center;
+  align-items: center;
+  width: 783px;
+  height: 498px;
+  border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  text-align: left;
 
   h3 {
-    font-size: 15px;
+    align-self: flex-start;
+    padding-left: 5.8%;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+
     color: #52555b;
   }
+`;
 
-  h4 {
-    font-size: 15px;
-    color: gray;
+const Input = styled.input`
+  width: 685px;
+  height: 60px;
+  border: 1px solid rgba(156, 156, 156, 0.8);
+  border-radius: 5px;
+  margin-bottom: 12px;
+
+  &::placeholder {
+    padding-left: 5px;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+
+    color: #9c9c9c;
   }
 `;
-const Input = styled.input`
-  width: 68.5vw;
-  height: 6vh;
-  border: 1px solid #9c9c9c;
-  border-radius: 4px;
-  margin-bottom: 15px;
-`;
 const Button = styled.button`
-  width: 13vw;
-  height: 4.5vh;
+  width: 122px;
+  height: 50px;
+  align-self: flex-end;
+  margin-top: 1.8%;
+  margin-right: 5.8%;
   border: none;
-  border-radius: 5px;
-  margin-left: 80%;
-  color: white;
   background: #f0c920;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+
+  color: #ffffff;
 `;

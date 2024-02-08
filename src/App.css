@@ -14,9 +14,9 @@
 }
 
 @font-face {
-    font-family: 'NotoSans';
-    src: url('./fonts/NotoSansKR.ttf') format('truetype');
-  }
+  font-family: "NotoSans";
+  src: url("./fonts/NotoSansKR.ttf") format("truetype");
+}
 
 .App-header {
   background-color: #ffffff;

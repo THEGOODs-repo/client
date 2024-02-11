@@ -5,7 +5,7 @@ import logo from "../../img/logo.svg";
 import ErrorModal from "./ErrorModal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken } from "../../redux/loginSlice";
+import { setId, setToken } from "../../redux/loginSlice";
 
 const FindPassWordWrapper = styled.div`
   display: flex;
@@ -112,6 +112,15 @@ const ConfirmButton = styled.div`
   }
 `;
 
+const ProfileImage = styled.img`
+  border-radius: 50%;
+  width: ${80 / 19.2}vw;
+  height: ${80 / 19.2}vw;
+  align-self: center;
+  margin: ${29 / 19.2}vw 0 0 0;
+  object-fit: cover;
+`;
+
 const LoginImg = {
   display: "flex",
   width: `${570 / 19.2}vw`,
@@ -139,7 +148,7 @@ const FindPassWord = () => {
   const [NewPasswordCheck, SetNewPasswordCheck] = useState("");
   const [ValidNewPassword, SetValidNewPassword] = useState("");
   const [ValidNewPasswordCheck, SetValidNewPasswordCheck] = useState("");
-  const token = useSelector((state) => state.login.userId);
+  const token = useSelector((state) => state.login.token);
 
   useEffect(() => {
     var pattern = new RegExp(
@@ -195,7 +204,7 @@ const FindPassWord = () => {
   };
 
   const HandleChangePassword = () => {
-    !ValidNewPassword && !ValidNewPasswordCheck && fetchChangePassword();
+    ValidNewPassword && ValidNewPasswordCheck && fetchChangePassword();
   };
 
   const fetchChangePassword = async () => {
@@ -286,7 +295,7 @@ const FindPassWord = () => {
   };
 
   const HandleEmailAuthVerify = () => {
-    !ValidVerifcationEmail && fetchEmailAuthVerify();
+    ValidVerifcationEmail && fetchEmailAuthVerify();
   };
 
   const fetchEmailAuthVerify = async () => {
@@ -308,6 +317,7 @@ const FindPassWord = () => {
         console.log(response);
         SetEmail(response.data.result.email);
         SetVerifiedEmail(true);
+        dispatch(setId(response.data.result.email));
         dispatch(setToken(response.data.result.jwt));
         SetIsFound(true);
       }

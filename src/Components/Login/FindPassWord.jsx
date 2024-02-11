@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import logo from "../../img/logo.svg";
-import profileimage from "../../img/profile.png";
 import axios from "axios";
+import logo from "../../img/logo.svg";
 import ErrorModal from "./ErrorModal";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../../redux/loginSlice";
 
 const FindPassWordWrapper = styled.div`
   display: flex;
@@ -12,11 +14,20 @@ const FindPassWordWrapper = styled.div`
   font-family: NotoSans;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: black;
 `;
 
 const LogoWrapper = styled.img`
   width: ${487 / 19.2}vw;
+`;
+
+const InputTextWrapper = styled.div`
+  margin: ${10 / 19.2}vw 0 0 ${1 / 19.2}vw;
+  font-size: ${16 / 19.2}vw;
+  flex-shrink: 0;
+  color: #52555b;
+  align-self: flex-start;
 `;
 
 const TextWrapper = styled.div`
@@ -82,13 +93,6 @@ const WarningText = styled.div`
   align-self: flex-start;
 `;
 
-const LoginImg = {
-  display: "flex",
-  width: `${570 / 19.2}vw`,
-  margin: `${14 / 19.2}vw 0 ${24 / 19.2}vw 0`,
-  padding: 0,
-};
-
 const ConfirmButton = styled.div`
   display: flex;
   width: ${570 / 19.2}vw;
@@ -101,7 +105,11 @@ const ConfirmButton = styled.div`
   align-items: center;
   font-size: ${18 / 19.2}vw;
   padding: 0;
-  margin: 0 0 ${18 / 19.2}vw 0;
+  margin: ${36 / 19.2}vw 0 0 0;
+
+  &.invalid {
+    color: gray;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -113,7 +121,16 @@ const ProfileImage = styled.img`
   object-fit: cover;
 `;
 
+const LoginImg = {
+  display: "flex",
+  width: `${570 / 19.2}vw`,
+  margin: `${14 / 19.2}vw 0 ${24 / 19.2}vw 0`,
+  padding: 0,
+};
+
 const FindPassWord = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [IsFound, SetIsFound] = useState(false);
   const [Email, SetEmail] = useState("");
   const [DeActive, SetDeActive] = useState(false);
@@ -127,6 +144,11 @@ const FindPassWord = () => {
   const [isRequesting, SetIsRequesting] = useState(false);
   const [DisplayErrorModal, SetDisplayErrorModal] = useState(false);
   const [DisplayErrorMSG, SetDisplayErrorMSG] = useState("");
+  const [NewPassword, SetNewPassword] = useState("");
+  const [NewPasswordCheck, SetNewPasswordCheck] = useState("");
+  const [ValidNewPassword, SetValidNewPassword] = useState("");
+  const [ValidNewPasswordCheck, SetValidNewPasswordCheck] = useState("");
+  const token = useSelector((state) => state.login.userId);
 
   useEffect(() => {
     var pattern = new RegExp(
@@ -142,11 +164,33 @@ const FindPassWord = () => {
   }, [VerificationEmail, DeActive]);
 
   useEffect(() => {
+    var pattern = new RegExp(
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+    );
+    SetValidNewPassword(pattern.test(NewPassword));
+  }, [NewPassword, DeActive]);
+
+  useEffect(() => {
+    var pattern = new RegExp(
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+    );
+    SetValidNewPasswordCheck(pattern.test(NewPasswordCheck));
+  }, [NewPasswordCheck, DeActive]);
+
+  useEffect(() => {
     SetValidEmail(true);
   }, []);
 
   const EmailChange = (e) => {
     !DeActive && !BlockEmail && SetEmail(e.target.value);
+  };
+
+  const NewPasswordChange = (e) => {
+    !DeActive && SetNewPassword(e.target.value);
+  };
+
+  const NewPasswordCheckChange = (e) => {
+    !DeActive && SetNewPasswordCheck(e.target.value);
   };
 
   const VerificationEmailChange = (e) => {
@@ -157,6 +201,43 @@ const FindPassWord = () => {
     ) {
       !DeActive && !VerifiedEmail && SetVerificationEmail(e.target.value);
     }
+  };
+
+  const HandleChangePassword = () => {
+    !ValidNewPassword && !ValidNewPasswordCheck && fetchChangePassword();
+  };
+
+  const fetchChangePassword = async () => {
+    SetDeActive((DeActive) => !DeActive);
+    try {
+      const endpoint = `/api/members/password/update`;
+      const requestBody = {
+        password: NewPassword,
+        checkPassword: NewPasswordCheck,
+      };
+
+      const response = await axios.post(endpoint, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response);
+      if (
+        response.data.isSuccess === true &&
+        response.data.result.email === Email
+      ) {
+        console.log(response);
+        navigate("/", { replace: true });
+      } else if (response.data.isSuccess === false) {
+        console.error(response);
+        // 요청 실패시 코드작성
+      }
+    } catch (error) {
+      console.error("Error during POST request:", error);
+    }
+    SetDeActive((DeActive) => !DeActive);
   };
 
   const HandleEmailAuth = async () => {
@@ -213,10 +294,14 @@ const FindPassWord = () => {
     SetDeActive((DeActive) => !DeActive);
   };
 
+  const HandleEmailAuthVerify = () => {
+    !ValidVerifcationEmail && fetchEmailAuthVerify();
+  };
+
   const fetchEmailAuthVerify = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `/api/members/phone/auth/verify/find/email`;
+      const endpoint = `/api/members/email/auth/verify`;
       const requestBody = {
         email: Email,
         code: VerificationEmail,
@@ -232,6 +317,7 @@ const FindPassWord = () => {
         console.log(response);
         SetEmail(response.data.result.email);
         SetVerifiedEmail(true);
+        dispatch(setToken(response.data.result.jwt));
         SetIsFound(true);
       }
     } catch (error) {
@@ -267,13 +353,33 @@ const FindPassWord = () => {
             fill="#202123"
           />
         </svg>
-        <ProfileImage src={profileimage} />
-        <TextWrapper>
-          010-1234-5678 로 회원가입한 계정을 찾았습니다.
-          <br />
-          THEGOODs@naver.com
-        </TextWrapper>
-        <ConfirmButton>내 계정 확인하기</ConfirmButton>
+        <TextWrapper>새로운 비밀번호를 입력해 주세요.</TextWrapper>
+        <InputTextWrapper>변경할 비밀번호</InputTextWrapper>
+        <InputWrapper
+          $width={552}
+          onChange={NewPasswordChange}
+          value={NewPassword}
+          key="NewPassword"
+          placeholder="변경할 비밀번호를 입력해주세요."
+          className={!ValidNewPassword && "invalidinput"}
+          type="password"
+        ></InputWrapper>
+        <InputTextWrapper>한번 더 입력</InputTextWrapper>
+        <InputWrapper
+          $width={552}
+          onChange={NewPasswordCheckChange}
+          value={NewPasswordCheck}
+          key="NewPasswordCheck"
+          placeholder="변경할 비밀번호를 한번 더 입력해주세요."
+          className={!ValidNewPasswordCheck && "invalidinput"}
+          type="password"
+        ></InputWrapper>
+        <ConfirmButton
+          onClick={HandleChangePassword}
+          className={!ValidNewPassword && !ValidNewPasswordCheck && "invalid"}
+        >
+          확인
+        </ConfirmButton>
       </FindPassWordWrapper>
     );
   else
@@ -315,7 +421,7 @@ const FindPassWord = () => {
             onChange={EmailChange}
             value={Email}
             key="Email"
-            placeholder="placehold"
+            placeholder="이메일을 입력해주세요."
             className={
               (!ValidEmail && "invalidinput") || (BlockEmail && "block")
             }
@@ -374,7 +480,7 @@ const FindPassWord = () => {
                   (!ValidVerifcationEmail && "white") ||
                   (VerifiedEmail && "white")
                 }
-                onClick={fetchEmailAuthVerify}
+                onClick={HandleEmailAuthVerify}
               >
                 인증
               </DuplicateCheckButton>

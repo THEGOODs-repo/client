@@ -18,6 +18,7 @@ import FindGuestOrder from "./Components/Login/FindGuestOrder";
 import OrderDetail from "./Components/Order/OrderDetail";
 import HelpCenter from "./Components/HelpCenter/HelpCenter";
 import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
+import ShoppingList from "./Pages/ShoppingList";
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/*" element={<Post />} />
             <Route path="/seller" element={<Seller />} />
+            <Route path="/shoppingList" element={<ShoppingList/>}/>
             <Route path="/mypage" element={<MyPageComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route

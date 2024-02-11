@@ -10,6 +10,8 @@ import ManagePurchase from "./Components/myPage/ManagePurchase";
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
 import Login from "./Pages/Login";
+import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
+import NaverLoginHandler from "./Components/Login/NaverLoginHandler";
 import Register from "./Pages/Register";
 import RegisterForm from "./Components/Register/RegisterForm";
 import HelpCenter from "./Components/HelpCenter/HelpCenter";

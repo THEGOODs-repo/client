@@ -141,18 +141,18 @@ const LoginPage = () => {
   const [EmailSave, SetEmailSave] = useState(false);
   const [DisplayCheckData, SetDisplayCheckData] = useState(false);
   const [DisplayPasswordError, SetDisplayPasswordError] = useState(false);
-  const alreadyUser = useSelector((state) => state.login.userId);
+  const alreadyUser = useSelector((state) => state.login.token);
 
   useEffect(() => {
     var pattern = new RegExp(
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     );
     SetValidEmail(pattern.test(Email));
   }, [Email, DeActive]);
 
   useEffect(() => {
     var pattern = new RegExp(
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
     );
     SetValidPassword(pattern.test(Password));
   }, [Password, DeActive]);

@@ -112,15 +112,6 @@ const ConfirmButton = styled.div`
   }
 `;
 
-const ProfileImage = styled.img`
-  border-radius: 50%;
-  width: ${80 / 19.2}vw;
-  height: ${80 / 19.2}vw;
-  align-self: center;
-  margin: ${29 / 19.2}vw 0 0 0;
-  object-fit: cover;
-`;
-
 const LoginImg = {
   display: "flex",
   width: `${570 / 19.2}vw`,
@@ -152,7 +143,7 @@ const FindPassWord = () => {
 
   useEffect(() => {
     var pattern = new RegExp(
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     );
     SetValidEmail(pattern.test(Email));
   }, [Email, DeActive]);
@@ -165,14 +156,14 @@ const FindPassWord = () => {
 
   useEffect(() => {
     var pattern = new RegExp(
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
     );
     SetValidNewPassword(pattern.test(NewPassword));
   }, [NewPassword, DeActive]);
 
   useEffect(() => {
     var pattern = new RegExp(
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
     );
     SetValidNewPasswordCheck(pattern.test(NewPasswordCheck));
   }, [NewPasswordCheck, DeActive]);
@@ -323,7 +314,7 @@ const FindPassWord = () => {
     } catch (error) {
       SetDisplayErrorModal(true);
       SetDisplayErrorMSG(
-        "인증번호가 일치하지 않습니다. 확인 후 다시 입력해주세요."
+        "인증번호가 일치하지 않습니다. 확인 후 다시 입력해주세요.",
       );
     }
     SetDeActive((DeActive) => !DeActive);

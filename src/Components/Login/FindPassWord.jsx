@@ -5,7 +5,7 @@ import logo from "../../img/logo.svg";
 import ErrorModal from "./ErrorModal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setId, setToken } from "../../redux/loginSlice";
+import { setToken } from "../../redux/loginSlice";
 
 const FindPassWordWrapper = styled.div`
   display: flex;
@@ -110,15 +110,6 @@ const ConfirmButton = styled.div`
   &.invalid {
     color: gray;
   }
-`;
-
-const ProfileImage = styled.img`
-  border-radius: 50%;
-  width: ${80 / 19.2}vw;
-  height: ${80 / 19.2}vw;
-  align-self: center;
-  margin: ${29 / 19.2}vw 0 0 0;
-  object-fit: cover;
 `;
 
 const LoginImg = {
@@ -317,7 +308,6 @@ const FindPassWord = () => {
         console.log(response);
         SetEmail(response.data.result.email);
         SetVerifiedEmail(true);
-        dispatch(setId(response.data.result.email));
         dispatch(setToken(response.data.result.jwt));
         SetIsFound(true);
       }

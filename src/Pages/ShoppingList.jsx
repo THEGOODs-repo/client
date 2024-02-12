@@ -1,7 +1,8 @@
 import React,{useState} from "react";
 import arrow from"../img/chevron-right.png";
 import styled from "styled-components";
-
+import ShoppingCart from "../Components/ShoppingCart/ShoppingCart";
+import IU from "../img/iu.png";
 const ShoppingList = () =>{
 
     const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태를 저장하는 상태 변수
@@ -16,6 +17,57 @@ const ShoppingList = () =>{
       console.log("선택한 상품 수:", selectedItemCount);
     };
 
+    const cartData = [
+      {
+        sellerName: "test_seller",
+        itemName: "뉴진스 포카",
+        itemImg: IU,
+        deliveryFee: 3000,
+        cartDetailViewDTOList: [
+          {
+            optionName: "해린 포카",
+            price: 1000,
+            amount: 1,
+          },
+          {
+            optionName: "민지 포카",
+            price: 2000,
+            amount: 6,
+          },
+          {
+            optionName: "하니 포카",
+            price: 3000,
+            amount: 3,
+          },
+        ],
+      },
+      {
+        sellerName: "test_seller",
+        itemName: "아이브 포카",
+        itemImg: "img url",
+        deliveryFee: 2000,
+        cartDetailViewDTOList: [
+          {
+            optionName: "원영 포카",
+            price: 1000,
+            amount: 3,
+          },
+        ],
+      },
+      {
+        sellerName: "test_seller",
+        itemName: "카리나 포카",
+        itemImg: "img url",
+        deliveryFee: 3000,
+        cartDetailViewDTOList: [
+          {
+            optionName: null,
+            price: 3000,
+            amount: 1,
+          },
+        ],
+      },
+    ];
   return(
     <Container>
       <Header>
@@ -34,23 +86,47 @@ const ShoppingList = () =>{
       </Header>
       <Divider />
       
-      <input type="checkbox" style={checkboxStyle} id="selectAll" checked={selectAll} onChange={handleSelectAllChange}/>
-      <label style={labelStyle} htmlFor="selectAll">전체 선택</label>
-      <Deletebutton>X 삭제</Deletebutton>
+      {cartData.length > 0 && (
+        <>
+          <input
+            type="checkbox"
+            style={checkboxStyle}
+            id="selectAll"
+            checked={selectAll}
+            onChange={handleSelectAllChange}
+          />
+          <label style={labelStyle} htmlFor="selectAll">
+            전체 선택
+          </label>
+          <Deletebutton>X 삭제</Deletebutton>
 
-      <Divider />
-      <Divider />
-      <BottomExplain>
-        <p>· 장바구니 상품은 최대 30일간 저장됩니다.</p>
-        <p>· 장바구니에는 최대 50개까지 상품을 담으실 수 있습니다.</p>
-        <p>· 상품이 50개가 넘으면 가장 먼저 담았던 상품이 찜 목록으로 이동됩니다.</p>
-      </BottomExplain>
-      <Order>
-      <TotalPrice>총 주문 금액 <PriceNumber>{totalPrice}</PriceNumber>원</TotalPrice>
-      <OrderButton onClick={handleOrderButtonClick}>
-        총 주문하기<ItemCount>{selectedItemCount}</ItemCount>
-      </OrderButton>
-      </Order>
+          <Divider />
+          </>
+      )}
+
+          <ShoppingCart cartItems={cartData}></ShoppingCart>
+          
+        {cartData.length > 0 && (
+        <>
+          <Divider />
+          <BottomExplain>
+            <p>· 장바구니 상품은 최대 30일간 저장됩니다.</p>
+            <p>· 장바구니에는 최대 50개까지 상품을 담으실 수 있습니다.</p>
+            <p>
+              · 상품이 50개가 넘으면 가장 먼저 담았던 상품이 찜 목록으로
+              이동됩니다.
+            </p>
+          </BottomExplain>
+          <Order>
+            <TotalPrice>
+              총 주문 금액 <PriceNumber>{totalPrice}</PriceNumber>원
+            </TotalPrice>
+            <OrderButton onClick={handleOrderButtonClick}>
+              총 주문하기<ItemCount>{selectedItemCount}</ItemCount>
+            </OrderButton>
+          </Order>
+        </>
+      )}
     </Container>
   );
 };

@@ -1,78 +1,99 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import HamsterImage from "../../img/Hamster.png";
-import Switch from "../../img/Switch.png";
+import HamsterImage from "../../../img/Hamster.png";
+import Switch from "../../../img/Switch.png";
 
-export default function MyPageNavbar() {
+export default function MyPageNavbarSeller() {
   return (
     <NavbarContainer>
       <ProfileContainer>
-        <h3>고객님</h3>
+        <h3>사장님</h3>
         <Img1
           style={{
             background: `url(${HamsterImage}) center/cover`,
           }}
         />
         <h1>햄스터</h1>
-        <SwitchBtn to="/mypageSeller/EditProfile">
+        <SwitchBtn to="/mypage/EditProfile">
           <Img2
             style={{
               background: `url(${Switch}) center/cover`,
             }}
           />
-          사장님으로 전환
+          고객님으로 전환
         </SwitchBtn>
       </ProfileContainer>
 
       <ListContainer>
         <h1>내 정보</h1>
-
         <LinkPage
-          to="/mypage/EditProfile"
+          to="/mypageSeller/SellerProfile"
+          style={({ isActive }) => ({
+            color: isActive ? "#f0c920" : "black",
+          })}
+        >
+          <h2>판매자 정보</h2>
+        </LinkPage>
+        <LinkPage
+          to="/mypageSeller/EditProfile"
           style={({ isActive }) => ({
             color: isActive ? "#f0c920" : "black",
           })}
         >
           <h2>프로필 수정</h2>
         </LinkPage>
-        <LinkPage to="/mypage/ManagePurchase">
-          <h2>구매 관리</h2>
+        <hr />
+        <h1>판매 관리</h1>
+        <LinkPage to="/mypageSeller/ManagePurchase">
+          <h2>전체 (0)</h2>
         </LinkPage>
-        <LinkPage to="/mypage/ManageShippingRefund">
-          <h2>배송 환불관리</h2>
+        <LinkPage to="">
+          <h2>판매 중 (0)</h2>
         </LinkPage>
-        <LinkPage to="/mypage/CustomizedInformation">
-          <h2>맞춤 정보 관리</h2>
+        <LinkPage to="">
+          <h2>판매 중지 (0)</h2>
+        </LinkPage>
+        <LinkPage to="">
+          <h2>반품 신청 (0)</h2>
+        </LinkPage>
+        <LinkPage to="">
+          <h2>상품 등록</h2>
         </LinkPage>
         <hr />
 
         <h1>계정 설정</h1>
 
-        <LinkPage to="/mypage/NotificationSettings">
+        <LinkPage to="/mypageSeller/NotificationSettings">
           <h2>알림 설정</h2>
         </LinkPage>
-        <LinkPage to="/mypage/PasswordChange">
+        <LinkPage to="/mypageSeller/PasswordChange">
           <h2>비밀번호 변경</h2>
         </LinkPage>
-        <LinkPage to="/mypage/MemberWithdrawal">
+        <LinkPage to="/mypageSeller/MemberWithdrawal">
           <h2>회원 탈퇴</h2>
         </LinkPage>
         <hr />
 
         <h1>나의 구매 후기</h1>
 
-        <LinkPage to="/mypage/MyReview">
+        <LinkPage to="/mypageSeller/MyReview">
           <h2>내가 쓴 후기</h2>
+        </LinkPage>
+        <hr />
+
+        <h1>수익 관리</h1>
+        <LinkPage to="/mypageSeller/ProfitSeller">
+          <h2>수익금 내역</h2>
+        </LinkPage>
+        <LinkPage to="/Preference">
+          <h2>멤버십 신청</h2>
         </LinkPage>
         <hr />
 
         <h1>도움 센터</h1>
 
         <LinkPage to="/Report">
-          <h2>신고하기</h2>
-        </LinkPage>
-        <LinkPage to="/Report_Details">
-          <h2>신고내역</h2>
+          <h2>패널티 내역</h2>
         </LinkPage>
         <LinkPage to="/Notice">
           <h2>공지사항</h2>
@@ -88,7 +109,7 @@ export default function MyPageNavbar() {
 export const NavbarContainer = styled.div`
   flex-direction: row;
   width: 300px;
-  height: 972px;
+  height: 1300px;
   border-top: 3px solid rgba(0, 0, 0, 0.05);
   border-bottom: 3px solid rgba(0, 0, 0, 0.05);
   border-left: 3px solid rgba(0, 0, 0, 0.05);

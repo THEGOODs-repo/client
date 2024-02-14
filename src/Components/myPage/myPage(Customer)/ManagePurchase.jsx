@@ -47,6 +47,7 @@ export default function ManagePurchase() {
       <CompletePurchase />
       <ReadyToDelivery />
       <StartDelivery />
+      <CompleteDelivery />
     </MainContainer>
   );
 }

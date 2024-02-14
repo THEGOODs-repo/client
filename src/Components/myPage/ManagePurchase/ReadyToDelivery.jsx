@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Purchase from "../../img/Purchase.png";
-import ChevronRight from "../../img/chevron_right.png";
+import Purchase from "../../../img/Purchase.png";
+import ChevronRight from "../../../img/chevron_right.png";
 
-export function CompletePurchase() {
+export function ReadyToDelivery() {
   const fileInput = React.useRef(null);
 
   const handleButtonClick = (e) => {
@@ -20,7 +20,7 @@ export function CompletePurchase() {
           }}
         />
         <InformationContainer>
-          <h2>결제완료</h2>
+          <h2>배송준비</h2>
           <h3>케이스 종이 스티커</h3>
           <h4>옵션: 나 홀로 집에 1건</h4>
         </InformationContainer>
@@ -85,7 +85,7 @@ export const InformationContainer = styled.div`
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
-    color: #202123;
+    color: #f0c920;
   }
 
   h3 {

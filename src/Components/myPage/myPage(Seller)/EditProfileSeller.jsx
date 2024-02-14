@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import AddPicture from "../../img/AddPicture.png";
+import AddPicture from "../../../img/AddPicture.png";
 
 export default function EditProfileSeller() {
   const [editBtn, setEditBtn] = useState(false);

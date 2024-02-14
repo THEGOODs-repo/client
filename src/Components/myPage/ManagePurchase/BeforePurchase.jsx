@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Purchase from "../../img/Purchase.png";
-import ChevronRight from "../../img/chevron_right.png";
+import Purchase from "../../../img/Purchase.png";
+import ChevronRight from "../../../img/chevron_right.png";
 
 export function BeforePurchase() {
   const fileInput = React.useRef(null);

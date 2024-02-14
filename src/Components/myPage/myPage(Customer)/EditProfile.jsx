@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import AddPicture from "../../img/AddPicture.png";
+import AddPicture from "../../../img/AddPicture.png";
 
 export default function EditProfile() {
   const [editBtn, setEditBtn] = useState(false);
@@ -179,7 +179,7 @@ const ButtonBackground = styled.button`
   height: 53px;
   border: none;
   border-radius: 50%;
-  background: url(${AddPicture}) center/cover;
+  background: url(../../img/AddPicture.png) center/cover;
 `;
 
 const ButtonProfile = styled.button`

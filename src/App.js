@@ -23,6 +23,7 @@ import ShoppingList from "./Pages/ShoppingList";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
+import NonCustomerOrder from "./Pages/NonCustomerOrder";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/*" element={<Post />} />
             <Route path="/seller" element={<Seller />} />
             <Route path="/shoppingList" element={<ShoppingList/>}/>
+            <Route path="/noncustomerorder" element={<NonCustomerOrder/>}></Route>
             <Route path="/mypage" element={<MyPageComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route

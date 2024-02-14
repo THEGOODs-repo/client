@@ -28,7 +28,6 @@ import Seller from "./Pages/Seller";
 // 로그인
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import RegisterForm from "./Components/Register/RegisterForm";
 import FindEmail from "./Components/Login/FindEmail";
 import FindPassWord from "./Components/Login/FindPassWord";
 import FindGuestOrder from "./Components/Login/FindGuestOrder";
@@ -143,10 +142,7 @@ function App() {
               <Route path="/login/guest" element={<FindGuestOrder />} />
               <Route path="/login/order" element={<OrderDetail />} />
             </Route>
-            <Route path="/register">
-              <Route path="/register" element={<Register />} />
-              <Route path="/register/form" element={<RegisterForm />} />
-            </Route>
+            <Route path="/register/*" element={<Register />} />
             <Route path="/helpcenter">
               <Route path="/helpcenter" element={<HelpCenter />} />
               <Route path="/helpcenter/write" element={<HelpCenterWrite />} />

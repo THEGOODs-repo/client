@@ -10,9 +10,23 @@ import profile from '../../img/Hamster.png';
 import viewer from '../../img/viewer.svg';
 import heart from '../../img/share.svg';
 import share from '../../img/heart.svg';
+import ReviewComponent from '../Review/Review';
+import ProductInfoComponent from '../Product/ProductInfoComponent';
+import Pagination from '../Footer/PageNationComponent';
+import ImageSlider from './SlideComponent';
 
 
+const WrapContainer = styled.div`
+    width: 100%;
+    min-width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
 
+`
 const ProfileImage = styled.img`
     width: 40px;
     height: 40px;
@@ -62,7 +76,7 @@ const SlideItem = styled.img`
     width : 100%;
     height : 100%;
 `
-const WrapContainer = styled.div`
+const ProductWrapContainer = styled.div`
     width: 100%;
     min-width: 1200px;
     margin: 0 auto;
@@ -139,8 +153,72 @@ const Button = styled.button`
     //     background-color: ${props => props.hoverBackground || "#0056b3"};
     // }
 `;
+const reviews = [
+    {
+        profile: profile,
+        name: '홍길동',
+        date: '★★★★★ 2024년 2월 14일',
+        reviewImage: product1Img,
+        content: '안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다.'
+    },
+    {
+        profile: profile,
+        name: '홍길동',
+        date: '★★★★★ 2024년 2월 14일',
+        reviewImage: product1Img,
+        content: '안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다.'
+    },
+    {
+        profile: profile,
+        name: '홍길동',
+        date: '★★★★★ 2024년 2월 14일',
+        reviewImage: product1Img,
+        content: '안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다.'
+    },
+    {
+        profile: profile,
+        name: '홍길동',
+        date: '★★★★★ 2024년 2월 14일',
+        reviewImage: product1Img,
+        content: '안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다.'
+    },
+    {
+        profile: profile,
+        name: '홍길동',
+        date: '★★★★★ 2024년 2월 14일',
+        reviewImage: product1Img,
+        content: '안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다.'
+    },
+    {
+        profile: profile,
+        name: '홍길동',
+        date: '★★★★★ 2024년 2월 14일',
+        reviewImage: product1Img,
+        content: '안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다. 안녕하세요, 이 리뷰는 아주 좋습니다.'
+    },
+
+
+];
+
+
+const images = [product1Img, product1Img, product1Img, product1Img, product1Img, product1Img, product1Img];
+
 
 function ProductPageComponent() {
+    const [currentPage,setCurrentPage] = useState(1);       
+    const [mainImageURI,setMainImageURI] = useState(product1Img);
+
+    const totalPages = 5;
+    
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // 페이지 변경에 따른 데이터 업데이트 등의 작업 수행
+    };
+    
+    const handleImageClick = (imageURI) => {
+        console.log('클릭된 이미지의 URI:', imageURI);
+        setMainImageURI(imageURI);
+    };
     return (
         <>
             <HeaderComponent />
@@ -149,28 +227,19 @@ function ProductPageComponent() {
                 <NavigationCategoryMenu />
             </NavWrapContainer>
             <WrapContainer>
+            <ProductWrapContainer>
 
             <PruductInfoWrapContainer>
                 {/* 상품이미지 */}
                 <ProductInnerContainer>
                     <SlideMainImageContainer>
-                        <SlideItem src={product1Img} alt="" />
+                        <SlideItem src={mainImageURI} alt="" />
                     </SlideMainImageContainer>
-                    <SlideContainer>
-                            <SlideItemContainer>
-                                <SlideItem src={product1Img} alt="" />
-                            </SlideItemContainer>
-                                <SlideItemContainer>
-                            <SlideItem src={product1Img} alt="" />
-                                </SlideItemContainer>
-                            <SlideItemContainer>
-                                <SlideItem src={product1Img} alt="" />
-                            </SlideItemContainer>
-                            <SlideItemContainer>
-                                <SlideItem src={product1Img} alt="" />
-                            </SlideItemContainer>
-
-                    </SlideContainer>
+                    {/* 여기에 기능 만들어야함 */}
+                    <ImageSlider
+                images={images}
+                onImageClick={handleImageClick} // 클릭된 이미지의 URI를 처리하는 콜백 함수 전달
+            />
                 </ProductInnerContainer>
                 {/* 상품 정보 */}
                 <ProductInnerContainer>
@@ -231,8 +300,13 @@ function ProductPageComponent() {
 
                 </ProductInnerContainer>
             </PruductInfoWrapContainer>
+            </ProductWrapContainer>    
+            <ProductInfoComponent/>
+            <ReviewComponent reviews={reviews}/>
             </WrapContainer>
-  
+            <div>
+                <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+            </div>            
         </>
     );
 }

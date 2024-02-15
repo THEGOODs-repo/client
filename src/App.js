@@ -36,10 +36,13 @@ import FindPassWord from "./Components/Login/FindPassWord";
 import FindGuestOrder from "./Components/Login/FindGuestOrder";
 import HelpCenter from "./Components/HelpCenter/HelpCenter";
 import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
+//상품상세페이지
+import ProductPageComponent from './Components/Product/ProductPageComponent';
 import Guest from "./Pages/Guest";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
+
 
 function App() {
   return (
@@ -49,6 +52,8 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference" element={<Preference />} />
+            <Route path="/product" element={<ProductPageComponent />} />
+            
             {/* <Route path="/*" element={<Post />} /> */}
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>

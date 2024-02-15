@@ -46,6 +46,7 @@ const Checkmark = styled.span`
 
 // 레이블 스타일
 const Label = styled.span`
+  margin-left:0.5vw;
   position:'absolute';
   font-weight: 700;
   color: #202123;

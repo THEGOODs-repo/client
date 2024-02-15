@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProductItem from './ProductItem';
 import styled from "styled-components";
 import arrow from "../../img/chevron-right.png";
-
+import Checkbox from './CheckBox';
 const ShoppingCart = ({ cartItems }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  // 전체 선택 상태 변경 핸들러
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked); // 전체 선택 상태를 토글
+  };
 
   // 장바구니가 비어있을 때 처리
   if (cartItems.length === 0) {
@@ -39,6 +45,16 @@ const ShoppingCart = ({ cartItems }) => {
   
   return (
     <div>
+      {cartItems.length > 0 && (
+        <>
+          <div style={{display:"flex", marginLeft:'19.5%', marginTop:'10px', marginBottom:'0px',}}>
+            <Checkbox label="전체 선택" checked={isChecked} onChange={handleCheckboxChange}></Checkbox> 
+            <Deletebutton>X 삭제</Deletebutton>
+          </div>
+          <Divider />
+        </>
+      )}
+
       {cartItems.map((cartItem, index) => (
         <div key={index}>
           <ProductItem
@@ -48,6 +64,7 @@ const ShoppingCart = ({ cartItems }) => {
             options={cartItem.cartDetailViewDTOList}
             totalPrice={calculateTotalPrice(cartItems)}
             deliveryFee={cartItem.deliveryFee}
+            isChecked={isChecked}
           />
         </div>
       ))}
@@ -108,3 +125,27 @@ const Arrow = styled.img`
   width:1.5vw;
   height:1.5vw;
 `;
+
+const Divider = styled.hr`
+  border: 1px solid #ddd;
+  margin: 0 10px;
+`;
+
+const Deletebutton = styled.div`
+  display: inline-block;
+  box-sizing: border-box;
+  width: 5vw;
+  height: 2vw;
+  margin-left: 53vw;
+  margin-bottom: 0.5vw;
+  border: 1px solid rgba(156, 156, 156, 0.5);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.2vw;
+  line-height: 2vw;
+  text-align: center;
+  color: #888888;
+`

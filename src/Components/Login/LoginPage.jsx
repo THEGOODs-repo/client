@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import logo from "../../img/logo.svg";
 import { useNavigate } from "react-router-dom";
+import ErrorModal from "./ErrorModal";
+import CustomButton from "../Register/CustomButton";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../../redux/loginSlice";
+const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
+const N_REST_API_KEY = process.env.REACT_APP_N_REST_API_KEY;
+const K_REDIRECT_URI = `http://localhost:3000/api/members/kakao/callback`;
+const N_REDIRECT_URI = `http://localhost:3000/api/members/naver/callback`;
+const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
+const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${N_REST_API_KEY}&redirect_uri=${N_REDIRECT_URI}&state=TEST`;
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -11,6 +22,7 @@ const LoginWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   color: black;
+  self-align: center;
 `;
 
 const LogoWrapper = styled.img`
@@ -29,13 +41,6 @@ const SocialWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-const LoginImg = {
-  display: "flex",
-  width: `${570 / 19.2}vw`,
-  margin: `0 0 ${23 / 19.2}vw 0`,
-  padding: 0,
-};
 
 const EmailWrapper = styled.div`
   display: flex;
@@ -71,6 +76,8 @@ const WarningText = styled.div`
 const SaveWrapper = styled.div`
   display: flex;
   width: 100%;
+  justify-content: center;
+  align-items: center;
   font-size: ${14 / 19.2}vw;
   margin: ${12 / 19.2}vw 0 ${18 / 19.2}vw 0;
   padding: 0 0 0 ${6 / 19.2}vw;
@@ -116,109 +123,126 @@ const ExtraButton = styled.div`
   padding: 0;
 `;
 
-const EmailSaveLabel = styled.label`
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  user-select: none;
-  padding: 0;
-  margin: 0 0 ${(e) => e.$interval / 19.2}vw 0;
+const LoginImg = {
+  display: "flex",
+  width: `${570 / 19.2}vw`,
+  margin: `0 0 ${23 / 19.2}vw 0`,
+  padding: 0,
+};
 
-  &:before {
-    content: "";
-    height: ${23 / 19.2}vw;
-    width: ${23 / 19.2}vw;
-    border: ${1 / 19.2}vw solid #9c9c9c;
-    border-radius: ${2 / 19.2}vw;
-    background-size: ${11 / 19.2}vw ${8 / 19.2}vw;
-    background-position: 50%;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    transition: opacity 0.1s;
-    /* Add the SVG checkmark as a background image */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%239C9C9C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-  }
-
-  &:after {
-    opacity: 0;
-    content: "";
-    position: absolute;
-    height: ${23 / 19.2}vw;
-    width: ${23 / 19.2}vw;
-    border: ${1 / 19.2}vw solid transparent;
-    border-radius: ${2 / 19.2}vw;
-    background-size: ${11 / 19.2}vw ${8 / 19.2}vw;
-    background-position: 50%;
-    background-repeat: no-repeat;
-    background-color: #f0c920;
-    transition: opacity 0.1s;
-    /* Add the SVG checkmark as a background image */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%23FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-  }
-`;
-
-const EmailSaveInput = styled.input`
-  position: absolute;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 1px;
-
-  &:checked + ${EmailSaveLabel} {
-    &:after {
-      opacity: 1;
-      transition: opacity 0.1s;
-    }
-  }
-`;
-
-const EmailSaveDiv = styled.div`
-  margin: 0 0 0 ${11 / 19.2}vw;
-  font-size: ${14 / 19.2}vw;
-  white-space: pre-line;
-  text-align: start;
-  color: #202123;
-`;
-
-const LoginMenu = () => {
+const LoginPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [DeActive, SetDeActive] = useState(false);
   const [Email, SetEmail] = useState("");
   const [ValidEmail, SetValidEmail] = useState(false);
   const [Password, SetPassword] = useState("");
   const [ValidPassword, SetValidPassword] = useState(false);
   const [EmailSave, SetEmailSave] = useState(false);
+  const [DisplayCheckData, SetDisplayCheckData] = useState(false);
+  const [DisplayPasswordError, SetDisplayPasswordError] = useState(false);
+  const alreadyUser = useSelector((state) => state.login.token);
 
   useEffect(() => {
     var pattern = new RegExp(
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     );
     SetValidEmail(pattern.test(Email));
-  }, [Email]);
+  }, [Email, DeActive]);
 
   useEffect(() => {
     var pattern = new RegExp(
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
     );
     SetValidPassword(pattern.test(Password));
-  }, [Password]);
+  }, [Password, DeActive]);
+
+  useEffect(() => {
+    alreadyUser !== null && navigate("/", { replace: true });
+    if (localStorage.getItem("KeepEmail") !== null) {
+      SetEmail(localStorage.getItem("KeepEmail"));
+      SetEmailSave(true);
+    }
+    SetValidEmail(true);
+    SetValidPassword(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // check login status, set bool variables to true when page init(mount)
 
   const EmailChange = (e) => {
-    SetEmail(e.target.value);
+    !DeActive && SetEmail(e.target.value);
   };
 
   const PasswordChange = (e) => {
-    SetPassword(e.target.value);
+    !DeActive && SetPassword(e.target.value);
   };
 
-  useEffect(() => {
-    SetValidEmail(true);
-    SetValidPassword(true);
-  }, []); // set bool variables to true when page init(mount)
+  const HandleLoginRequest = () => {
+    EmailSave && ValidEmail && localStorage.setItem("KeepEmail", Email);
+    !EmailSave && localStorage.removeItem("KeepEmail");
+    SetDeActive((DeActive) => !DeActive);
+    if (
+      Email !== "" &&
+      Password !== "" &&
+      !DeActive &&
+      ValidEmail &&
+      ValidPassword
+    ) {
+      fetchLogin();
+    }
+    SetDeActive((DeActive) => !DeActive);
+  };
+
+  const fetchLogin = async () => {
+    try {
+      const endpoint = `/api/members/login`;
+      const requestBody = {
+        email: Email,
+        password: Password,
+      };
+
+      const response = await axios.post(endpoint, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.isSuccess === true) {
+        console.log(response);
+        dispatch(setToken(response.data.result.jwt));
+        navigate("/", { replace: true });
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          SetDisplayCheckData(true);
+        } else if (error.response.status === 500) {
+          SetDisplayPasswordError(true);
+        } else {
+          console.log("Unhandled error:", error.response.data);
+        }
+      } else if (error.request) {
+        console.log("No response received:", error.request);
+      } else {
+        console.log("Error:", error.message);
+      }
+    }
+  };
 
   return (
     <LoginWrapper>
+      <ErrorModal
+        isOpen={DisplayCheckData}
+        text={["이메일/아이디 또는 비밀번호를 다시 확인해주세요."]}
+        onClose={() => SetDisplayCheckData(!DisplayCheckData)}
+      />
+      <ErrorModal
+        isOpen={DisplayPasswordError}
+        text={[
+          "비밀번호 5회 오류로 로그인이 제한됩니다.",
+          "잠시 후에 다시 로그인을 해주세요.",
+        ]}
+        onClose={() => SetDisplayPasswordError(!DisplayPasswordError)}
+      />
       <LogoWrapper src={logo} />
       <TextWrapper>로그인을 진행해주세요.</TextWrapper>
       <SocialWrapper>
@@ -241,18 +265,20 @@ const LoginMenu = () => {
             fill="#202123"
           />
         </svg>
-
         <svg // 카카오 로그인
           viewBox="0 0 570 54"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={LoginImg}
+          onClick={() => {
+            window.location.href = kakaoURL;
+          }}
         >
           <rect width="570" height="54" rx="5" fill="#FEE500" />
-          <g clip-path="url(#clip0_139_1886)">
+          <g clipPath="url(#clip0_139_1886)">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M224.5 10.2031C214.558 10.2031 206.5 16.429 206.5 24.1077C206.5 28.8832 209.617 33.0931 214.363 35.597L212.366 42.8921C212.19 43.5367 212.927 44.0505 213.493 43.677L222.247 37.8995C222.985 37.9708 223.736 38.0124 224.5 38.0124C234.441 38.0124 242.5 31.7867 242.5 24.1077C242.5 16.429 234.441 10.2031 224.5 10.2031Z"
               fill="black"
             />
@@ -260,7 +286,7 @@ const LoginMenu = () => {
           <path
             d="M265.52 20.036H267.86C267.86 25.184 266.636 29.468 260.426 32.618L259.148 30.8C264.332 28.19 265.52 25.004 265.52 20.324V20.036ZM260.174 20.036H266.942V21.926H260.174V20.036ZM265.574 24.122V25.958L259.598 26.534L259.31 24.482L265.574 24.122ZM269.876 18.416H272.288V35.084H269.876V18.416ZM271.658 24.788H274.592V26.75H271.658V24.788ZM282.079 20.036H284.419C284.419 25.184 283.195 29.468 276.985 32.618L275.707 30.8C280.891 28.19 282.079 25.004 282.079 20.324V20.036ZM276.733 20.036H283.501V21.926H276.733V20.036ZM282.133 24.122V25.958L276.157 26.534L275.869 24.482L282.133 24.122ZM286.435 18.416H288.847V35.084H286.435V18.416ZM288.217 24.788H291.151V26.75H288.217V24.788ZM298.673 27.812H301.067V31.61H298.673V27.812ZM299.879 19.28C303.443 19.28 306.107 21.098 306.107 23.87C306.107 26.678 303.443 28.478 299.879 28.478C296.315 28.478 293.651 26.678 293.651 23.87C293.651 21.098 296.315 19.28 299.879 19.28ZM299.879 21.17C297.593 21.17 296.009 22.178 296.009 23.87C296.009 25.598 297.593 26.588 299.879 26.588C302.165 26.588 303.749 25.598 303.749 23.87C303.749 22.178 302.165 21.17 299.879 21.17ZM292.355 31.232H307.439V33.176H292.355V31.232ZM313.59 31.322H328.674V33.266H313.59V31.322ZM319.908 28.172H322.302V32.114H319.908V28.172ZM315.282 19.514H326.982V25.058H317.694V27.866H315.318V23.186H324.606V21.404H315.282V19.514ZM315.318 26.912H327.36V28.838H315.318V26.912ZM331.678 19.964H342.244V21.854H331.678V19.964ZM330.148 30.98H345.214V32.924H330.148V30.98ZM340.984 19.964H343.36V21.944C343.36 24.284 343.36 26.552 342.766 29.972L340.372 29.774C340.984 26.57 340.984 24.194 340.984 21.944V19.964ZM358.137 18.452H360.549V30.422H358.137V18.452ZM349.443 32.906H360.963V34.814H349.443V32.906ZM349.443 29.216H351.837V33.68H349.443V29.216ZM351.477 19.496C354.033 19.496 355.995 21.26 355.995 23.726C355.995 26.174 354.033 27.956 351.477 27.956C348.921 27.956 346.941 26.174 346.941 23.726C346.941 21.26 348.921 19.496 351.477 19.496ZM351.477 21.566C350.235 21.566 349.281 22.358 349.281 23.726C349.281 25.076 350.235 25.868 351.477 25.868C352.701 25.868 353.655 25.076 353.655 23.726C353.655 22.358 352.701 21.566 351.477 21.566Z"
             fill="black"
-            fill-opacity="0.85"
+            fillOpacity="0.85"
           />
           <defs>
             <clipPath id="clip0_139_1886">
@@ -278,9 +304,12 @@ const LoginMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={LoginImg}
+          onClick={() => {
+            window.location.href = naverURL;
+          }}
         >
           <rect width="570" height="54" rx="5" fill="#03C75A" />
-          <g clip-path="url(#clip0_139_1885)">
+          <g clipPath="url(#clip0_139_1885)">
             <path
               d="M227.849 27.5627L221.917 19H217V35H222.151V26.436L228.083 35H233V19H227.849V27.5627Z"
               fill="white"
@@ -333,7 +362,7 @@ const LoginMenu = () => {
           <WarningText>
             {Email.length === 0
               ? "이메일을 입력해 주세요."
-              : `유효하지 않은 이메일입니다.`}
+              : "유효하지 않은 이메일입니다."}
           </WarningText>
         )}
         <InputWrapper
@@ -352,43 +381,43 @@ const LoginMenu = () => {
           </WarningText>
         )}
         <SaveWrapper>
-          <EmailSaveInput
-            type="checkbox"
-            id="EmailSave"
-            name="EmailSave"
-            checked={EmailSave}
+          <CustomButton
+            index="EmailSave"
+            state={EmailSave}
             onChange={() => SetEmailSave((EmailSave) => !EmailSave)}
+            label="이메일 저장하기"
           />
-          <EmailSaveLabel htmlFor="EmailSave">
-            <EmailSaveDiv>이메일 저장하기</EmailSaveDiv>
-          </EmailSaveLabel>
-          <FindLink
-            onClick={() => {
-              navigate("/register");
-            }}
-          >
-            아이디 / 비밀번호 찾기
+          <FindLink>
+            <span
+              onClick={() => {
+                navigate("/login/findemail");
+              }}
+            >
+              아이디
+            </span>{" "}
+            /{" "}
+            <span
+              onClick={() => {
+                navigate("/login/resetpw");
+              }}
+            >
+              비밀번호 찾기
+            </span>
           </FindLink>
         </SaveWrapper>
-        <LoginButton
-          onClick={() => {
-            navigate("/register");
-          }}
-        >
-          로그인
-        </LoginButton>
+        <LoginButton onClick={HandleLoginRequest}>로그인</LoginButton>
       </EmailWrapper>
       <ExtraWrapper>
         <ExtraButton
           onClick={() => {
-            navigate("/register");
+            navigate("/register/");
           }}
         >
           회원가입
         </ExtraButton>
         <ExtraButton
           onClick={() => {
-            navigate("/register");
+            navigate("/login/guest");
           }}
         >
           비회원 주문 조회
@@ -398,4 +427,4 @@ const LoginMenu = () => {
   );
 };
 
-export default LoginMenu;
+export default LoginPage;

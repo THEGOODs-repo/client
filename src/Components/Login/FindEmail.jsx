@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import logo from "../../img/logo.svg";
-import profileimage from "../../img/profile.png";
-import ErrorModal from "./ErrorModal";
 import axios from "axios";
+import logo from "../../img/logo.svg";
+import defaultprofile from "../../img/defaultprofile.png";
+import ErrorModal from "./ErrorModal";
 
 const FindEmailWrapper = styled.div`
   display: flex;
@@ -83,13 +83,6 @@ const WarningText = styled.div`
   align-self: flex-start;
 `;
 
-const LoginImg = {
-  display: "flex",
-  width: `${570 / 19.2}vw`,
-  margin: `${14 / 19.2}vw 0 ${24 / 19.2}vw 0`,
-  padding: 0,
-};
-
 const ConfirmButton = styled.div`
   display: flex;
   width: ${570 / 19.2}vw;
@@ -113,6 +106,13 @@ const ProfileImage = styled.img`
   margin: ${29 / 19.2}vw 0 0 0;
   object-fit: cover;
 `;
+
+const LoginImg = {
+  display: "flex",
+  width: `${570 / 19.2}vw`,
+  margin: `${14 / 19.2}vw 0 ${24 / 19.2}vw 0`,
+  padding: 0,
+};
 
 const FindEmail = () => {
   const [IsFound, SetIsFound] = useState(false);
@@ -235,10 +235,23 @@ const FindEmail = () => {
         SetIsFound(true);
       }
     } catch (error) {
-      SetDisplayErrorModal(true);
-      SetDisplayErrorMSG(
-        "인증번호가 일치하지 않습니다. 확인 후 다시 입력해주세요."
-      );
+      if (error.response) {
+        if (error.response.status === 400) {
+          SetDisplayErrorModal(true);
+          SetDisplayErrorMSG(
+            "인증번호가 일치하지 않습니다. 확인 후 다시 입력해주세요."
+          );
+        } else if (error.response.status === 500) {
+          SetDisplayErrorModal(true);
+          SetDisplayErrorMSG("가입되지 않은 회원입니다.");
+        } else {
+          console.log("Unhandled error:", error.response.data);
+        }
+      } else if (error.request) {
+        console.log("No response received:", error.request);
+      } else {
+        console.log("Error:", error.message);
+      }
     }
     SetDeActive((DeActive) => !DeActive);
   };
@@ -267,7 +280,7 @@ const FindEmail = () => {
             fill="#202123"
           />
         </svg>
-        <ProfileImage src={profileimage} />
+        <ProfileImage src={defaultprofile} />
         <TextWrapper>
           {[
             Cell.substring(0, 3),

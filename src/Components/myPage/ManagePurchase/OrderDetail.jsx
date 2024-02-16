@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import sampleimage from "../../img/sampleitem.png";
+import axios from "axios";
 import Select, { components } from "react-select";
-import CustomButton from "../Register/CustomButton";
+import CustomButton from "../../Register/CustomButton";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import DeliveryAddressModal from "./DeliveryAddressModal";
+import RefundChangeModal from "./RefundChangeModal";
 
 const OrderDetailWrapper = styled.div`
   display: flex;
@@ -134,10 +138,17 @@ const TableCell = styled.td`
   color: ${(props) => (props.$color ? `${props.$color}` : `#000000`)};
 `;
 
-const TableHr = styled.hr`
+const TableHr = styled.tr`
   background: rgba(156, 156, 156, 0.5);
-  height: 1px;
+  height: ${1 / 19.2}vw;
   border: 0;
+  margin: ${16 / 19.2}vw 0;
+  padding: 0;
+
+  td {
+    height: ${1 / 19.2}vw;
+    padding: 0;
+  }
 `;
 
 const WarningText = styled.div`
@@ -226,7 +237,7 @@ const SelectionLabel = styled.label`
     background-color: #f0c920;
     transition: opacity 0.1s;
     /* Add the SVG checkmark as a background image */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%23FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%23FFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>');
   }
 `;
 
@@ -334,9 +345,9 @@ const CustomDropdownIndicator = (props) => {
         <path
           d="M9.75 5L17.3333 12L9.75 19"
           stroke="#9C9C9C"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </DropdownIndicator>
@@ -420,14 +431,55 @@ const CancelButton = styled.div`
   }
 `;
 
+const OrderStatusEnum = {
+  PAY_PREV: "PAY_PREV",
+  PAY_COMP: "PAY_COMP",
+  DEL_PREP: "DEL_PREP",
+  DEL_START: "DEL_START",
+  DEL_COMP: "DEL_COMP",
+};
+
+const DeliveryTypeEnum = {
+  택배: "PO",
+};
+
 const OrderDetail = () => {
+  const token = useSelector((state) => state.login.token);
+  const param = useParams();
   const [CancelByCustomer, SetCancelByCustomer] = useState(false);
   const [CancelBySeller, SetCancelBySeller] = useState(false);
-  const [OrderStatus, SetOrderStatus] = useState(0);
   const [CancelReason, SetCancelReason] = useState("use");
   const [CancelModal, SetCancelModal] = useState(false);
   const [RefundModal, SetRefundModal] = useState(false);
+  const [DisplayDeliveryAddressModal, SetDisplayDeliveryAddressModal] =
+    useState(false);
+  const [DisplayRefundModal, SetDisplayRefundModal] = useState(false);
   const [CancelRefundSave, SetCancelRefundSave] = useState(false);
+  const [OrderItemId, SetOrderItemId] = useState(param.OrderItemId);
+  const [ImgUrl, SetImgUrl] = useState("");
+  const [ItemName, SetItemName] = useState("");
+  const [OptionString, SetOptionString] = useState("");
+  const [OrderStatus, SetOrderStatus] = useState("");
+  const [BuyerInfoName, SetBuyerInfoName] = useState("");
+  const [BuyerInfoPhone, SetBuyerInfoPhone] = useState("");
+  const [OrderDateTime, SetOrderDateTime] = useState(new Date());
+  const [OrderDeliveryFee, SetOrderDeliveryFee] = useState("");
+  const [OrderTotalPrice, SetOrderTotalPrice] = useState("");
+  const [OrderDetailArray, SetOrderDetailArray] = useState([]);
+  const [Depositor, SetDepositor] = useState("");
+  const [DepositAmount, SetDepositAmount] = useState("");
+  const [DepositDate, SetDepositDate] = useState(new Date());
+  const [DeliveryType, SetDeliveryType] = useState("");
+  const [AddressName, SetAddressName] = useState("");
+  const [AddressPhone, SetAddressPhone] = useState("");
+  const [ZipCode, SetZipCode] = useState("");
+  const [Address, SetAddress] = useState("");
+  const [DeliveryMemo, SetDeliveryMemo] = useState("");
+  const [DeliveryCompany, SetDeliveryCompany] = useState(null);
+  const [DeliveryNumber, SetDeliveryNumber] = useState(null);
+  const [RefundOwner, SetRefundOwner] = useState("");
+  const [RefundBank, SetRefundBank] = useState("");
+  const [RefundAccount, SetRefundAccount] = useState("");
 
   const options = [
     {
@@ -459,8 +511,86 @@ const OrderDetail = () => {
     { label: "기타", options: [{ value: "etc", label: "사유 직접 작성" }] },
   ];
 
+  useEffect(() => {
+    if (OrderItemId === null) console.log("error");
+    else {
+      const fetchData = async () => {
+        try {
+          const endpoint = `/api/order/${OrderItemId}`;
+          const headers =
+            token !== null
+              ? {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              : {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                };
+          const response = await axios.get(endpoint, headers);
+          if (
+            response.data.isSuccess === true &&
+            param.OrderItemId === OrderItemId
+          ) {
+            SetImgUrl(response.data.result.imgUrl);
+            SetItemName(response.data.result.itemName);
+            SetOptionString(response.data.result.optionString);
+            SetOrderStatus(response.data.result.orderStatus);
+            SetBuyerInfoName(response.data.result.buyerInfoDTO.name);
+            SetBuyerInfoPhone(response.data.result.buyerInfoDTO.phone);
+            SetOrderDateTime(
+              new Date(response.data.result.orderItemInfoDTO.orderDateTime),
+            );
+            SetOrderDeliveryFee(
+              response.data.result.orderItemInfoDTO.deliveryFee,
+            );
+            SetOrderTotalPrice(
+              response.data.result.orderItemInfoDTO.totalPrice,
+            );
+            SetOrderDetailArray(() => [
+              ...response.data.result.orderItemInfoDTO.orderDetailInfoDTOList,
+            ]);
+            SetDepositor(response.data.result.depositInfoDTO.depositor);
+            SetDepositAmount(response.data.result.depositInfoDTO.depositAmount);
+            SetDepositDate(response.data.result.depositInfoDTO.depositDate);
+            SetDeliveryType(response.data.result.addressInfoDTO.deliveryType);
+            SetAddressName(response.data.result.addressInfoDTO.name);
+            SetAddressPhone(response.data.result.addressInfoDTO.phone);
+            SetZipCode(response.data.result.addressInfoDTO.zipcode);
+            SetAddress(response.data.result.addressInfoDTO.address);
+            SetDeliveryMemo(response.data.result.addressInfoDTO.deliveryMemo);
+            SetDeliveryCompany(
+              response.data.result.deliveryInfoDTO.deliveryComp,
+            );
+            SetDeliveryNumber(response.data.result.deliveryInfoDTO.deliveryNum);
+            SetRefundOwner(response.data.result.refundInfoDTO.refundOwner);
+            SetRefundBank(response.data.result.refundInfoDTO.refundBank);
+            SetRefundAccount(response.data.result.refundInfoDTO.refundAccount);
+          }
+        } catch (error) {
+          console.error("Error during POST request:", error);
+        }
+      };
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [DisplayDeliveryAddressModal, DisplayRefundModal]);
+
   return (
     <OrderDetailWrapper>
+      <DeliveryAddressModal
+        isOpen={DisplayDeliveryAddressModal}
+        onClose={() => SetDisplayDeliveryAddressModal(false)}
+        OrderItemId={OrderItemId}
+      />
+      <RefundChangeModal
+        isOpen={DisplayRefundModal}
+        onClose={() => SetDisplayRefundModal(false)}
+        OrderItemId={OrderItemId}
+      />
       {(CancelModal || RefundModal) && (
         <CancelWrapper $display={true}>
           <Cancel>
@@ -507,21 +637,23 @@ const OrderDetail = () => {
         </CancelWrapper>
       )}
       <HeaderText>주문 내역 상세</HeaderText>
-      <Table>
-        <TableRow>
-          <TableCell $width="12.5%">입금처</TableCell>
-          <TableCell $width="87.5%">농협은행 1234567890123 더*즈</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell $width="12.5%">입금 금액</TableCell>
-          <TableCell $width="87.5%">999,999원</TableCell>
-        </TableRow>
-      </Table>
+      {null && (
+        <Table>
+          <TableRow>
+            <TableCell $width="12.5%">입금처</TableCell>
+            <TableCell $width="87.5%">농협은행 1234567890123 더*즈</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell $width="12.5%">입금 금액</TableCell>
+            <TableCell $width="87.5%">999,999원</TableCell>
+          </TableRow>
+        </Table>
+      )}
       <ItemWrapper>
-        <ItemImg src={sampleimage} alt="sampleimg" />
+        <ItemImg src={ImgUrl} alt="상품이미지" />
         <ItemInfo>
-          <span style={{ fontSize: `${16 / 19.2}vw` }}>케이스 스티커</span>나
-          홀로 집에 1건
+          <span style={{ fontSize: `${16 / 19.2}vw` }}>{ItemName}</span>
+          {OptionString}
         </ItemInfo>
         <ItemButtonWrapper>
           <ItemButton>문의하기</ItemButton>
@@ -534,7 +666,16 @@ const OrderDetail = () => {
       </ItemWrapper>
       {!CancelByCustomer && !CancelBySeller && (
         <ProgressWrapper>
-          <ProgressCircle $done={OrderStatus > 0}>
+          <ProgressCircle
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.PAY_PREV ||
+                OrderStatusEnum.PAY_COMP ||
+                OrderStatusEnum.DEL_PREP ||
+                OrderStatusEnum.DEL_START ||
+                OrderStatusEnum.DEL_COMP)
+            } // ENUM으로 상태 관리할 방법이 안 떠올라서 하드코딩했습니다. 추후 수정예정입니다.
+          >
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -544,14 +685,30 @@ const OrderDetail = () => {
               <path
                 d="M5 13L9 17L19 7"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </ProgressCircle>
-          <ProgressHr $done={OrderStatus > 1} />
-          <ProgressCircle $done={OrderStatus > 1}>
+          <ProgressHr
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.PAY_COMP ||
+                OrderStatusEnum.DEL_PREP ||
+                OrderStatusEnum.DEL_START ||
+                OrderStatusEnum.DEL_COMP)
+            }
+          />
+          <ProgressCircle
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.PAY_COMP ||
+                OrderStatusEnum.DEL_PREP ||
+                OrderStatusEnum.DEL_START ||
+                OrderStatusEnum.DEL_COMP)
+            }
+          >
             {" "}
             <svg
               viewBox="0 0 24 24"
@@ -562,14 +719,28 @@ const OrderDetail = () => {
               <path
                 d="M5 13L9 17L19 7"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </ProgressCircle>
-          <ProgressHr $done={OrderStatus > 2} />
-          <ProgressCircle $done={OrderStatus > 2}>
+          <ProgressHr
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.DEL_PREP ||
+                OrderStatusEnum.DEL_START ||
+                OrderStatusEnum.DEL_COMP)
+            }
+          />
+          <ProgressCircle
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.DEL_PREP ||
+                OrderStatusEnum.DEL_START ||
+                OrderStatusEnum.DEL_COMP)
+            }
+          >
             {" "}
             <svg
               viewBox="0 0 24 24"
@@ -580,14 +751,24 @@ const OrderDetail = () => {
               <path
                 d="M5 13L9 17L19 7"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </ProgressCircle>
-          <ProgressHr $done={OrderStatus > 3} />
-          <ProgressCircle $done={OrderStatus > 3}>
+          <ProgressHr
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.DEL_START || OrderStatusEnum.DEL_COMP)
+            }
+          />
+          <ProgressCircle
+            $done={
+              OrderStatus ===
+              (OrderStatusEnum.DEL_START || OrderStatusEnum.DEL_COMP)
+            }
+          >
             {" "}
             <svg
               viewBox="0 0 24 24"
@@ -598,14 +779,14 @@ const OrderDetail = () => {
               <path
                 d="M5 13L9 17L19 7"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </ProgressCircle>
-          <ProgressHr $done={OrderStatus > 4} />
-          <ProgressCircle $done={OrderStatus > 4}>
+          <ProgressHr $done={OrderStatus === OrderStatusEnum.DEL_COMP} />
+          <ProgressCircle $done={OrderStatus === OrderStatusEnum.DEL_COMP}>
             {" "}
             <svg
               viewBox="0 0 24 24"
@@ -616,18 +797,57 @@ const OrderDetail = () => {
               <path
                 d="M5 13L9 17L19 7"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </ProgressCircle>
           <ProgressTextWrapper>
-            <ProgressText $done={OrderStatus > 0}>결제전</ProgressText>
-            <ProgressText $done={OrderStatus > 1}>결제완료</ProgressText>
-            <ProgressText $done={OrderStatus > 2}>배송준비</ProgressText>
-            <ProgressText $done={OrderStatus > 3}>배송시작</ProgressText>
-            <ProgressText $done={OrderStatus > 4}>배송완료</ProgressText>
+            <ProgressText
+              $done={
+                OrderStatus ===
+                (OrderStatusEnum.PAY_PREV ||
+                  OrderStatusEnum.PAY_COMP ||
+                  OrderStatusEnum.DEL_PREP ||
+                  OrderStatusEnum.DEL_START ||
+                  OrderStatusEnum.DEL_COMP)
+              }
+            >
+              결제전
+            </ProgressText>
+            <ProgressText
+              $done={
+                OrderStatus ===
+                (OrderStatusEnum.PAY_COMP ||
+                  OrderStatusEnum.DEL_PREP ||
+                  OrderStatusEnum.DEL_START ||
+                  OrderStatusEnum.DEL_COMP)
+              }
+            >
+              결제완료
+            </ProgressText>
+            <ProgressText
+              $done={
+                OrderStatus ===
+                (OrderStatusEnum.DEL_PREP ||
+                  OrderStatusEnum.DEL_START ||
+                  OrderStatusEnum.DEL_COMP)
+              }
+            >
+              배송준비
+            </ProgressText>
+            <ProgressText
+              $done={
+                OrderStatus ===
+                (OrderStatusEnum.DEL_START || OrderStatusEnum.DEL_COMP)
+              }
+            >
+              배송시작
+            </ProgressText>
+            <ProgressText $done={OrderStatus === OrderStatusEnum.DEL_COMP}>
+              배송완료
+            </ProgressText>
           </ProgressTextWrapper>
         </ProgressWrapper>
       )}
@@ -649,45 +869,94 @@ const OrderDetail = () => {
         </TableRow>
         <TableRow>
           <TableCell>주문자명</TableCell>
-          <TableCell>더굿즈</TableCell>
+          <TableCell>{BuyerInfoName}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>주문자 연락처</TableCell>
-          <TableCell>010-1234-5678</TableCell>
+          <TableCell>{BuyerInfoPhone}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>주문 번호</TableCell>
-          <TableCell>000011110000111101</TableCell>
+          <TableCell>{OrderItemId}</TableCell>
         </TableRow>
       </Table>
       <Table>
         <TableRow $title>
           <TableCell $width="77.9%">주문 정보</TableCell>
           <TableCell $color="gray" $font="12">
-            폼 제출 24.01.14 17:39:14
+            폼 제출{" "}
+            {OrderDateTime instanceof Date &&
+              OrderDateTime.toLocaleString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+              })}
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>케이스 스티커 (10,000원)</TableCell>
-          <TableCell>1개</TableCell>
+          <TableCell>{ItemName}</TableCell>
+          <TableCell>
+            {Array.isArray(OrderDetailArray) &&
+              OrderDetailArray.length > 0 &&
+              !OrderDetailArray[0].hasOwnProperty("optionName") &&
+              `${OrderDetailArray[0].amount}개 / ${OrderDetailArray[0].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}
+          </TableCell>
         </TableRow>
-        <TableHr />
+        {Array.isArray(OrderDetailArray) &&
+          OrderDetailArray.length > 0 &&
+          OrderDetailArray[0].hasOwnProperty("optionName") && (
+            <TableHr>
+              <td />
+            </TableHr>
+          )}
+        {Array.isArray(OrderDetailArray) &&
+          OrderDetailArray.length > 0 &&
+          OrderDetailArray[0].hasOwnProperty("optionName") &&
+          OrderDetailArray.map((data, index) => (
+            <TableRow>
+              <TableCell>
+                {index + 1}번 {data.optionName}
+              </TableCell>
+              <TableCell>
+                {data.amount}개 /{" "}
+                {data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+              </TableCell>
+            </TableRow>
+          ))}
+        <TableHr>
+          <td />
+        </TableHr>
         <TableRow>
           <TableCell>상품 가격</TableCell>
-          <TableCell>40,000원</TableCell>
+          <TableCell>
+            {OrderDeliveryFee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            원
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell>배송 방법 / 택배</TableCell>
-          <TableCell>3,000원</TableCell>
+          <TableCell>
+            {Object.keys(DeliveryTypeEnum).find(
+              (key) => DeliveryTypeEnum[key] === DeliveryType,
+            )}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell>쿠폰 할인</TableCell>
           <TableCell>0원</TableCell>
         </TableRow>
-        <TableHr />
+        <TableHr>
+          <td />
+        </TableHr>
         <TableRow>
           <TableCell>총 주문 금액</TableCell>
-          <TableCell $color="#F0C920">43,000원</TableCell>
+          <TableCell $color="#F0C920">
+            {OrderTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+          </TableCell>
         </TableRow>
       </Table>
       <Table>
@@ -696,15 +965,24 @@ const OrderDetail = () => {
         </TableRow>
         <TableRow>
           <TableCell>입금자명</TableCell>
-          <TableCell>더굿즈</TableCell>
+          <TableCell>{Depositor}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>입금액</TableCell>
-          <TableCell>43,000원</TableCell>
+          <TableCell>
+            {DepositAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell>입금 날짜</TableCell>
-          <TableCell>2024-01-14</TableCell>
+          <TableCell>
+            {DepositDate instanceof Date &&
+              DepositDate.toLocaleString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })}
+          </TableCell>
         </TableRow>
       </Table>
       <Table>
@@ -713,31 +991,39 @@ const OrderDetail = () => {
           <TableCell $width="81.6%" $font="12" $color="gray">
             판매자와 상의 후 배송정보를 수정해주세요.
           </TableCell>
-          <TableCell $color="blue" $font="14">
+          <TableCell
+            $color="blue"
+            $font="14"
+            onClick={() => SetDisplayDeliveryAddressModal(true)}
+          >
             편집
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell>배송 방법</TableCell>
-          <TableCell>택배</TableCell>
+          <TableCell>
+            {Object.keys(DeliveryTypeEnum).find(
+              (key) => DeliveryTypeEnum[key] === DeliveryType,
+            )}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell>받는 사람</TableCell>
-          <TableCell>더굿즈</TableCell>
+          <TableCell>{AddressName}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>연락처</TableCell>
-          <TableCell>010-1234-5678</TableCell>
+          <TableCell>{AddressPhone}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>주소</TableCell>
           <TableCell>
-            경기 용인시 기흥구 덕영대로 1732 (서천동, 경희대학교 국제캠퍼스)
+            ({ZipCode}) {Address}
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell>배송 메모</TableCell>
-          <TableCell>문 앞에 놔주세요.</TableCell>
+          <TableCell>{DeliveryMemo}</TableCell>
         </TableRow>
       </Table>
       <Table>
@@ -747,34 +1033,42 @@ const OrderDetail = () => {
         <TableRow>
           <TableCell $width="22%">송장번호</TableCell>
           <TableCell $width="78%" $color="gray">
-            아직 송장번호가 입력되지 않았어요.
+            {DeliveryNumber !== null
+              ? DeliveryNumber
+              : "아직 송장번호가 입력되지 않았어요."}
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell $width="22%">택배사</TableCell>
           <TableCell $width="78%" $color="gray">
-            아직 송장번호가 입력되지 않았어요.
+            {DeliveryCompany !== null
+              ? DeliveryCompany
+              : "아직 송장번호가 입력되지 않았어요."}
           </TableCell>
         </TableRow>
       </Table>
       <Table>
         <TableRow $title>
           <TableCell>환불 계좌 정보</TableCell>
-          <TableCell $font="14" $color="blue">
+          <TableCell
+            $font="14"
+            $color="blue"
+            onClick={() => SetDisplayRefundModal(true)}
+          >
             편집
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell $width="22%">예금주</TableCell>
-          <TableCell $width="78%">더굿즈</TableCell>
+          <TableCell $width="78%">{RefundOwner}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell $width="22%">은행명</TableCell>
-          <TableCell $width="78%">농협은행</TableCell>
+          <TableCell $width="78%">{RefundBank}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell $width="22%">계좌번호</TableCell>
-          <TableCell $width="78%">123467890123</TableCell>
+          <TableCell $width="78%">{RefundAccount}</TableCell>
         </TableRow>
       </Table>
       <WarningText>
@@ -795,9 +1089,9 @@ const OrderDetail = () => {
             <path
               d="M13 16H12V12H11M12 8H12.01M21 12C21 13.1819 20.7672 14.3522 20.3149 15.4442C19.8626 16.5361 19.1997 17.5282 18.364 18.364C17.5282 19.1997 16.5361 19.8626 15.4442 20.3149C14.3522 20.7672 13.1819 21 12 21C10.8181 21 9.64778 20.7672 8.55585 20.3149C7.46392 19.8626 6.47177 19.1997 5.63604 18.364C4.80031 17.5282 4.13738 16.5361 3.68508 15.4442C3.23279 14.3522 3 13.1819 3 12C3 9.61305 3.94821 7.32387 5.63604 5.63604C7.32387 3.94821 9.61305 3 12 3C14.3869 3 16.6761 3.94821 18.364 5.63604C20.0518 7.32387 21 9.61305 21 12Z"
               stroke="#18181B"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           꼭 확인해주세요!

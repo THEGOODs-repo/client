@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import HeaderComponent from '../Header/Header';
 import CustomHorizontalLine from './HorizontalLineComponent';
 import ArrowCircleRight from '../../img/arrow-circle-right.png';
+import BaseFooter from '../Footer/BaseFooter';
 
 const PageContainer = styled.div`
     width: 100%;
@@ -194,6 +195,7 @@ function MainPageComponent() {
             ))}
         </MainWrapContent>
             </PageContainer>
+        <BaseFooter/>
         </>
     );
 }

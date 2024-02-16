@@ -1,30 +1,24 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+const StyledLink = styled(Link)`
+    text-decoration: none; /* underline 제거 */
+    color: gray; /* 글씨 색상 설정 */
+    margin: 0 10px; /* 좌우 여백 추가 */
+`;
+
+
 function HeaderComponent() {
     return (
         <>
             <SubHeaderContainer>
                 <SubHeaderItemContainer>
-                    <SubHeaderItem>
                         {/* <img src="../img/" alt="bell" />
                         알림 */}
-                        <Link to="/write">지수님 이동</Link>
-
-                    </SubHeaderItem>
-                    <SubHeaderItem>
-                        <Link>경원님 이동</Link>
-
-                    </SubHeaderItem>
-                    <SubHeaderItem>
-                        <Link>준석님 이동</Link>
-
-
-                    </SubHeaderItem>
-
+                        <StyledLink to="/register">회원가입</StyledLink>
+                        <StyledLink to="/login">로그인</StyledLink>
+                        <StyledLink>비회원 주문조회</StyledLink>
                 </SubHeaderItemContainer>
-
             </SubHeaderContainer>
-
         </>
     )
 
@@ -39,19 +33,13 @@ const SubHeaderContainer = styled.div`
    display : flex;
    justify-content : flex-end;
    align-items : center;
-   margin-right : 50px;
+   margin-right : 100px;
 
    `
 const SubHeaderItemContainer = styled.div`
    display : flex; 
    width : 300px;
    height : 23px;  
-   margin-right : 50px;
-`
-
-const SubHeaderItem = styled.div`
-   display : flex;
-   width : 100px;
-   height : 15px;  
+   margin-right : 350px;
 `
 

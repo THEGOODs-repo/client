@@ -142,7 +142,7 @@ const Button = styled.button`
     width: 100%;
     padding: 10px 20px;
     color: ${props => props.color || "black"};
-    background-color: ${props => props.background || "#007bff"};
+    background-color: ${props => props.background || "#F0C920"};
     border: 2px solid ${props => props.border || "transparent"};
     border-radius: 7px;
     cursor: pointer;
@@ -201,7 +201,7 @@ const reviews = [
 ];
 
 
-const images = [product1Img, product1Img, product1Img, product1Img, product1Img, product1Img, product1Img];
+const images = [profile, product1Img, product1Img, product1Img, product1Img, product1Img, product1Img];
 
 
 function ProductPageComponent() {
@@ -291,7 +291,7 @@ function ProductPageComponent() {
             </ButtonContainer>
             {/* 구매하기 버튼 */}
             <ButtonContainer>
-                <Button background="yellow" color="white" border="transparent">구매하기</Button>
+                <Button backgroundColor="F0C920" color="white" border="transparent">구매하기</Button>
             </ButtonContainer>
                     {/* 메세지 및 기타 경고문 */}
                     <div>

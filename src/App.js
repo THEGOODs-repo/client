@@ -36,6 +36,7 @@ import FindPassWord from "./Components/Login/FindPassWord";
 import FindGuestOrder from "./Components/Login/FindGuestOrder";
 import HelpCenter from "./Components/HelpCenter/HelpCenter";
 import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
+import ShoppingList from "./Pages/ShoppingList";
 //상품상세페이지
 import ProductPageComponent from './Components/Product/ProductPageComponent';
 import Guest from "./Pages/Guest";
@@ -119,6 +120,8 @@ function App() {
               <Route path="/mypage/MyReview" element={<MyReview />} />
             </Route>
             <Route path="/seller" element={<Seller />} />
+            <Route path="/shoppingList" element={<ShoppingList/>}/>
+            <Route path="/mypage" element={<MyPageComponent />}>
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route

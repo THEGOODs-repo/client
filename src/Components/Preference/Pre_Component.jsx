@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PreferenceProduct from "./Pre_Product";
 import PreferenceSeller from "./Pre_Seller";
@@ -133,16 +134,18 @@ const Sample4 = () => {
 
 export default function PreferenceComponent() {
   const [click, setClick] = useState(false);
-  const preference = useSelector((state) => state.preference);
+  const product = useSelector((state) => state.preference.product);
+  console.log("product:" + product);
+  const seller = useSelector((state) => state.preference.seller);
+  console.log("seller:" + seller);
+  const top10 = useSelector((state) => state.preference.top10);
+  console.log("top10:" + top10);
+  const tag = useSelector((state) => state.preference.tag);
+  console.log("tag:" + tag);
 
   useEffect(() => {
     const checkPreference = () => {
-      if (
-        preference.product.product ||
-        preference.seller.product ||
-        preference.top10.product ||
-        preference.tag.product === true
-      ) {
+      if ((product || seller || top10 || tag) >= 1) {
         setClick(true);
       } else {
         setClick(false);
@@ -150,7 +153,7 @@ export default function PreferenceComponent() {
     };
 
     checkPreference();
-  }, [preference]);
+  });
 
   return (
     <PreferenceContainer>
@@ -205,15 +208,15 @@ export default function PreferenceComponent() {
       >
         <Sample4 />
       </div>
-
-      <Button disabled={!click}>제출하기</Button>
+      <Link to="/preference/result">
+        <Button disabled={!click}>제출하기</Button>
+      </Link>
     </PreferenceContainer>
   );
 }
+
 const PreferenceContainer = styled.div`
   display: flex;
-  /* width: 1920px;
-  margin-left: 25%; */
   flex-direction: column;
   align-items: center;
   height: 3300px;
@@ -257,6 +260,7 @@ const Button = styled.button`
   background: #f0c920;
   border: none;
   border-radius: 40px;
+  text-decoration: none;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;

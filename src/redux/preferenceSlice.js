@@ -1,31 +1,56 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  product: null,
-  seller: null,
-  top10: null,
-  tag: null,
+  product: 0,
+  seller: 0,
+  top10: 0,
+  tag: 0,
 };
 
 const preferenceSlice = createSlice({
   name: "preference",
   initialState,
   reducers: {
-    setProduct: (state, action) => {
-      state.product = action.payload;
+    increaseProduct: (state, action) => {
+      state.product = state.product + action.payload;
     },
-    setSeller: (state, action) => {
-      state.seller = action.payload;
+
+    decreaseProduct: (state, action) => {
+      state.product = state.product - action.payload;
+      console.log(state.product);
     },
-    setTop10: (state, action) => {
-      state.top10 = action.payload;
+
+    increaseSeller: (state, action) => {
+      state.seller = state.seller + action.payload;
     },
-    setTag: (state, action) => {
-      state.tag = action.payload;
+    decreaseSeller: (state, action) => {
+      state.seller = state.seller - action.payload;
+    },
+
+    increaseTop10: (state, action) => {
+      state.top10 = state.top10 + action.payload;
+    },
+    decreaseTop10: (state, action) => {
+      state.top10 = state.top10 - action.payload;
+    },
+
+    increaseTag: (state, action) => {
+      state.tag = state.tag + action.payload;
+    },
+    decreaseTag: (state, action) => {
+      state.tag = state.tag - action.payload;
     },
   },
 });
 
-export const { setProduct, setSeller, setTop10, setTag } =
-  preferenceSlice.actions;
+export const {
+  increaseProduct,
+  decreaseProduct,
+  increaseSeller,
+  decreaseSeller,
+  increaseTop10,
+  decreaseTop10,
+  increaseTag,
+  decreaseTag,
+} = preferenceSlice.actions;
 export default preferenceSlice.reducer;

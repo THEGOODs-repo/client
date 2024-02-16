@@ -10,6 +10,7 @@ import RefundChangeModal from "./RefundChangeModal";
 
 const OrderDetailWrapper = styled.div`
   display: flex;
+  position: relative;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
@@ -17,6 +18,7 @@ const OrderDetailWrapper = styled.div`
   padding: ${3 / 19.2}vw ${55 / 19.2}vw 0 ${47 / 19.2}vw;
   border: ${1 / 19.2}vw solid #9c9c9c;
   flex-shrink: 2;
+  overflow-y: auto;
 `;
 
 const HeaderText = styled.div`
@@ -34,9 +36,11 @@ const ItemWrapper = styled.div`
   align-items: center;
 `;
 
-const ItemImg = styled.img`
+const ItemImg = styled.div`
   width: ${175 / 19.2}vw;
+  height: ${175 / 19.2}vw;
   border-radius: ${5 / 19.2}vw;
+  background: center/cover;
 `;
 
 const ItemInfo = styled.div`
@@ -437,6 +441,10 @@ const OrderStatusEnum = {
   DEL_PREP: "DEL_PREP",
   DEL_START: "DEL_START",
   DEL_COMP: "DEL_COMP",
+  CONFIRM: "CONFIRM",
+  CANCEL: "CANCEL",
+  REFUND_ONGOING: "REFUND_ONGOING",
+  REFUND_COMP: "REFUND_COMP",
 };
 
 const DeliveryTypeEnum = {
@@ -455,7 +463,7 @@ const OrderDetail = () => {
     useState(false);
   const [DisplayRefundModal, SetDisplayRefundModal] = useState(false);
   const [CancelRefundSave, SetCancelRefundSave] = useState(false);
-  const [OrderItemId, SetOrderItemId] = useState(param.OrderItemId);
+  const OrderItemId = param.OrderItemId;
   const [ImgUrl, SetImgUrl] = useState("");
   const [ItemName, SetItemName] = useState("");
   const [OptionString, SetOptionString] = useState("");
@@ -570,6 +578,7 @@ const OrderDetail = () => {
             SetRefundBank(response.data.result.refundInfoDTO.refundBank);
             SetRefundAccount(response.data.result.refundInfoDTO.refundAccount);
           }
+          console.log(response);
         } catch (error) {
           console.error("Error during POST request:", error);
         }
@@ -650,7 +659,7 @@ const OrderDetail = () => {
         </Table>
       )}
       <ItemWrapper>
-        <ItemImg src={ImgUrl} alt="상품이미지" />
+        <ItemImg style={{ background: `url(${ImgUrl}) center/cover` }} />
         <ItemInfo>
           <span style={{ fontSize: `${16 / 19.2}vw` }}>{ItemName}</span>
           {OptionString}
@@ -664,192 +673,193 @@ const OrderDetail = () => {
           </ItemButton>
         </ItemButtonWrapper>
       </ItemWrapper>
-      {!CancelByCustomer && !CancelBySeller && (
-        <ProgressWrapper>
-          <ProgressCircle
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.PAY_PREV ||
-                OrderStatusEnum.PAY_COMP ||
-                OrderStatusEnum.DEL_PREP ||
-                OrderStatusEnum.DEL_START ||
-                OrderStatusEnum.DEL_COMP)
-            } // ENUM으로 상태 관리할 방법이 안 떠올라서 하드코딩했습니다. 추후 수정예정입니다.
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: `${24 / 19.2}vw` }}
-            >
-              <path
-                d="M5 13L9 17L19 7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </ProgressCircle>
-          <ProgressHr
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.PAY_COMP ||
-                OrderStatusEnum.DEL_PREP ||
-                OrderStatusEnum.DEL_START ||
-                OrderStatusEnum.DEL_COMP)
-            }
-          />
-          <ProgressCircle
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.PAY_COMP ||
-                OrderStatusEnum.DEL_PREP ||
-                OrderStatusEnum.DEL_START ||
-                OrderStatusEnum.DEL_COMP)
-            }
-          >
-            {" "}
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: `${24 / 19.2}vw` }}
-            >
-              <path
-                d="M5 13L9 17L19 7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </ProgressCircle>
-          <ProgressHr
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.DEL_PREP ||
-                OrderStatusEnum.DEL_START ||
-                OrderStatusEnum.DEL_COMP)
-            }
-          />
-          <ProgressCircle
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.DEL_PREP ||
-                OrderStatusEnum.DEL_START ||
-                OrderStatusEnum.DEL_COMP)
-            }
-          >
-            {" "}
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: `${24 / 19.2}vw` }}
-            >
-              <path
-                d="M5 13L9 17L19 7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </ProgressCircle>
-          <ProgressHr
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.DEL_START || OrderStatusEnum.DEL_COMP)
-            }
-          />
-          <ProgressCircle
-            $done={
-              OrderStatus ===
-              (OrderStatusEnum.DEL_START || OrderStatusEnum.DEL_COMP)
-            }
-          >
-            {" "}
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: `${24 / 19.2}vw` }}
-            >
-              <path
-                d="M5 13L9 17L19 7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </ProgressCircle>
-          <ProgressHr $done={OrderStatus === OrderStatusEnum.DEL_COMP} />
-          <ProgressCircle $done={OrderStatus === OrderStatusEnum.DEL_COMP}>
-            {" "}
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: `${24 / 19.2}vw` }}
-            >
-              <path
-                d="M5 13L9 17L19 7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </ProgressCircle>
-          <ProgressTextWrapper>
-            <ProgressText
+      {!CancelByCustomer &&
+        !CancelBySeller &&
+        (OrderStatus === OrderStatusEnum.PAY_PREV ||
+          OrderStatus === OrderStatusEnum.PAY_COMP ||
+          OrderStatus === OrderStatusEnum.DEL_PREP ||
+          OrderStatus === OrderStatusEnum.DEL_START ||
+          OrderStatus === OrderStatusEnum.DEL_COMP) && (
+          <ProgressWrapper>
+            <ProgressCircle
               $done={
-                OrderStatus ===
-                (OrderStatusEnum.PAY_PREV ||
-                  OrderStatusEnum.PAY_COMP ||
-                  OrderStatusEnum.DEL_PREP ||
-                  OrderStatusEnum.DEL_START ||
-                  OrderStatusEnum.DEL_COMP)
+                OrderStatus === OrderStatusEnum.PAY_PREV ||
+                OrderStatus === OrderStatusEnum.PAY_COMP ||
+                OrderStatus === OrderStatusEnum.DEL_PREP ||
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
+              } // ENUM으로 상태 관리할 방법이 안 떠올라서 하드코딩했습니다. 추후 수정예정입니다.
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: `${24 / 19.2}vw` }}
+              >
+                <path
+                  d="M5 13L9 17L19 7"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ProgressCircle>
+            <ProgressHr
+              $done={
+                OrderStatus === OrderStatusEnum.PAY_COMP ||
+                OrderStatus === OrderStatusEnum.DEL_PREP ||
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
+              }
+            />
+            <ProgressCircle
+              $done={
+                OrderStatus === OrderStatusEnum.PAY_COMP ||
+                OrderStatus === OrderStatusEnum.DEL_PREP ||
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
               }
             >
-              결제전
-            </ProgressText>
-            <ProgressText
+              {" "}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: `${24 / 19.2}vw` }}
+              >
+                <path
+                  d="M5 13L9 17L19 7"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ProgressCircle>
+            <ProgressHr
               $done={
-                OrderStatus ===
-                (OrderStatusEnum.PAY_COMP ||
-                  OrderStatusEnum.DEL_PREP ||
-                  OrderStatusEnum.DEL_START ||
-                  OrderStatusEnum.DEL_COMP)
+                OrderStatus === OrderStatusEnum.DEL_PREP ||
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
+              }
+            />
+            <ProgressCircle
+              $done={
+                OrderStatus === OrderStatusEnum.DEL_PREP ||
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
               }
             >
-              결제완료
-            </ProgressText>
-            <ProgressText
+              {" "}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: `${24 / 19.2}vw` }}
+              >
+                <path
+                  d="M5 13L9 17L19 7"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ProgressCircle>
+            <ProgressHr
               $done={
-                OrderStatus ===
-                (OrderStatusEnum.DEL_PREP ||
-                  OrderStatusEnum.DEL_START ||
-                  OrderStatusEnum.DEL_COMP)
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
+              }
+            />
+            <ProgressCircle
+              $done={
+                OrderStatus === OrderStatusEnum.DEL_START ||
+                OrderStatus === OrderStatusEnum.DEL_COMP
               }
             >
-              배송준비
-            </ProgressText>
-            <ProgressText
-              $done={
-                OrderStatus ===
-                (OrderStatusEnum.DEL_START || OrderStatusEnum.DEL_COMP)
-              }
-            >
-              배송시작
-            </ProgressText>
-            <ProgressText $done={OrderStatus === OrderStatusEnum.DEL_COMP}>
-              배송완료
-            </ProgressText>
-          </ProgressTextWrapper>
-        </ProgressWrapper>
+              {" "}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: `${24 / 19.2}vw` }}
+              >
+                <path
+                  d="M5 13L9 17L19 7"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ProgressCircle>
+            <ProgressHr $done={OrderStatus === OrderStatusEnum.DEL_COMP} />
+            <ProgressCircle $done={OrderStatus === OrderStatusEnum.DEL_COMP}>
+              {" "}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: `${24 / 19.2}vw` }}
+              >
+                <path
+                  d="M5 13L9 17L19 7"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ProgressCircle>
+            <ProgressTextWrapper>
+              <ProgressText
+                $done={
+                  OrderStatus === OrderStatusEnum.PAY_PREV ||
+                  OrderStatus === OrderStatusEnum.PAY_COMP ||
+                  OrderStatus === OrderStatusEnum.DEL_PREP ||
+                  OrderStatus === OrderStatusEnum.DEL_START ||
+                  OrderStatus === OrderStatusEnum.DEL_COMP
+                }
+              >
+                결제전
+              </ProgressText>
+              <ProgressText
+                $done={
+                  OrderStatus === OrderStatusEnum.PAY_COMP ||
+                  OrderStatus === OrderStatusEnum.DEL_PREP ||
+                  OrderStatus === OrderStatusEnum.DEL_START ||
+                  OrderStatus === OrderStatusEnum.DEL_COMP
+                }
+              >
+                결제완료
+              </ProgressText>
+              <ProgressText
+                $done={
+                  OrderStatus === OrderStatusEnum.DEL_PREP ||
+                  OrderStatus === OrderStatusEnum.DEL_START ||
+                  OrderStatus === OrderStatusEnum.DEL_COMP
+                }
+              >
+                배송준비
+              </ProgressText>
+              <ProgressText
+                $done={
+                  OrderStatus === OrderStatusEnum.DEL_START ||
+                  OrderStatus === OrderStatusEnum.DEL_COMP
+                }
+              >
+                배송시작
+              </ProgressText>
+              <ProgressText $done={OrderStatus === OrderStatusEnum.DEL_COMP}>
+                배송완료
+              </ProgressText>
+            </ProgressTextWrapper>
+          </ProgressWrapper>
+        )}
+      {OrderStatus === OrderStatusEnum.CONFIRM && (
+        <HeaderText>구매확정</HeaderText>
       )}
       {CancelByCustomer && <HeaderText>고객님 주문취소</HeaderText>}
       {CancelBySeller && <HeaderText>사장님 주문취소</HeaderText>}

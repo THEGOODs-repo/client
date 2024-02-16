@@ -61,7 +61,6 @@ export function ManagePurchase({
         });
         if (response.data.isSuccess === true) {
           Array.isArray(response.data.result.orderItemPreViewDTOList) &&
-            response.data.result.orderItemPreViewDTOList.length > 0 &&
             SetOrderItemList(() => [
               ...response.data.result.orderItemPreViewDTOList,
             ]);
@@ -89,7 +88,6 @@ export function ManagePurchase({
         });
         if (response.data.isSuccess === true) {
           Array.isArray(response.data.result.orderItemPreViewDTOList) &&
-            response.data.result.orderItemPreViewDTOList.length > 0 &&
             SetOrderItemList(() => [
               ...response.data.result.orderItemPreViewDTOList,
             ]);
@@ -236,6 +234,7 @@ const MainContainer = styled.div`
   width: 870px;
   height: 972px;
   border: 3px solid rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
 
   h1 {
     align-self: flex-start;
@@ -305,6 +304,7 @@ const PageNationWrapper = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${14 / 19.2}vw;
+  margin: ${30 / 19.2}vw 0;
 `;
 
 const PageNation = styled.div`
@@ -312,8 +312,8 @@ const PageNation = styled.div`
   height: ${32 / 19.2}vw;
   border: ${1 / 19.2}vw solid rgba(156, 156, 156);
   border-radius: ${1 / 19.2}vw;
-  color: ${(props) =>
-    props.$selected ? "rgba(32,33,35)" : "rgba(156,156,156)"};
+  color: ${(props) => (props.disabled ? "#fff" : "rgba(156,156,156)")};
+  background: ${(props) => (props.disabled ? "#f0c920" : "")};
   display: flex;
   justify-content: center;
   align-items: center;

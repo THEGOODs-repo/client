@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ChevronRight from "../../../img/chevron_right.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import ReviewModal from "./ReviewModal";
 import ConfirmModal from "./ConfirmModal";
 
@@ -22,7 +20,6 @@ const OrderStatusEnum = {
 export default function OrderItems(data) {
   const navigate = useNavigate();
   const fileInput = React.useRef(null);
-  const token = useSelector((state) => state.login.token);
   const [DisplayReviewModal, SetDisplayReviewModal] = useState(false);
   const [DisplayConfirmModal, SetDisplayConfirmModal] = useState(false);
   const [OrderDateTime, SetOrderDateTime] = useState(new Date());
@@ -87,7 +84,7 @@ export default function OrderItems(data) {
             {data.orderStatus === OrderStatusEnum.REFUND_COMP && "반품완료"}
           </h2>
           <h3>{data.itemName}</h3>
-          <h4>옵션 : {data.optionString}</h4>
+          {data.optionString && <h4>옵션 : {data.optionString}</h4>}
         </InformationContainer>
         <PriceContainer>
           <PriceSubContainer>
@@ -158,6 +155,8 @@ export const ImgContainer = styled.div`
   width: 150px;
   height: 150px;
   background-color: #9c9c9c;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 `;
 
 export const InformationContainer = styled.div`

@@ -2,27 +2,29 @@
 
 import React from 'react';
 import Post from './PostContent';
-import profileImage from '../../img/sampleimg.png';
-
+import Image from '../../img/sampleimg.png';
+import profileImage from '../../img/Hamster.png'
+import IU from '../../img/iu.png'
+import profileImage2 from '../../img/Ellipse 91.png'
 const PostList = () => {
   // 포스트에 대한 가상의 데이터
   const posts = [
     {
       userProfile: profileImage,
-      userName: 'John Doe',
-      postDate: '2일',
-      content: 'NewJeans ID Card 판매 조사합니다.아아ㅏ아아아ㅏ NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다.',
-      imageUrl: profileImage,
-      likeCount: 20,
-      commentCount: 5,
+      userName: '뉴진스',
+      postDate: '1일',
+      content: 'NewJeans ID Card 판매 조사합니다. 구매 의향이 있으시면 좋아요 눌러주세요!!',
+      imageUrl: Image,
+      likeCount: 102,
+      commentCount: 0,
     },
     {
-      userProfile: profileImage,
-      userName: 'John Doe',
+      userProfile: profileImage2,
+      userName: '아이유애나',
       postDate: '2일',
-      content: 'NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다. NewJeans ID Card 판매 조사합니다.',
-      
-      likeCount: 100,
+      content: '아이유 도무송 스티커 판매 시작되었습니다!',
+      imageUrl: IU,
+      likeCount: 40,
       commentCount: 27,
       },
     // 다른 포스트들...

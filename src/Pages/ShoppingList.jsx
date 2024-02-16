@@ -1,69 +1,87 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import arrow from"../img/chevron-right.png";
 import styled from "styled-components";
 import ShoppingCart from "../Components/ShoppingCart/ShoppingCart";
 import IU from "../img/iu.png";
-const ShoppingList = () =>{
+import axios from 'axios';
+import { UseSelector, useSelector } from "react-redux";
 
-    const [totalPrice, setTotalPrice] = useState(0); // 선택한 제품의 총 합을 저장하는 상태 변수
-    const [selectedItemCount, setSelectedItemCount] = useState(0); // 선택한 제품 수를 저장하는 상태 변수
+const ShoppingList = () => {
+  const token = useSelector((state)=>state.login.token);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedItemCount, setSelectedItemCount] = useState(0);
+  // const [cartData, setCartData] = useState([]);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const header={"content-type":"application-json",Authorization: `Bearer ${token}`};
+  //     const response = await axios.get("/api/cart",header);
+  //     console.log(response);
+  //     setCartData(response.data.result.cartViewDTOList);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
   
-   
+  const cartData = [
+    {
+      sellerName: "아아아아아아아아아아아",
+      itemName: "뉴진스 포카아아아아아아아아아아아ㅏ",
+      itemImg: IU,
+      deliveryFee: 3000,
+      cartDetailViewDTOList: [
+        {
+          optionName: "해린 포카",
+          price: 1000,
+          amount: 1,
+        },
+        {
+          optionName: "민지 포카",
+          price: 2000,
+          amount: 6,
+        },
+        {
+          optionName: "하니 포카",
+          price: 3000,
+          amount: 3,
+        },
+      ],
+    },
+    {
+      sellerName: "test_seller",
+      itemName: "아이브 포카",
+      itemImg: "img url",
+      deliveryFee: 2000,
+      cartDetailViewDTOList: [
+        {
+          optionName: "원영 포카",
+          price: 1000,
+          amount: 3,
+        },
+      ],
+    },
+    {
+      sellerName: "test_seller",
+      itemName: "카리나 포카",
+      itemImg: IU ,
+      deliveryFee: 3000,
+      cartDetailViewDTOList: [
+        {
+          optionName: null,
+          price: 3000,
+          amount: 1,
+        },
+      ],
+    },
+  ];
     const handleOrderButtonClick = () => {
       console.log("선택한 상품 수:", selectedItemCount);
     };
 
-    const cartData = [
-      {
-        sellerName: "test_seller",
-        itemName: "뉴진스 포카",
-        itemImg: IU,
-        deliveryFee: 3000,
-        cartDetailViewDTOList: [
-          {
-            optionName: "해린 포카",
-            price: 1000,
-            amount: 1,
-          },
-          {
-            optionName: "민지 포카",
-            price: 2000,
-            amount: 6,
-          },
-          {
-            optionName: "하니 포카",
-            price: 3000,
-            amount: 3,
-          },
-        ],
-      },
-      {
-        sellerName: "test_seller",
-        itemName: "아이브 포카",
-        itemImg: "img url",
-        deliveryFee: 2000,
-        cartDetailViewDTOList: [
-          {
-            optionName: "원영 포카",
-            price: 1000,
-            amount: 3,
-          },
-        ],
-      },
-      {
-        sellerName: "test_seller",
-        itemName: "카리나 포카",
-        itemImg: IU,
-        deliveryFee: 3000,
-        cartDetailViewDTOList: [
-          {
-            optionName: null,
-            price: 3000,
-            amount: 1,
-          },
-        ],
-      },
-    ];
   return(
     <Container>
       <Header>

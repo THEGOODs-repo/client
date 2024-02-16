@@ -3,6 +3,7 @@ import ProductItem from './ProductItem';
 import styled from "styled-components";
 import arrow from "../../img/chevron-right.png";
 import Checkbox from './CheckBox';
+import CustomButton from '../Register/CustomButton';
 const ShoppingCart = ({ cartItems }) => {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -48,7 +49,8 @@ const ShoppingCart = ({ cartItems }) => {
       {cartItems.length > 0 && (
         <>
           <div style={{display:"flex", marginLeft:'19.5%', marginTop:'10px', marginBottom:'0px',}}>
-            <Checkbox label="전체 선택" checked={isChecked} onChange={handleCheckboxChange}></Checkbox> 
+            <CustomButton  state={isChecked} onChange={()=>setIsChecked((isChecked)=>!isChecked)} index="isChecked" label="전체 선택"/> 
+            
             <Deletebutton>X 삭제</Deletebutton>
           </div>
           <Divider />
@@ -77,7 +79,7 @@ export default ShoppingCart;
 const Background=styled.div`
   position: absolute;
   background-color: #F9F9F9;
-  height:40vw;
+  height:100%;
   width:100%
 `
 const EmptyCart=styled.p`

@@ -1,10 +1,14 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import homeimg from "../../img/home.png";
 import plusimg from "../../img/Plus.png"
 import Checkbox from './CheckBox';
-const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliveryFee, isChecked}) => {
+import OrderModificationModal from "./OrderModificationModal";
+import CustomButton from "../Register/CustomButton";
+const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliveryFee, isChecked }) => {
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(isChecked);
 
   // 전체 선택 상태가 변경될 때 isCheckedAll 상태 업데이트
   useEffect(() => {
@@ -14,93 +18,114 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
   // 체크박스 상태 변경 핸들러
   const handleCheckboxChange = (event) => {
     setIsCheckedAll(event.target.checked);
+    setIsCheckboxChecked(event.target.checked);
   };
 
+  const handleModifyOrderClick = () => {
+    setIsModalOpen(true);
+  };
 
   // 옵션이 있는지 여부 확인
-    //const hasOptions = options.some(option => option.optionName !== null);
-    const hasOptions = options.some(option => option.optionName !== null);
-    const firstItem = options[0];
-    const firstItemPrice = firstItem.price;
-    const firstItemAmount = firstItem.amount;
-  return (
-    <Form>
-      <SellerBox>
-        <Check>
-          <Checkbox label="" checked={isCheckedAll} onChange={handleCheckboxChange}></Checkbox>
-        </Check>
-      <SellerName>{sellerName}</SellerName>
-      <Home src={homeimg} alt='home'/>
-      </SellerBox>
-      <Divider />
-    {hasOptions?(
-      <ProductForm>
-        <Check2>
-          <Checkbox label="" checked={isCheckedAll} onChange={handleCheckboxChange}></Checkbox>
-        </Check2>
-        <ItemImg src={itemImg} alt={itemName}/>
-        <SellerName2>{sellerName}</SellerName2>
-        <ItemName>{itemName}</ItemName> 
-        <ModifyOrder>주문수정</ModifyOrder>
-      </ProductForm>
-    ):(
-    <>
-    
-      <NoOptionProductForm>
-        <Check2>
-          <Checkbox label="" checked={isCheckedAll} onChange={handleCheckboxChange}></Checkbox>
-        </Check2>
-        <ItemImg src={itemImg} alt={itemName}/>
-        <NameBox>
-          <SellerName2>{sellerName}</SellerName2>
-          <ItemName2>{itemName}</ItemName2>
-        </NameBox>
-          <PriceText><Text>{firstItemPrice}원</Text></PriceText>
-        
-        <AmountText><Text>{firstItemAmount}개</Text></AmountText>
-        <ModifyOrder2>주문수정</ModifyOrder2>
-        
-      </NoOptionProductForm>
-      <Divider2></Divider2>
-    </>
-      )}
+  const hasOptions = options.some(option => option.optionName !== null);
+  const firstItem = options[0];
+  const firstItemPrice = firstItem.price;
+  const firstItemAmount = firstItem.amount;
 
-      {hasOptions && options.map((option, idx) => (
-        // 옵션 이름이 null이 아닌 경우에만 렌더링
-        option.optionName !== null && (
-          <OptionForm key={idx}>
-            <OptionText>선택 {idx + 1} : {option.optionName} / {option.price}원 ({option.amount}개)</OptionText>
-          </OptionForm>
-        )
-      ))}
-      <div style={{display:'flex'}}>
-      <PriceBox>
-          <div style={{display:'flex',flexDirection: 'column', alignItems: 'center'}}>
-            <Price>상품 금액</Price>
-            <Price>{totalPrice}원</Price>
-          </div>
-          <Plus src={plusimg}></Plus>
-          <div style={{display:'flex',flexDirection: 'column', alignItems: 'center'}}>
-            <Price>배송비</Price>
-            <Price>{deliveryFee}원</Price>
-          </div>
-      </PriceBox>
-      <MarketPriceBox>
-        <MarketPrice1>주문금액 <MarketPrice>{totalPrice + deliveryFee}원</MarketPrice></MarketPrice1>
-        <OptionOrder>{sellerName} 0건 주문하기</OptionOrder>
-      </MarketPriceBox>
-    </div>
-   
-    </Form>
+  return (
+    <>
+      <Form>
+        <SellerBox>
+          <Check>
+            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index="isCheckedAll" label=""/> 
+
+          </Check>
+          <SellerName>{sellerName}</SellerName>
+          <Home src={homeimg} alt='home'/>
+        </SellerBox>
+        <Divider />
+        {hasOptions ? (
+          <ProductForm>
+            <Check2>
+            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index="isCheckedAll" label=""/> 
+            </Check2>
+            <ItemImg src={itemImg} alt={itemName}/>
+            <OptionSellerItem>
+              <SellerName2>{sellerName}</SellerName2>
+              <ItemName>{itemName}</ItemName> 
+            </OptionSellerItem>
+            <ModifyOrder onClick={handleModifyOrderClick}>주문수정</ModifyOrder>
+            {isModalOpen && (
+              <OrderModificationModal
+                options={options}
+                onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
+              />
+            )}
+          </ProductForm>
+        ) : (
+          <>
+            <NoOptionProductForm>
+              <Check2>
+                <Checkbox label="" checked={isCheckedAll} onChange={handleCheckboxChange}></Checkbox>
+              </Check2>
+              <ItemImg src={itemImg} alt={itemName}/>
+              <NameBox>
+                <SellerName2>{sellerName}</SellerName2>
+                <ItemName2>{itemName}</ItemName2>
+              </NameBox>
+              <PriceText><Text>{firstItemPrice}원</Text></PriceText>
+              <AmountText><Text>{firstItemAmount}개</Text></AmountText>
+              <ModifyOrder2 onClick={handleModifyOrderClick}>주문수정</ModifyOrder2>
+              {isModalOpen && (
+                <OrderModificationModal
+                  options={options}
+                  onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
+                />
+              )}
+            </NoOptionProductForm>
+            <Divider2></Divider2>
+          </>
+        )}
+
+        {hasOptions && options.map((option, idx) => (
+          // 옵션 이름이 null이 아닌 경우에만 렌더링
+          option.optionName !== null && (
+            <OptionForm key={idx}>
+              <OptionText>선택 {idx + 1} : {option.optionName} / {option.price}원 ({option.amount}개)</OptionText>
+            </OptionForm>
+          )
+        ))}
+
+        <div style={{ display: 'flex' }}>
+          <PriceBox>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Price>상품 금액</Price>
+              <Price>{totalPrice}원</Price>
+            </div>
+            <Plus src={plusimg}></Plus>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Price>배송비</Price>
+              <Price>{deliveryFee}원</Price>
+            </div>
+          </PriceBox>
+          <MarketPriceBox>
+            <MarketPrice1>주문금액 <MarketPrice>{totalPrice + deliveryFee}원</MarketPrice></MarketPrice1>
+            <OptionOrder onClick={() => isCheckboxChecked && console.log("click")} isActive={isCheckedAll}>
+              {sellerName} 0건 주문하기
+            </OptionOrder>
+          </MarketPriceBox>
+        </div>
+      </Form>
+    </>
   );
 };
 
 export default ProductItem;
 
+
 const Form = styled.div`
-  width: 64vw;
+  width: 50vw;
   min-height: 25vh;
-  margin-left:18vw;
+  margin-left:25vw;
   margin-top:3vh;
   margin-bottom:3vh;
   flex-direction: column;
@@ -121,14 +146,14 @@ const SellerName = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 2vw;
+  font-size: 1.5vw;
   color: #202123;
   margin-right: 0.5vw;
   margin-left: 1vw;
 `
 const Home=styled.img`
-  width: 2vw;
-  height: 2vw;
+  width: 1.5vw;
+  height: 1.5vw;
 `
 const ProductForm = styled.div`
   display: flex;
@@ -142,8 +167,8 @@ const ItemImg = styled.img`
   margin-left: 1vw;
 `
 const ItemName = styled.div`
-  margin-left:-6vw;
-  margin-top:5vh;
+  margin-left:0vw;
+  margin-top:0vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
@@ -166,19 +191,22 @@ const Divider = styled.hr`
 `;
 const Divider2 = styled.hr`
   border: 0.5px solid #202123;
-  //margin-bottom: 1vh;
-  //margin-top: 1vw;
-`;
 
+`;
+const OptionSellerItem = styled.div`
+  
+margin-left: 1vw;
+`
 const SellerName2 = styled.p`
   //flex-direction: column;
-  width: 85px;
-  margin-left: 1vw;
-  margin-top: 1vh;
+  
+  width: 25vw;
+  //margin-left: 1vw;
+  //margin-top: 1vh;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1.1vw;
+  font-size: 14px;
   color: #9C9C9C;
 `
 const ModifyOrder = styled.button`
@@ -188,8 +216,8 @@ const ModifyOrder = styled.button`
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  margin-left: 35vw;
-  margin-top: 8vh;
+  margin-left: 1vw;
+  margin-top: 4vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
@@ -218,15 +246,15 @@ const OptionForm = styled.div`
   display:flex;
   padding-left: 2vw;
   margin-left: 3vw;
-  width: 59vw;
-  height: 8vh;
+  width: 42vw;
+  height: 5vw;
   border-bottom: 1px solid rgba(156, 156, 156, 0.5);
   background: rgba(156, 156, 156, 0.08);
   border-radius: 5px 5px 0px 0px;
 
 `
 const OptionText = styled.div`
-  margin-top: 3vh;
+  margin-top: 2vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
@@ -239,7 +267,7 @@ const PriceBox = styled.div`
   display:flex;
   border-right: 0.5px solid black;
   margin-top: 5vh;
-  margin-left: 13vw;
+  margin-left: 4vw;
   width: 15vw;
   height: 8vh;
 `
@@ -247,7 +275,7 @@ const Price = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 1vw;
+  font-size: 0.9vw;
   line-height:0.3vw;
   margin-top:1.5vh;
   color: #202123;
@@ -291,7 +319,8 @@ const OptionOrder = styled.button`
   width: 15vw;
   height: 8vh;
   margin-left:2vw;
-  background: rgba(156, 156, 156, 0.8);
+  background: ;
+  background-color: ${(props) => (props.isActive ? "#F0C920" : "rgba(156, 156, 156, 0.8)")};
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
@@ -333,7 +362,7 @@ const Text = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1.2vw;
+  font-size: 1vw;
   text-align: center;
   margin-top:9vh;
   color: #202123;

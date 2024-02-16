@@ -2,15 +2,19 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { setTag } from "../../redux/preferenceSlice";
+import { increaseTag, decreaseTag } from "../../redux/preferenceSlice";
 
-export default function PreferenceTag({ name }) {
+export default function PreferenceTag({ index, name }) {
   const [click, setClick] = useState(null);
   const dispatch = useDispatch();
 
-  const onClickHandler = (e) => {
+  const onClickHandler = () => {
     setClick((prevClick) => !prevClick);
-    dispatch(setTag({ product: !click }));
+    if (!click) {
+      dispatch(increaseTag(index + 1));
+    } else {
+      dispatch(decreaseTag(index + 1));
+    }
   };
 
   return (

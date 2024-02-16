@@ -22,9 +22,12 @@ import MyReviewSeller from "./Components/myPage/myPage(Seller)/MyReviewSeller";
 import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 // 선호도 조사
 import Preference from "./Pages/Preference";
+import PreferenceResultPage from "./Pages/PreferenceResult";
+
 // 포스트
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
+
 // 로그인
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -48,6 +51,10 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference" element={<Preference />} />
+            <Route
+              path="/preference/result"
+              element={<PreferenceResultPage />}
+            />
             {/* <Route path="/*" element={<Post />} /> */}
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>

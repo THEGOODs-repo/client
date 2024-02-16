@@ -2,11 +2,14 @@ import styled from "styled-components";
 import MyPageNavbarSeller from "../Components/myPage/myPage(Seller)/MyPageNavbarSeller";
 import { Outlet } from "react-router-dom";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
+import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
+
 function MyPageSellerComponent() {
   return (
     <PageContainer>
       <NavWrapContainer>
       <NavigationMenu />
+      <NavigationCategoryMenu/>
       </NavWrapContainer>
       <MyPageContainer>
         <MyPageNavbarSeller />

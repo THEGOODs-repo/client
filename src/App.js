@@ -129,7 +129,7 @@ function App() {
             </Route>
             <Route path="/seller" element={<Seller />} />
             <Route path="/shoppingList" element={<ShoppingList/>}/>
-            <Route path="/mypage" element={<MyPageComponent />}>
+            {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route
@@ -165,6 +165,7 @@ function App() {
             <Route path="/register">
               <Route path="/register" element={<Register />} />
               <Route path="/register/form" element={<RegisterForm />} />
+              </Route>
             <Route path="/login">
               <Route path="" element={<Login />} />
               <Route path="/login/findemail" element={<FindEmail />} />

@@ -1,17 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import LeftArrow from '../../img/LeftArrow.png';
-import RightArrow from '../../img/RightArrow.png';
-import Banner from '../../img/banner.svg';
-import NavigationCategoryMenu from '../NavigationMenu/NavigationCategoryMenu';
-import NavigationMenu from '../NavigationMenu/NavigationMenu';
-import ProductCardComponent from '../Global/ProductComponent';
+import LeftArrow from '../img/LeftArrow.png';
+import RightArrow from '../img/RightArrow.png';
+import Banner from '../img/banner.svg';
+import NavigationCategoryMenu from '../Components/NavigationMenu/NavigationCategoryMenu';
+import NavigationMenu from '../Components/NavigationMenu/NavigationMenu';
+import ProductCardComponent from '../Components/Global/ProductComponent';
 import { useEffect } from 'react';
-import HeaderComponent from '../Header/Header';
-import CustomHorizontalLine from './HorizontalLineComponent';
-import ArrowCircleRight from '../../img/arrow-circle-right.png';
-import BaseFooter from '../Footer/BaseFooter';
+import HeaderComponent from '../Components/Header/Header';
+import CustomHorizontalLine from '../Components/MainPage/HorizontalLineComponent';
+import ArrowCircleRight from '../img/arrow-circle-right.png';
+import BaseFooter from '../Components/Footer/BaseFooter';
 
 const PageContainer = styled.div`
     width: 100%;
@@ -127,7 +127,26 @@ function MainPageComponent() {
             setCurrentIndex(currentIndex - 1);
         }
     };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axios.get('https://dev.the-goods.store/api/item/main?type=new&page=1', {
+    //                 headers: {
+    //                     'accept': '*/*'
+    //                 }
+    //             });
+    //             const data = response.data.result.itemList;
+    //             setProducts(data); // 상품 데이터를 상태에 저장
+    //             console.log(data);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+    
+    //     fetchData();
+    // }, []);
 
+    
     const handleNextSlide = () => {
         if (currentIndex === 2) {
             setCurrentIndex(0);

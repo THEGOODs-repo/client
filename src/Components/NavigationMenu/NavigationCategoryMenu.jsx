@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 // 아이콘 이미지를 import 합니다.
 // import categoryIcon from './category-icon.png';
@@ -32,10 +33,13 @@ const Icon = styled.img`
     margin-bottom: 5px;
 `;
 
-const Label = styled.span`
+const Label = styled(Link)`
     font-family: NotoSans;
     font-size: 20px;
     font-weight : bold;
+    text-decoration: none; /* underline 제거 */
+    color: black; /* 글씨 색상 설정 */
+    margin: 0 5px; /* 좌우 여백 추가 */
 `;
 
 function NavigationCategoryMenu() {
@@ -55,7 +59,7 @@ function NavigationCategoryMenu() {
                 <Label>마감임박</Label>
             </NavItem>
             <NavItem>
-                <Label>포스트</Label>
+                <Label to="/posting">포스트</Label>
             </NavItem>
         </NavBar>
     );

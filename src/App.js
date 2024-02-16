@@ -52,7 +52,7 @@ function App() {
             <Route path="/preference" element={<Preference />} />
             <Route path="/product" element={<ProductPageComponent />} />
             
-            {/* <Route path="/*" element={<Post />} /> */}
+            <Route path="/posting" element={<Post />} />
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
               <Route

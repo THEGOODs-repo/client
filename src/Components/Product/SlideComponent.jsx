@@ -50,7 +50,7 @@ const ImageSlider = (props) => {
     const [slideIndex, setSlideIndex] = useState(0);
 
     const nextSlide = () => {
-        if (props.images.length <= 5) {
+        if (props.images.length >= 1) {
             const newIndex = slideIndex === props.images.length - 1 ? 0 : slideIndex + 1;
             setSlideIndex(newIndex);
             props.onImageClick(props.images[newIndex]);
@@ -60,12 +60,13 @@ const ImageSlider = (props) => {
     };
 
     const prevSlide = () => {
-        if (props.images.length <= 5) {
+        if (props.images.length >= 1) {
             const newIndex = slideIndex === 0 ? props.images.length - 1 : slideIndex - 1;
             setSlideIndex(newIndex);
             props.onImageClick(props.images[newIndex]);
         } else {
             setSlideIndex((prevIndex) => (prevIndex === 0 ? props.images.length - 1 : prevIndex - 1));
+
         }
     };
 

@@ -95,4 +95,3 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
 }
 
 export default Pagination;
-

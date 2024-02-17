@@ -61,7 +61,7 @@ function App() {
               element={<PreferenceResultPage />}
             />
             {/* <Route path="/*" element={<Post />} /> */}
-            <Route path="/product" element={<ProductPageComponent />} />
+            <Route path="/product/:id" element={<ProductPageComponent />} />
             
             <Route path="/posting" element={<Post />} />
             {/* Seller 부분 */}

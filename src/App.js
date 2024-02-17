@@ -64,69 +64,30 @@ function App() {
             <Route path="/product/:id" element={<ProductPageComponent />} />
             
             <Route path="/posting" element={<Post />} />
+            
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
-              <Route
-                path="/mypageSeller/EditProfile"
-                element={<EditProfileSeller />}
-              />
-              <Route
-                path="/mypageSeller/SellerProfile"
-                element={<SellerProfile />}
-              />
-              <Route
-                path="/mypageSeller/ManagePurchase"
-                element={<ManagePurchaseSeller />}
-              />
-              <Route
-                path="/mypageSeller/NotificationSettings"
-                element={<AlarmSeller />}
-              />
-              <Route
-                path="/mypageSeller/PasswordChange"
-                element={<PasswordChangeSeller />}
-              />
-              <Route
-                path="/mypageSeller/MemberWithdrawal"
-                element={<MemberWithdrawalSeller />}
-              />
-              <Route
-                path="/mypageSeller/MyReview"
-                element={<MyReviewSeller />}
-              />
-              <Route
-                path="/mypageSeller/ProfitSeller"
-                element={<ProfitSeller />}
-              />
+              <Route path="EditProfile" element={<EditProfileSeller />} />
+              <Route path="SellerProfile" element={<SellerProfile />} />
+              <Route path="ManagePurchase" element={<ManagePurchaseSeller />} />
+              <Route path="NotificationSettings" element={<AlarmSeller />} />
+              <Route path="PasswordChange" element={<PasswordChangeSeller />} />
+              <Route path="MemberWithdrawal" element={<MemberWithdrawalSeller />} />
+              <Route path="MyReview" element={<MyReviewSeller />} />
+              <Route path="ProfitSeller" element={<ProfitSeller />} />
             </Route>
+            
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
-              <Route path="/mypage/EditProfile" element={<EditProfile />} />
-              <Route
-                path="/mypage/ManagePurchase"
-                element={<ManagePurchase />}
-              />
-              <Route
-                path="/mypage/ManageShippingRefund"
-                element={<ManageShippingRefund />}
-              />
-              <Route
-                path="/mypage/CustomizedInformation"
-                element={<CustomizedInformation />}
-              />
-              <Route
-                path="/mypage/NotificationSettings"
-                element={<NotificationSettings />}
-              />
-              <Route
-                path="/mypage/PasswordChange"
-                element={<PasswordChange />}
-              />
-              <Route
-                path="/mypage/MemberWithdrawal"
-                element={<MemberWithdrawal />}
-              />
-              <Route path="/mypage/MyReview" element={<MyReview />} />
+              <Route path="EditProfile" element={<EditProfile />} />
+              <Route path="ManagePurchase" element={<ManagePurchase />} />
+              <Route path="ManageShippingRefund" element={<ManageShippingRefund />} />
+              <Route path="CustomizedInformation" element={<CustomizedInformation />} />
+              <Route path="NotificationSettings" element={<NotificationSettings />} />
+              <Route path="PasswordChange" element={<PasswordChange />} />
+              <Route path="MemberWithdrawal" element={<MemberWithdrawal />} />
+              <Route path="MyReview" element={<MyReview />} />
             </Route>
+            
             <Route path="/seller" element={<Seller />} />
             <Route path="/shoppingList" element={<ShoppingList/>}/>
             {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
@@ -171,12 +132,26 @@ function App() {
               <Route path="/login/findemail" element={<FindEmail />} />
               <Route path="/login/resetpw" element={<FindPassWord />} />
               <Route path="/login/guest" element={<FindGuestOrder />} />
+            <Route path="/shoppingList" element={<ShoppingList />} />
+            
+            <Route path="/login/*" element={<Login />} />
+            <Route path="/api/members/kakao/callback" element={<KakaoLoginHandler />} />
+            <Route path="/api/members/naver/callback" element={<NaverLoginHandler />} />
+            
+            <Route path="/register" element={<Register />}>
+              <Route path="form" element={<RegisterForm />} />
             </Route>
-            <Route path="/register/*" element={<Register />} />
+            
+            <Route path="/login" element={<Login />}>
+              <Route path="findemail" element={<FindEmail />} />
+              <Route path="resetpw" element={<FindPassWord />} />
+              <Route path="guest" element={<FindGuestOrder />} />
+            </Route>
+            
             <Route path="/guest/*" element={<Guest />} />
-            <Route path="/helpcenter">
-              <Route path="/helpcenter" element={<HelpCenter />} />
-              <Route path="/helpcenter/write" element={<HelpCenterWrite />} />
+            
+            <Route path="/helpcenter" element={<HelpCenter />}>
+              <Route path="write" element={<HelpCenterWrite />} />
             </Route>
           </Routes>
         </div>

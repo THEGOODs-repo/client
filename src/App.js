@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import MainPageComponent from "./Pages/MainPageComponent";
+import MainPageComponent from "./Components/MainPage/MainPageComponent";
 // 마이페이지(고객님)
 import MyPageCustomerComponent from "./Pages/MyPageCustomer";
 import EditProfile from "./Components/myPage/myPage(Customer)/EditProfile";

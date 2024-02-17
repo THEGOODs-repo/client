@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import LeftArrow from '../img/LeftArrow.png';
 import RightArrow from '../img/RightArrow.png';
 import Banner from '../img/banner.svg';
-import NavigationCategoryMenu from '../Components/NavigationMenu/NavigationCategoryMenu';
-import NavigationMenu from '../Components/NavigationMenu/NavigationMenu';
-import ProductCardComponent from '../Components/Global/ProductComponent';
+import NavigationCategoryMenu from '../NavigationMenu/NavigationCategoryMenu';
+import NavigationMenu from '../NavigationMenu/NavigationMenu';
+import ProductCardComponent from '../Global/ProductComponent';
 import { useEffect } from 'react';
-import HeaderComponent from '../Components/Header/Header';
-import CustomHorizontalLine from '../Components/MainPage/HorizontalLineComponent';
+import HeaderComponent from '../Header/Header';
+import CustomHorizontalLine from './HorizontalLineComponent';
 import ArrowCircleRight from '../img/arrow-circle-right.png';
-import BaseFooter from '../Components/Footer/BaseFooter';
+import BaseFooter from '../Footer/BaseFooter';
 
 const PageContainer = styled.div`
     width: 100%;

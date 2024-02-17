@@ -2,15 +2,19 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { setTop10 } from "../../redux/preferenceSlice";
+import { increaseTop10, decreaseTop10 } from "../../redux/preferenceSlice";
 
 export default function PreferenceTop10({ index, name, img }) {
-  const [click, setClick] = useState(null);
+  const [click, setClick] = useState(false);
   const dispatch = useDispatch();
 
-  const onClickHandler = (e) => {
+  const onClickHandler = () => {
     setClick((prevClick) => !prevClick);
-    dispatch(setTop10({ product: !click }));
+    if (!click) {
+      dispatch(increaseTop10(index + 1));
+    } else {
+      dispatch(decreaseTop10(index + 1));
+    }
   };
   return (
     <PreferenceProductContainer onClick={onClickHandler}>
@@ -53,6 +57,7 @@ export default function PreferenceTop10({ index, name, img }) {
     </PreferenceProductContainer>
   );
 }
+
 const PreferenceProductContainer = styled.div`
   display: flex;
   flex-direction: column;

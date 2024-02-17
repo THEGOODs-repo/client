@@ -10,12 +10,11 @@ import categoryIcon from '../../img/menu.png';
 // 스타일링된 컴포넌트를 정의합니다.
 const NavBar = styled.nav`
     display: flex;
-    width : 70vw;
-    justify-content: space-around;
+    width : 70%;
+    justify-content: space-between;
     align-items: center;
     background-color: #FFFFFF;
     height: 60px;
-    padding: 0 20px;
     font-family: NotoSans;
 `;
 
@@ -39,7 +38,6 @@ const Label = styled(Link)`
     font-weight : bold;
     text-decoration: none; /* underline 제거 */
     color: black; /* 글씨 색상 설정 */
-    margin: 0 5px; /* 좌우 여백 추가 */
 `;
 
 function NavigationCategoryMenu() {

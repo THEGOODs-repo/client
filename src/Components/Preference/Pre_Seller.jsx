@@ -2,9 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { setSeller } from "../../redux/preferenceSlice";
+import { increaseSeller, decreaseSeller } from "../../redux/preferenceSlice";
 
 export default function PreferenceSeller({
+  index,
   name,
   profile,
   introduce,
@@ -14,10 +15,15 @@ export default function PreferenceSeller({
   const [click, setClick] = useState(false);
   const dispatch = useDispatch();
 
-  const onClickHandler = (e) => {
+  const onClickHandler = () => {
     setClick((prevClick) => !prevClick);
-    dispatch(setSeller({ product: !click }));
+    if (!click) {
+      dispatch(increaseSeller(index + 1));
+    } else {
+      dispatch(decreaseSeller(index + 1));
+    }
   };
+
   return (
     <PreferenceProductContainer
       onClick={onClickHandler}
@@ -68,6 +74,7 @@ export default function PreferenceSeller({
     </PreferenceProductContainer>
   );
 }
+
 const PreferenceProductContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -2,15 +2,18 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { setProduct } from "../../redux/preferenceSlice";
-
+import { increaseProduct, decreaseProduct } from "../../redux/preferenceSlice";
 export default function PreferenceProduct({ index, name, img }) {
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
 
   const onClickHandler = () => {
     setClick((prevClick) => !prevClick);
-    dispatch(setProduct({ product: !click }));
+    if (!click) {
+      dispatch(increaseProduct(index + 1));
+    } else {
+      dispatch(decreaseProduct(index + 1));
+    }
   };
 
   return (
@@ -42,6 +45,7 @@ export default function PreferenceProduct({ index, name, img }) {
     </PreferenceProductContainer>
   );
 }
+
 const PreferenceProductContainer = styled.div`
   display: flex;
   width: 280px;

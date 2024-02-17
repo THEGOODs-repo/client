@@ -12,7 +12,13 @@ import HeaderComponent from '../Header/Header';
 import CustomHorizontalLine from './HorizontalLineComponent';
 import ArrowCircleRight from '../img/arrow-circle-right.png';
 import BaseFooter from '../Footer/BaseFooter';
+import axios from 'axios';
 
+
+const StyledLink = styled(Link)`
+   color : black;
+   text-decoration: none; 
+`
 const PageContainer = styled.div`
     width: 100%;
     min-width: 1200px;
@@ -103,21 +109,23 @@ const MoreContainer = styled.div`
 
 `
 
-const products = [
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 }
-];
+// const products = [
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 }
+// ];
 
 function MainPageComponent() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [productList,setProductList] = useState([]);
+
     const bannerRef = useRef(null);
 
     const handlePrevSlide = () => {
@@ -154,6 +162,16 @@ function MainPageComponent() {
             setCurrentIndex(currentIndex + 1);
         }
     };
+    useEffect(() => {
+        axios.get('/api/item/main?type=popular&page=1') //ENDPOINT작성
+            .then(response => {
+                console.log(response.data['result']);
+                setProductList(response.data['result']['itemList'])
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     useEffect(() => {
         bannerRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -206,9 +224,12 @@ function MainPageComponent() {
                     </SubInfoContainer>
                     <CustomHorizontalLine />
                     <MainContent>
-                        {products.map((product, index) => (
-                            <ProductCardComponent key={index} product={product} />
+                        {productList.map((product) => (
+                            <StyledLink to={`/product/${product.itemId}`} key={product.itemId}>
+                                <ProductCardComponent product={product} />
+                            </StyledLink>
                         ))}
+
                     </MainContent>
                 </div>
             ))}

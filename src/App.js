@@ -22,9 +22,12 @@ import MyReviewSeller from "./Components/myPage/myPage(Seller)/MyReviewSeller";
 import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 // 선호도 조사
 import Preference from "./Pages/Preference";
+import PreferenceResultPage from "./Pages/PreferenceResult";
+
 // 포스트
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
+
 // 로그인
 import Login from "./Pages/Login";
 import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
@@ -53,7 +56,12 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference" element={<Preference />} />
-            <Route path="/product" element={<ProductPageComponent />} />
+            <Route
+              path="/preference/result"
+              element={<PreferenceResultPage />}
+            />
+            {/* <Route path="/*" element={<Post />} /> */}
+            <Route path="/product/:id" element={<ProductPageComponent />} />
             
             <Route path="/posting" element={<Post />} />
             
@@ -81,6 +89,49 @@ function App() {
             </Route>
             
             <Route path="/seller" element={<Seller />} />
+            <Route path="/shoppingList" element={<ShoppingList/>}/>
+            {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
+            <Route path="/mypage" element={<MyPageCustomerComponent />}>
+              <Route path="/mypage/EditProfile" element={<EditProfile />} />
+              <Route
+                path="/mypage/ManagePurchase"
+                element={<ManagePurchase />}
+              />
+              <Route
+                path="/mypage/ManageShippingRefund"
+                element={<ManageShippingRefund />}
+              />
+              <Route
+                path="/mypage/NotificationSettings"
+                element={<NotificationSettings />}
+              />
+              <Route
+                path="/mypage/PasswordChange"
+                element={<PasswordChange />}
+              />
+              <Route
+                path="/mypage/MemberWithdrawal"
+                element={<MemberWithdrawal />}
+              />
+            </Route>
+            <Route path="/login/*" element={<Login />} />
+            <Route
+              path="/api/members/kakao/callback"
+              element={<KakaoLoginHandler />}
+            />
+            <Route
+              path="/api/members/naver/callback"
+              element={<NaverLoginHandler />}
+            />
+            <Route path="/register">
+              <Route path="/register" element={<Register />} />
+              <Route path="/register/form" element={<RegisterForm />} />
+              </Route>
+            <Route path="/login">
+              <Route path="" element={<Login />} />
+              <Route path="/login/findemail" element={<FindEmail />} />
+              <Route path="/login/resetpw" element={<FindPassWord />} />
+              <Route path="/login/guest" element={<FindGuestOrder />} />
             <Route path="/shoppingList" element={<ShoppingList />} />
             
             <Route path="/login/*" element={<Login />} />

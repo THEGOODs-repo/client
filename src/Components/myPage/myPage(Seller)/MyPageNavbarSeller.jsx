@@ -85,7 +85,7 @@ export default function MyPageNavbarSeller() {
         <LinkPage to="/mypageSeller/ProfitSeller">
           <h2>수익금 내역</h2>
         </LinkPage>
-        <LinkPage to="/Preference">
+        <LinkPage to="">
           <h2>멤버십 신청</h2>
         </LinkPage>
         <hr />

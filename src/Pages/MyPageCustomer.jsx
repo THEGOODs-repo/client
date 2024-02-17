@@ -2,13 +2,15 @@ import styled from "styled-components";
 import MyPageNavbar from "../Components/myPage/myPage(Customer)/MyPageNavbar";
 import { Outlet } from "react-router-dom";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
+import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
+
 
 function MyPageCustomerComponent() {
   return (
     <PageContainer>
       <NavWrapContainer>
-<NavigationMenu />
-      
+        <NavigationMenu />
+        <NavigationCategoryMenu />
       </NavWrapContainer>
       <MyPageContainer>
         <MyPageNavbar />
@@ -23,7 +25,8 @@ const NavWrapContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; 
+    margin-bottom : 50px;
+    margin-top : 50px;
 `;
 const PageContainer = styled.div`
   display: flex;

@@ -136,11 +136,12 @@ const ButtonContainer = styled.div`
     margin-top: 10px;
     display: flex;
     justify-content: center;
+    padding : 10px;
 `;
 
 const Button = styled.button`
     width: 100%;
-    padding: 10px 20px;
+    padding: 20px 20px;
     color: ${props => props.color || "black"};
     background-color: ${props => props.background || "#F0C920"};
     border: 2px solid ${props => props.border || "transparent"};

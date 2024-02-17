@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import X from "../../img/x.png";
+import CustomButton from '../Register/CustomButton';
+
 const OrderModificationModal = ({options, onClose}) => {
   const [selectedOptions, setSelectedOptions] = useState(options);
   const [localSelectedOptions, setLocalSelectedOptions] = useState(selectedOptions.map(option => ({ ...option, isChecked: false })));
-
+  
   const handleOptionAmountChange = (index, amount) => {
     const newOptions = [...selectedOptions];
     newOptions[index].amount = amount;
     setSelectedOptions(newOptions);
   };
-  const handleInputChange = (event, index) => {
-    let newAmount = event.target.value.replace(/\D/, ''); // 숫자 이외의 문자는 제거
-    newAmount = Math.max(parseInt(newAmount, 10), 1); // 최소 수량을 1개로 설정
-    handleOptionAmountChange(index, newAmount);
-  };
+
   const handleDecreaseAmount = (index) => {
     const newAmount = Math.max(selectedOptions[index].amount - 1, 1);
     handleOptionAmountChange(index, newAmount);
@@ -49,7 +47,7 @@ const OrderModificationModal = ({options, onClose}) => {
 
 
   return (
-    <ModalOverlay onClick={onClose}>
+    <ModalOverlay>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
         <div style={{display:'flex'}}>
         <Title>주문 수정</Title>
@@ -57,27 +55,24 @@ const OrderModificationModal = ({options, onClose}) => {
         <Divider />
         <Container>
           <OptionContainer>
-          
-            <Checkbox
-              id="selectAllCheckbox" // htmlFor과 동일한 ID를 설정합니다.
-              checked={selectedOptions.every(option => option.isChecked)}
-              onChange={handleToggleAllOptions}
-            />
-            <label htmlFor="selectAllCheckbox">전체 선택</label>
+            
+              <CustomButton  state={selectedOptions.every(option => option.isChecked)} onChange={()=>handleToggleAllOptions((selectedOptions)=>!selectedOptions)} index="selectedOptions" label="전체 선택"/> 
+            
             <DeleteButton onClick={handleDeleteSelectedOptions}>X 선택 삭제</DeleteButton>
           </OptionContainer>
           {selectedOptions.map((option, index) => (
             <OptionContainer key={index}>
               <OptionItem>
-                <Checkbox checked={option.isChecked} onChange={() => handleToggleOption(index)} />
+                <CheckPosition>
+                <CustomButton  state={option.isChecked} onChange={() => handleToggleOption(index)} index={index} label="" /> 
+                </CheckPosition>
+                <div style={{width:'20vw'}}>
                 <OptionName>{option.optionName}</OptionName>
+                </div>
                 <QuantityControl>
                   <Button onClick={() => handleDecreaseAmount(index)}>-</Button>
-                  <AmountInput
-                    type="text"
-                    value={option.amount}
-                    onChange={(e) => handleInputChange(index, e.target.value)}
-                  />
+                  <AmountInput><span style={{marginTop:'9px'}}>{option.amount}</span></AmountInput>
+                  
                   <Button onClick={() => handleIncreaseAmount(index)}>+</Button>
                 </QuantityControl>
               </OptionItem>
@@ -144,13 +139,13 @@ const DeleteButton = styled.button`
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   width:7vw;
-  padding:7px;
+  padding:6px;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 1vw;
   text-align: center;
-  margin-left: 16.5vw;
+  margin-left: 16.6vw;
   color: #888888;
   background : white; 
   border: 1.5px solid rgba(156, 156, 156, 0.8);
@@ -163,10 +158,11 @@ const OptionItem = styled.div`
   border: 1px solid #9C9C9C;
   border-radius: 2px;
   width:30vw;
+  padding:2px;
 `;
 
 const OptionName = styled.p`
-  margin-right: 8px;
+  margin-right: 0px;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
@@ -175,15 +171,16 @@ const OptionName = styled.p`
   color: #52555B;
 `;
 
-const AmountInput = styled.input`
+const AmountInput = styled.div`
   width: 2vw;
   height: 3vh;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border-top: 1px solid rgba(32, 33, 35, 0.8);
+  border-bottom: 1px solid rgba(32, 33, 35, 0.8);
   text-align: center;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
+  line-height: 3vh;
   font-size: 1vw;
   color: #202123;
 `;
@@ -214,7 +211,7 @@ const Divider = styled.hr`
 `;
 const QuantityControl =styled.div`
   display:flex;
-  margin-left:16vw;
+  margin-left:0vw;
 `;
 const Button = styled.div`
   width: 1.5vw;
@@ -223,22 +220,6 @@ const Button = styled.div`
   border: 1px solid rgba(32, 33, 35, 0.8);
 
 `;
-const Checkbox = ({ checked, onChange }) => (
-  <StyledCheckbox type="checkbox" checked={checked} onChange={onChange} />
-);
-
-const StyledCheckbox = styled.input.attrs({ type: 'checkbox' })`
-width: 1.2vw;
-height: 1.2vw;
-background: #fff;
-border: 1px solid #9c9c9c;
-//transition: background-color 0.3s ease;
-display: flex;
-align-items: center;
-justify-content: center;
-margin-left: 5px;
-margin-right: 5px;
-border-radius: 2px;
-accent-color:#F0C920;
-
-`;
+const CheckPosition = styled.div`
+  margin-left:1vw;
+`

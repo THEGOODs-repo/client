@@ -10,74 +10,86 @@ const ShoppingList = () => {
   const token = useSelector((state)=>state.login.token);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedItemCount, setSelectedItemCount] = useState(0);
-  // const [cartData, setCartData] = useState([]);
+  const [cartData, setCartData] = useState([]);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const header={"content-type":"application-json",Authorization: `Bearer ${token}`};
-  //     const response = await axios.get("/api/cart",header);
-  //     console.log(response);
-  //     setCartData(response.data.result.cartViewDTOList);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
+  const fetchData = async () => {
+    try {
+      const header={headers:{"Content-Type":"application/json",Authorization: `Bearer ${token}`}};
+      const response = await axios.get("/api/cart",header);
+      console.log(response);
+      setCartData(response.data.result.cartViewDTOList);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
   
-  const cartData = [
-    {
-      sellerName: "아아아아아아아아아아아",
-      itemName: "뉴진스 포카아아아아아아아아아아아ㅏ",
-      itemImg: IU,
-      deliveryFee: 3000,
-      cartDetailViewDTOList: [
-        {
-          optionName: "해린 포카",
-          price: 1000,
-          amount: 1,
-        },
-        {
-          optionName: "민지 포카",
-          price: 2000,
-          amount: 6,
-        },
-        {
-          optionName: "하니 포카",
-          price: 3000,
-          amount: 3,
-        },
-      ],
-    },
-    {
-      sellerName: "test_seller",
-      itemName: "아이브 포카",
-      itemImg: "img url",
-      deliveryFee: 2000,
-      cartDetailViewDTOList: [
-        {
-          optionName: "원영 포카",
-          price: 1000,
-          amount: 3,
-        },
-      ],
-    },
-    {
-      sellerName: "test_seller",
-      itemName: "카리나 포카",
-      itemImg: IU ,
-      deliveryFee: 3000,
-      cartDetailViewDTOList: [
-        {
-          optionName: null,
-          price: 3000,
-          amount: 1,
-        },
-      ],
-    },
-  ];
+  // const cartData = [
+  //   {
+  //     sellerName: "아아아아아아아",
+  //     itemName: "뉴진스 포카아아아아아아아ㅇ러ㅏ아아아ㅏ",
+  //     itemImg: IU,
+  //     deliveryFee: 3000,
+  //     cartDetailViewDTOList: [
+  //       {
+  //         optionName: "해린 포카",
+  //         price: 1000,
+  //         amount: 1,
+  //       },
+  //       {
+  //         optionName: "민지 포카",
+  //         price: 2000,
+  //         amount: 6,
+  //       },
+  //       {
+  //         optionName: "하니 포카",
+  //         price: 3000,
+  //         amount: 3,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     sellerName: "test_seller",
+  //     itemName: "아이브 포카",
+  //     itemImg: "img url",
+  //     deliveryFee: 2000,
+  //     cartDetailViewDTOList: [
+  //       {
+  //         optionName: "원영 포카",
+  //         price: 1000,
+  //         amount: 3,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     sellerName: "test_sellerfjkdjfkljkjklsdjfklsdjklsjdfklj",
+  //     itemName: "카리나 포카lllllkjkjkjkjkjkjljdskljljljsdfkljljljlsdfjklj",
+  //     itemImg: IU ,
+  //     deliveryFee: 3000,
+  //     cartDetailViewDTOList: [
+  //       {
+  //         optionName: null,
+  //         price: 3000,
+  //         amount: 1,
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  
+  const handleTotalPriceChange = (price, isChecked) => {
+    setTotalPrice(prevPrice => {
+      if (isChecked) {
+        return prevPrice + price; // 체크된 상품의 가격을 추가
+      } else {
+        return prevPrice - price; // 체크가 해제된 상품의 가격을 제외
+      }
+    });
+  };
+
     const handleOrderButtonClick = () => {
       console.log("선택한 상품 수:", selectedItemCount);
     };
@@ -134,32 +146,32 @@ const Container = styled.div``;
 
 const Header = styled.div`
   display: flex;
+  height:${75/19.2}vw;
 `;
 
 const Title = styled.p`
   position: display;
-  margin-left: 20%;
+  margin-left: ${405/19.2}vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 1.8vw;
+  font-size: ${26/19.2}vw;
   color: #202123;
-  margin-top: 2vw;
 `;
 
 const Breadcrumb = styled.div`
   display: flex;
-  margin-left:40vw
+  margin-left:${846/19.2}vw
 `;
 
 const Item = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1.2vw;
+  font-size: ${24/19.75}vh;
   color: #9C9C9C;
-  margin-top: 2.5vw;
   text-align: center; 
+  margin-top:3vh;
 `;
 
 const BoldItem = styled(Item)`
@@ -168,43 +180,27 @@ const BoldItem = styled(Item)`
 `;
 
 const Arrow = styled.img`
-  width:2vw;
-  height:2vw;
+  width:${24/19.2}vw;
+  height:${24/19.2}vw;
+  margin-top: 0.8vh;
 `;
 
 const ArrowParent = styled.div`
-  margin-top:2vw;
+  margin-top:1vw;
 `
 
 const Divider = styled.hr`
   border: 1px solid #ddd;
-  margin: 0 10px;
+  margin: 0 0;
 `;
 
-const Deletebutton = styled.div`
-  display: inline-block;
-  box-sizing: border-box;
-  width: 5vw;
-  height: 2vw;
-  margin-left: 53vw;
-  margin-bottom: 0.5vw;
-  border: 1px solid rgba(156, 156, 156, 0.5);
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.2vw;
-  line-height: 2vw;
-  text-align: center;
-  color: #888888;
-`
+
 const BottomExplain = styled.div`
   font-family: 'Noto Sans';
   border-radius: 10px;
   background: #f4f4f5;
-  width: 60vw;
-  margin-left: 20vw;
+  width: 51vw;
+  margin-left: 25vw;
   margin-top: 10px;
   padding:0.3vw;
   padding-left:2vw;
@@ -215,14 +211,14 @@ const BottomExplain = styled.div`
 const Order = styled.div`
   margin-top:10px;
   background:#F0C920;
-  height: 8vw;
+  height: 12vh;
   display:flex;
 `
 
 const TotalPrice = styled.p`
   position: display; 
-  margin-left: 50vw;
-  margin-top: 3vw;
+  margin-left: 48vw;
+  margin-top: 4vh;
   color:#fff;
   font-family: 'Noto Sans';
   font-style: normal;
@@ -242,16 +238,16 @@ const OrderButton = styled.button`
   position: absolute;
   background-color: #ffffff;
   color: black;
-  margin-left:67vw;
+  margin-left:65vw;
   border: none;
   border-radius: 5px;
   margin-top: 2vw;
-  height: 4vw;
-  width: 15vw;
+  height: 3vw;
+  width: 13vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
   padding-right: 2vw;
 `;
 
@@ -266,21 +262,3 @@ const ItemCount = styled.button`
   margin-bottom: 10px;
   margin-left: 0.5vw;
 `
-
-const checkboxStyle={
-  width: '1.2vw',
-  height: '1.2vw',
-  backgroundColor:'#fff',
-  accentColor: '#F0C920',
-  marginLeft:'20%',
-  marginTop:'10px',
-  marginBottom:'10px',
-}
-const labelStyle={
-  position:'absolute',
-  fontWeight: '700',
-  color: '#202123',
-  fontSize:'1.2vw',
-  padding:'10px',
-  marginBottom:'1vw',
-}

@@ -5,7 +5,7 @@ import plusimg from "../../img/Plus.png"
 import Checkbox from './CheckBox';
 import OrderModificationModal from "./OrderModificationModal";
 import CustomButton from "../Register/CustomButton";
-const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliveryFee, isChecked }) => {
+const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isChecked }) => {
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(isChecked);
@@ -19,12 +19,20 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
   const handleCheckboxChange = (event) => {
     setIsCheckedAll(event.target.checked);
     setIsCheckboxChecked(event.target.checked);
+    
   };
 
   const handleModifyOrderClick = () => {
     setIsModalOpen(true);
   };
-
+  // 각 옵션의 가격과 개수를 곱하여 합산하는 함수
+  const calculateOptionTotalPrice = () => {
+    let totalPrice = 0;
+    options.forEach(option => {
+      totalPrice += option.price * option.amount;
+    });
+    return totalPrice;
+  };
   // 옵션이 있는지 여부 확인
   const hasOptions = options.some(option => option.optionName !== null);
   const firstItem = options[0];
@@ -36,7 +44,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
       <Form>
         <SellerBox>
           <Check>
-            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index="isCheckedAll" label=""/> 
+            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index={itemName} label=""/> 
 
           </Check>
           <SellerName>{sellerName}</SellerName>
@@ -46,7 +54,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
         {hasOptions ? (
           <ProductForm>
             <Check2>
-            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index="isCheckedAll" label=""/> 
+            <CustomButton  state={isCheckedAll} onChange={handleCheckboxChange} index={itemName} label="" /> 
             </Check2>
             <ItemImg src={itemImg} alt={itemName}/>
             <OptionSellerItem>
@@ -65,12 +73,13 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
           <>
             <NoOptionProductForm>
               <Check2>
-                <Checkbox label="" checked={isCheckedAll} onChange={handleCheckboxChange}></Checkbox>
+            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index={itemName} label=""/> 
               </Check2>
-              <ItemImg src={itemImg} alt={itemName}/>
+              <ItemImg2 src={itemImg} alt={itemName}/>
               <NameBox>
-                <SellerName2>{sellerName}</SellerName2>
-                <ItemName2>{itemName}</ItemName2>
+                <div style={{marginTop:'2vh'}}>
+                <SellerName2>{sellerName}</SellerName2></div>
+                <ItemName>{itemName}</ItemName>
               </NameBox>
               <PriceText><Text>{firstItemPrice}원</Text></PriceText>
               <AmountText><Text>{firstItemAmount}개</Text></AmountText>
@@ -99,7 +108,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
           <PriceBox>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Price>상품 금액</Price>
-              <Price>{totalPrice}원</Price>
+              <Price>{calculateOptionTotalPrice()}원</Price>
             </div>
             <Plus src={plusimg}></Plus>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -108,7 +117,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, totalPrice, deliv
             </div>
           </PriceBox>
           <MarketPriceBox>
-            <MarketPrice1>주문금액 <MarketPrice>{totalPrice + deliveryFee}원</MarketPrice></MarketPrice1>
+            <MarketPrice1>주문금액 <MarketPrice>{calculateOptionTotalPrice() + deliveryFee}원</MarketPrice></MarketPrice1>
             <OptionOrder onClick={() => isCheckboxChecked && console.log("click")} isActive={isCheckedAll}>
               {sellerName} 0건 주문하기
             </OptionOrder>
@@ -162,82 +171,80 @@ const ProductForm = styled.div`
   margin-bottom:1vw;
 `
 const ItemImg = styled.img`
-  width: 10vw;
-  height: 10vw;
+  width: 6.5vw;
+  height: 6.5vw;
   margin-left: 1vw;
+`
+const ItemImg2 = styled.img`
+  width: 6.5vw;
+  height: 6.5vw;
+  margin-left: 1vw;
+  margin-top:1.5vh;
 `
 const ItemName = styled.div`
   margin-left:0vw;
-  margin-top:0vw;
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.3vw;
-  color: #202123;
-`
-const ItemName2 = styled.div`
-  margin-left:1vw;
-  margin-top:2vh;
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.3vw;
-  color: #202123;
-`
-const Divider = styled.hr`
-  border: 0.5px solid #202123;
-  margin-bottom: 1vw;
-  margin-top: -1vw;
-`;
-const Divider2 = styled.hr`
-  border: 0.5px solid #202123;
-
-`;
-const OptionSellerItem = styled.div`
-  
-margin-left: 1vw;
-`
-const SellerName2 = styled.p`
-  //flex-direction: column;
-  
-  width: 25vw;
-  //margin-left: 1vw;
-  //margin-top: 1vh;
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  color: #9C9C9C;
-`
-const ModifyOrder = styled.button`
-  box-sizing: border-box;
-  width: 5vw;
-  height: 2vw;
-  border: 1px solid rgba(156, 156, 156, 0.5);
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
-  margin-left: 1vw;
-  margin-top: 4vw;
+  margin-top:-0.5vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 1vw;
+  color: #202123;
+`
+const Divider = styled.hr`
+  border: 1px solid #202123;
+  margin-bottom: 1vw;
+  margin-top: -1vw;
+`;
+const Divider2 = styled.hr`
+  border: 0.5px solid #9C9C9C;
+  margin-top: -1vw;
+`;
+
+const OptionSellerItem = styled.div`
+  width:30vw;
+  padding:1vw;
+`
+const SellerName2 = styled.p`
+  //flex-direction: column;
+  
+  width: 13vw;
+  //margin-left: 1vw;
+  margin-top: -1vh;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: #9C9C9C;
+`
+const ModifyOrder = styled.button`
+  box-sizing: border-box;
+  width: 4.5vw;
+  height: 2vw;
+  border: 1px solid rgba(156, 156, 156, 0.5);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  margin-left: 2vw;
+  margin-top: 4vh;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.9vw;
   color: #888888;
   background:#FEFDFD;
 `
 const ModifyOrder2 = styled.button`
   box-sizing: border-box;
-  width: 5vw;
+  width: 4.5vw;
   height: 2vw;
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  margin-left: 3vw;
-  margin-top: 8vh;
+  margin-left: 2vw;
+  margin-top: 5.5vh;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1vw;
+  font-size: 0.9vw;
   color: #888888;
   background:#FEFDFD;
 `
@@ -246,19 +253,19 @@ const OptionForm = styled.div`
   display:flex;
   padding-left: 2vw;
   margin-left: 3vw;
-  width: 42vw;
-  height: 5vw;
+  width: 45vw;
+  height: 6vh;
   border-bottom: 1px solid rgba(156, 156, 156, 0.5);
   background: rgba(156, 156, 156, 0.08);
   border-radius: 5px 5px 0px 0px;
 
 `
 const OptionText = styled.div`
-  margin-top: 2vw;
+  margin-top: 2vh;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1.1vw;
+  font-size: 1vw;
   color: #202123;
   text-align: center;
 `
@@ -266,18 +273,18 @@ const OptionText = styled.div`
 const PriceBox = styled.div`
   display:flex;
   border-right: 0.5px solid black;
-  margin-top: 5vh;
-  margin-left: 4vw;
-  width: 15vw;
-  height: 8vh;
+  margin-top: 3vh;
+  margin-left: 8vw;
+  width: 14vw;
+  height: 6vh;
 `
 const Price = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 0.9vw;
-  line-height:0.3vw;
-  margin-top:1.5vh;
+  line-height:0.5px;
+  margin-top:1.4vh;
   color: #202123;
 `
 const Plus=styled.img`
@@ -290,18 +297,18 @@ const Plus=styled.img`
 const MarketPriceBox = styled.div`
   display:flex;
   width: 30vw;
-  margin-top: 5vh;
-  margin-left: 2vw;
+  margin-top: 2vh;
+  margin-left: 1.5vw;
   height: 8vh;
 `
 
 const MarketPrice = styled.p`
-  margin-left: 1vw;
+  margin-left: 0.5vw;
   display:flex;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 1vw;
+  font-size: 0.9vw;
   margin-top: 0vh;
   color: #F0C920;
 `
@@ -310,15 +317,16 @@ const MarketPrice1 = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 1vw;
+  font-size: 0.9vw;
   margin-top:3vh;
   color: #202123;
 `
 const OptionOrder = styled.button`
   box-sizing: border-box;
-  width: 15vw;
-  height: 8vh;
+  width: 13vw;
+  height: 5vh;
   margin-left:2vw;
+  margin-top:1.5vh;
   background: ;
   background-color: ${(props) => (props.isActive ? "#F0C920" : "rgba(156, 156, 156, 0.8)")};
   border: 1px solid rgba(156, 156, 156, 0.5);
@@ -327,44 +335,49 @@ const OptionOrder = styled.button`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  //font-size: 15px;
   line-height: 20px;
   color: #FFFFFF;
-
+  padding :1px;
 `
 const Check = styled.div`
-  margin-top:0.5vw;
+  margin-top:0vw;
 `
 const Check2 = styled.div`
-  margin-top:5vw;
+  margin-top:2vw;
 `
 const NoOptionProductForm = styled.div`
   display: flex;
   border-bottom: 1px soild #000;
   border-top: 1px soild #ccc;
   margin-bottom:1vw;
+  margin-top:-1vw;
 `
 const NameBox = styled.div`
   position : relative;
-  width:18vw;
+  width:13vw;
   border-right: 0.5px solid black;
+  overflow-wrap: break-word; 
+  padding: 1vw;
+  height:11vh;
+//margin-left: 1vw;
 `
 const PriceText = styled.div`
-  width:12vw;
-  border-right: 0.5px solid black;
+  width:8.5vw;
+  border-right: 0.5px solid #9C9C9C;
 `
 const AmountText =styled.div`
-  width:10vw;
-  border-right: 0.5px solid black;
+  width:8.5vw;
+  border-right: 0.5px solid #9C9C9C;
 `
 const Text = styled.p`
 
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1vw;
+  font-size: 0.9vw;
   text-align: center;
-  margin-top:9vh;
+  margin-top:6.5vh;
   color: #202123;
 
 `

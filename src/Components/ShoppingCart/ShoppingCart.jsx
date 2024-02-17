@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import ProductItem from './ProductItem';
 import styled from "styled-components";
 import arrow from "../../img/chevron-right.png";
-import Checkbox from './CheckBox';
+
 import CustomButton from '../Register/CustomButton';
 const ShoppingCart = ({ cartItems }) => {
   const [isChecked, setIsChecked] = useState(false);
-
-  // 전체 선택 상태 변경 핸들러
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked); // 전체 선택 상태를 토글
-  };
+  
 
   // 장바구니가 비어있을 때 처리
   if (cartItems.length === 0) {
@@ -48,11 +44,12 @@ const ShoppingCart = ({ cartItems }) => {
     <div>
       {cartItems.length > 0 && (
         <>
-          <div style={{display:"flex", marginLeft:'19.5%', marginTop:'10px', marginBottom:'0px',}}>
+        <div style={{display:'flex'}}>
+          <CheckBoxPosition>
             <CustomButton  state={isChecked} onChange={()=>setIsChecked((isChecked)=>!isChecked)} index="isChecked" label="전체 선택"/> 
-            
+          </CheckBoxPosition> 
             <Deletebutton>X 삭제</Deletebutton>
-          </div>
+        </div>
           <Divider />
         </>
       )}
@@ -104,7 +101,6 @@ const EmptyCart2=styled.p`
   color: #52555B;
 `;
 const ContinueShopping = styled.button`
-  
   margin-left:45vw;
   width:11vw;
   height: 3vw;
@@ -132,13 +128,16 @@ const Divider = styled.hr`
   border: 1px solid #ddd;
   margin: 0 10px;
 `;
-
+const CheckBoxPosition = styled.div`
+  margin-left:${405/19.2}vw;
+  height:${45/19.2}vw;
+`
 const Deletebutton = styled.div`
   display: inline-block;
   box-sizing: border-box;
   width: 5vw;
-  height: 2vw;
-  margin-left: 53vw;
+  height: 1.8vw;
+  margin-left: 0vw;
   margin-bottom: 0.5vw;
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
@@ -146,8 +145,8 @@ const Deletebutton = styled.div`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1.2vw;
-  line-height: 2vw;
+  font-size: 1vw;
+  line-height: 1.8vw;
   text-align: center;
   color: #888888;
 `

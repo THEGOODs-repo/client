@@ -1,16 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import LeftArrow from '../img/LeftArrow.png';
-import RightArrow from '../img/RightArrow.png';
-import Banner from '../img/banner.svg';
+import LeftArrow from '../../img/LeftArrow.png';
+import RightArrow from '../../img/RightArrow.png';
+import Banner from '../../img/banner.svg';
 import NavigationCategoryMenu from '../NavigationMenu/NavigationCategoryMenu';
 import NavigationMenu from '../NavigationMenu/NavigationMenu';
 import ProductCardComponent from '../Global/ProductComponent';
 import { useEffect } from 'react';
 import HeaderComponent from '../Header/Header';
 import CustomHorizontalLine from './HorizontalLineComponent';
-import ArrowCircleRight from '../img/arrow-circle-right.png';
+import ArrowCircleRight from '../../img/arrow-circle-right.png';
 import BaseFooter from '../Footer/BaseFooter';
 import axios from 'axios';
 
@@ -33,6 +33,7 @@ const MainContent = styled.div`
     justify-items: center;
     align-items: center;
     padding: 20px; /* 여백 추가 */
+    width : 88%;
 `;
 
 const NavWrapContainer = styled.div`
@@ -92,22 +93,39 @@ const MainWrapContent =styled.div`
     justify-content : center;
     align-items : center;
     flex-direction : column;
+    width : 100%;
 `
 const SubInfoContainer = styled.div`
     margin-top : 50px;
     padding-top : 50px;
-    width : 100%;
+    width : 87%;
     display : flex;
     justify-content : space-between;
-    margin : 0 auto;
     align-items: center;
 `
 const MoreContainer = styled.div`
     display : flex;
     align-items : center;
     width : 5vw;
+    margin-left : 100px;
 
 `
+const TotalContainer = styled.div`
+    width : 75%;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items: center;
+`
+const SubInfoWrapContainer = styled.div`
+
+    width : 100%;
+    display :flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+`
+
 
 // const products = [
 //     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
@@ -190,6 +208,7 @@ function MainPageComponent() {
             <HeaderComponent />
             <NavWrapContainer>
                 <NavigationMenu />
+                <div style={{ borderBottom: '1px solid #9C9C9C', width:'100%',height:'3px' }}></div>
                 <NavigationCategoryMenu />
             </NavWrapContainer>
             <PageContainer>
@@ -214,24 +233,25 @@ function MainPageComponent() {
                 </BannerWrapContainer>
                 <MainWrapContent>
             {subInfoTitles.map((title, index) => (
-                <div key={index}>
-                    <SubInfoContainer>
-                        <h2>{title}</h2>
-                        <MoreContainer>
-                            <p>더보기</p>
-                            <img src={ArrowCircleRight} alt="" width="30px" height="30px"/>
-                        </MoreContainer>
-                    </SubInfoContainer>
-                    <CustomHorizontalLine />
+                <TotalContainer key={index}>
+                    <SubInfoWrapContainer>
+                        <SubInfoContainer>
+                            <h2>{title}</h2>
+                            <MoreContainer>
+                                <p>더보기</p>
+                                <img src={ArrowCircleRight} alt="" width="30px" height="30px"/>
+                            </MoreContainer>
+                        </SubInfoContainer>
+                        <CustomHorizontalLine />
+                    </SubInfoWrapContainer>
                     <MainContent>
                         {productList.map((product) => (
                             <StyledLink to={`/product/${product.itemId}`} key={product.itemId}>
                                 <ProductCardComponent product={product} />
                             </StyledLink>
                         ))}
-
                     </MainContent>
-                </div>
+                </TotalContainer>
             ))}
         </MainWrapContent>
             </PageContainer>

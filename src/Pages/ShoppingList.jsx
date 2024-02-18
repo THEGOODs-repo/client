@@ -3,12 +3,20 @@ import arrow from"../img/chevron-right.png";
 import styled from "styled-components";
 import ShoppingCart from "../Components/ShoppingCart/ShoppingCart";
 import IU from "../img/iu.png";
+import Checkbox from "../Components/ShoppingCart/CheckBox";
 const ShoppingList = () =>{
 
     const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태를 저장하는 상태 변수
     const [totalPrice, setTotalPrice] = useState(0); // 선택한 제품의 총 합을 저장하는 상태 변수
     const [selectedItemCount, setSelectedItemCount] = useState(0); // 선택한 제품 수를 저장하는 상태 변수
   
+    const [isChecked, setIsChecked] = useState(false);
+
+    // 체크박스 상태 변경 핸들러
+    const handleCheckboxChange = (event) => {
+      setIsChecked(event.target.checked);
+    };
+
     // 전체 선택 체크박스가 변경될 때 호출되는 함수
     const handleSelectAllChange = () => {
       setSelectAll(!selectAll); // 전체 선택 상태를 토글
@@ -88,18 +96,10 @@ const ShoppingList = () =>{
       
       {cartData.length > 0 && (
         <>
-          <input
-            type="checkbox"
-            style={checkboxStyle}
-            id="selectAll"
-            checked={selectAll}
-            onChange={handleSelectAllChange}
-          />
-          <label style={labelStyle} htmlFor="selectAll">
-            전체 선택
-          </label>
+        <div style={{display:"flex", marginLeft:'20%', marginTop:'10px', marginBottom:'0px',}}>
+          <Checkbox label="전체 선택" checked={isChecked} onChange={handleCheckboxChange}></Checkbox> 
           <Deletebutton>X 삭제</Deletebutton>
-
+        </div>
           <Divider />
           </>
       )}
@@ -112,8 +112,7 @@ const ShoppingList = () =>{
           <BottomExplain>
             <p>· 장바구니 상품은 최대 30일간 저장됩니다.</p>
             <p>· 장바구니에는 최대 50개까지 상품을 담으실 수 있습니다.</p>
-            <p>
-              · 상품이 50개가 넘으면 가장 먼저 담았던 상품이 찜 목록으로
+            <p>· 상품이 50개가 넘으면 가장 먼저 담았던 상품이 찜 목록으로
               이동됩니다.
             </p>
           </BottomExplain>
@@ -189,7 +188,7 @@ const Deletebutton = styled.div`
   box-sizing: border-box;
   width: 5vw;
   height: 2vw;
-  margin-left: 56vw;
+  margin-left: 53vw;
   margin-bottom: 0.5vw;
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);

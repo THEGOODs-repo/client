@@ -46,7 +46,10 @@ const SearchInput = styled.input`
   &::placeholder {
     font-family: NotoSans;
     font-weight: bold;
-    color: #9c9c9c;
+    color: #9C9C9C;
+    display : flex;
+    justify-content : flex-start;
+    align-items : center;
   }
 `;
 
@@ -114,6 +117,9 @@ const CustomDropdownIndicator = (props) => {
     </DropdownIndicator>
   );
 };
+const StyledLink = styled.a`
+  text-decoration : none;
+`
 
 const IconWrapper = styled.div`
   width: ${82 / 19.2}vw;
@@ -123,6 +129,11 @@ const IconWrapper = styled.div`
   align-items: center;
   margin: ${14 / 19.2}vw 0 ${5 / 19.2}vw 0;
 `;
+const IconWrapContainer =styled.div`
+  display:flex;
+  align-items: center;
+  margin-right : 34px;
+`
 
 const LogoWrapper = styled.img`
   width: ${213 / 19.2}vw;
@@ -139,15 +150,25 @@ const IconStyle = {
 };
 
 const NavigationMenu = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState('');
+  const [tag,setTag] = useState('상품');
+  const navigate = useNavigate(
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
+  const handleKeyWordTag = (selectedOption) => {
+    setTag(selectedOption.value);
+  };
   const handleSearch = () => {
-    console.log("검색어:", searchTerm);
-    // Additional search logic or API calls can be added here.
+    console.log('검색어:', searchTerm);
+    navigate(`/search?tag=${tag}&q=${searchTerm}`);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   const options = [
@@ -156,21 +177,19 @@ const NavigationMenu = () => {
     { value: "태그", label: "태그" },
   ];
 
-  const navigate = useNavigate();
-
   return (
     <NavigationWrapper>
-      <LogoWrapper src={logo} alt="THEGOODs" width="11vw" />
+      <StyledLink href="/">
+        <LogoWrapper src={logo} alt="THEGOODs" width="11vw"/>
+      </StyledLink>
       <SearchWrapper>
-        <Select
-          options={options}
-          components={{
-            DropdownIndicator: CustomDropdownIndicator,
-            IndicatorSeparator: () => null,
-          }}
-          styles={customStyles}
-          isSearchable={false}
-          placeholder="상품"
+          <Select
+        options={options}
+        components={{ DropdownIndicator: CustomDropdownIndicator , IndicatorSeparator:() => null}}
+        styles={customStyles}
+        isSearchable={false}
+        placeholder="상품"
+        onChange={(selectedOption) => handleKeyWordTag(selectedOption)}
         />
         <VerticalLine />
         <SearchInput
@@ -178,6 +197,7 @@ const NavigationMenu = () => {
           placeholder="검색어를 입력해주세요."
           value={searchTerm}
           onChange={handleInputChange}
+          onKeyDown={handleKeyPress}
         />
         <svg
           onClick={handleSearch}
@@ -196,6 +216,7 @@ const NavigationMenu = () => {
           />
         </svg>
       </SearchWrapper>
+      <IconWrapContainer>
       <IconWrapper>
         <svg
           viewBox="0 0 43 43"
@@ -213,24 +234,21 @@ const NavigationMenu = () => {
         </svg>
         <div>찜</div>
       </IconWrapper>
+      <IconWrapper style={{marginRight:'40px;'}}>
+      <svg viewBox="0 0 42 46" fill="none" xmlns="http://www.w3.org/2000/svg" style={IconStyle}>
+<g filter="url(#filter0_d_139_11413)">
+<path d="M5.25 5.25H8.75L9.45 8.75M9.45 8.75H36.75L29.75 22.75H12.25M9.45 8.75L12.25 22.75M12.25 22.75L8.23725 26.7628C7.13475 27.8653 7.91525 29.75 9.4745 29.75H29.75M29.75 29.75C28.8217 29.75 27.9315 30.1187 27.2751 30.7751C26.6187 31.4315 26.25 32.3217 26.25 33.25C26.25 34.1783 26.6187 35.0685 27.2751 35.7249C27.9315 36.3813 28.8217 36.75 29.75 36.75C30.6783 36.75 31.5685 36.3813 32.2249 35.7249C32.8813 35.0685 33.25 34.1783 33.25 33.25C33.25 32.3217 32.8813 31.4315 32.2249 30.7751C31.5685 30.1187 30.6783 29.75 29.75 29.75ZM15.75 33.25C15.75 34.1783 15.3813 35.0685 14.7249 35.7249C14.0685 36.3813 13.1783 36.75 12.25 36.75C11.3217 36.75 10.4315 36.3813 9.77513 35.7249C9.11875 35.0685 8.75 34.1783 8.75 33.25C8.75 32.3217 9.11875 31.4315 9.77513 30.7751C10.4315 30.1187 11.3217 29.75 12.25 29.75C13.1783 29.75 14.0685 30.1187 14.7249 30.7751C15.3813 31.4315 15.75 32.3217 15.75 33.25Z" stroke="#52555B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
+</g>
+</svg>
+      <div>장바구니</div>
+      </IconWrapper>  
+      <Link to="/mypage">
       <IconWrapper>
-        <svg
-          viewBox="0 0 42 46"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={IconStyle}
-        >
-          <g filter="url(#filter0_d_139_11413)">
-            <path
-              d="M5.25 5.25H8.75L9.45 8.75M9.45 8.75H36.75L29.75 22.75H12.25M9.45 8.75L12.25 22.75M12.25 22.75L8.23725 26.7628C7.13475 27.8653 7.91525 29.75 9.4745 29.75H29.75M29.75 29.75C28.8217 29.75 27.9315 30.1187 27.2751 30.7751C26.6187 31.4315 26.25 32.3217 26.25 33.25C26.25 34.1783 26.6187 35.0685 27.2751 35.7249C27.9315 36.3813 28.8217 36.75 29.75 36.75C30.6783 36.75 31.5685 36.3813 32.2249 35.7249C32.8813 35.0685 33.25 34.1783 33.25 33.25C33.25 32.3217 32.8813 31.4315 32.2249 30.7751C31.5685 30.1187 30.6783 29.75 29.75 29.75ZM15.75 33.25C15.75 34.1783 15.3813 35.0685 14.7249 35.7249C14.0685 36.3813 13.1783 36.75 12.25 36.75C11.3217 36.75 10.4315 36.3813 9.77513 35.7249C9.11875 35.0685 8.75 34.1783 8.75 33.25C8.75 32.3217 9.11875 31.4315 9.77513 30.7751C10.4315 30.1187 11.3217 29.75 12.25 29.75C13.1783 29.75 14.0685 30.1187 14.7249 30.7751C15.3813 31.4315 15.75 32.3217 15.75 33.25Z"
-              stroke="#52555B"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </g>
-        </svg>
-        <div>장바구니</div>
+      <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" style={IconStyle} >
+<path d="M25.9497 17.1997C27.2625 15.887 28 14.1065 28 12.25C28 10.3935 27.2625 8.61301 25.9497 7.30025C24.637 5.9875 22.8565 5.25 21 5.25C19.1435 5.25 17.363 5.9875 16.0503 7.30025C14.7375 8.61301 14 10.3935 14 12.25C14 14.1065 14.7375 15.887 16.0503 17.1997C17.363 18.5125 19.1435 19.25 21 19.25C22.8565 19.25 24.637 18.5125 25.9497 17.1997Z" stroke="#52555B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12.3379 28.0879C14.6353 25.7906 17.7511 24.5 21 24.5C24.2489 24.5 27.3647 25.7906 29.6621 28.0879C31.9594 30.3853 33.25 33.5011 33.25 36.75H8.75C8.75 33.5011 10.0406 30.3853 12.3379 28.0879Z" stroke="#52555B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+        <div>마이페이지</div>
       </IconWrapper>
       <Link to="/mypage/ManagePurchase">
         <IconWrapper>
@@ -258,6 +276,7 @@ const NavigationMenu = () => {
           <div>마이페이지</div>
         </IconWrapper>
       </Link>
+      </IconWrapContainer>
     </NavigationWrapper>
   );
 };

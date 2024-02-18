@@ -46,11 +46,11 @@ import Guest from "./Pages/Guest";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
+import NonCustomerOrder from "./Pages/NonCustomerOrder";
 import CategoryPage from "./Components/Category/CategoryComponent";
 import NewProductPage from "./Pages/NewProductPage";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
-
 
 function App() {
   return (
@@ -101,6 +101,8 @@ function App() {
             
             <Route path="/seller" element={<Seller />} />
             <Route path="/shoppingList" element={<ShoppingList/>}/>
+            <Route path="/noncustomerorder" element={<NonCustomerOrder/>}></Route>
+            <Route path="/mypage" element={<MyPageComponent />}>
             {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />

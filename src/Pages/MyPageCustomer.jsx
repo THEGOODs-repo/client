@@ -24,7 +24,7 @@ const MyPageContainer = styled.div`
   display: flex;
   width: 1200px;
   height: 1300px;
-  margin-left: 19%;
+  margin-left: 25%;
   background: #fefdfd;
   border-radius: 1px;
 `;

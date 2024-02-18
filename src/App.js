@@ -42,6 +42,12 @@ import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
+import PreferenceCreate from "./Components/Preference/Pages/Create";
+import PreferenceAni from "./Components/Preference/Pages/Ani";
+import PreferenceFashion from "./Components/Preference/Pages/Fashion";
+import PreferenceFood from "./Components/Preference/Pages/Food";
+import PreferenceMungu from "./Components/Preference/Pages/Mungu";
+import PreferenceModal from "./Components/Preference/Modal";
 
 function App() {
   return (
@@ -50,7 +56,13 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
-            <Route path="/preference" element={<Preference />} />
+            <Route path="/preference/Idol" element={<Preference />} />
+            <Route path="/preference/Create" element={<PreferenceCreate />} />
+            <Route path="/preference/Ani" element={<PreferenceAni />} />
+            <Route path="/preference/Fashion" element={<PreferenceFashion />} />
+            <Route path="/preference/Food" element={<PreferenceFood />} />
+            <Route path="/preference/Mungu" element={<PreferenceMungu />} />
+            <Route path="/preference" element={<PreferenceModal />} />
             <Route
               path="/preference/result"
               element={<PreferenceResultPage />}

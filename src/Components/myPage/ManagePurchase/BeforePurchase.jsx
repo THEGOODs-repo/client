@@ -4,11 +4,7 @@ import Purchase from "../../../img/Purchase.png";
 import ChevronRight from "../../../img/chevron_right.png";
 
 export function BeforePurchase() {
-  const fileInput = React.useRef(null);
-
-  const handleButtonClick = (e) => {
-    fileInput.current.click();
-  };
+  const handleButtonClick = (e) => {};
 
   return (
     <MainContainer>
@@ -39,17 +35,17 @@ export function BeforePurchase() {
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 783px;
-  height: 168px;
-  margin-bottom: 3%;
+  width: 646.575px;
+  height: 138.6px;
+  margin-bottom: 2.475%;
 
   h6 {
-    margin-bottom: 3px; /* 2024. 01. 18 17:39 */
+    margin-bottom: 2.475px; /* 2024. 01. 18 17:39 */
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 9.9px;
+    line-height: 13.2px;
     color: #9c9c9c;
   }
 `;
@@ -57,15 +53,15 @@ export const MainContainer = styled.div`
 export const SubContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 783px;
-  height: 150px;
+  width: 646.575px;
+  height: 123.75px;
   border: 1px solid rgba(156, 156, 156, 0.5);
-  border-radius: 10px;
+  border-radius: 8.25px;
 `;
 
 export const ImgContainer = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 123.75px;
+  height: 123.75px;
   background-color: #9c9c9c;
 `;
 
@@ -73,18 +69,18 @@ export const InformationContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 400px;
-  height: 150px;
-  padding-left: 3%;
+  width: 330px;
+  height: 123.75px;
+  padding-left: 2.475%;
 
   h2 {
     margin: 0;
-    margin-bottom: 4px;
+    margin-bottom: 3.3px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
     color: #9c9c9c;
   }
 
@@ -93,29 +89,29 @@ export const InformationContainer = styled.div`
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
     color: #202123;
   }
 
   h4 {
-    margin-top: 3px;
+    margin-top: 2.475px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-
+    font-size: 9.9px;
+    line-height: 13.2px;
     color: #52555b;
   }
 `;
+
 export const PriceContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 150px;
+  width: 165px;
+  height: 123.75px;
 `;
 
 export const PriceSubContainer = styled.div`
@@ -123,17 +119,16 @@ export const PriceSubContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 25px;
+  width: 165px;
+  height: 20.625px;
 
   h5 {
     margin: 0px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
-
+    font-size: 14.85px;
+    line-height: 20.625px;
     color: #202123;
   }
 `;
@@ -141,26 +136,24 @@ export const PriceSubContainer = styled.div`
 export const ChevronButton = styled.button`
   background: url(${ChevronRight}) no-repeat center;
   background-size: cover;
-  width: 30px;
-  height: 25px;
+  width: 24.75px;
+  height: 20.625px;
   border: none;
   cursor: pointer;
 `;
 
 export const ButtonEnquiry = styled.button`
-  width: 64px;
-  height: 28px;
-  margin-top: 6px;
-  margin-right: 20px;
+  width: 52.8px;
+  height: 23.1px;
+  margin-top: 4.95px;
+  margin-right: 16.5px;
   background-color: white;
   border: 1px solid rgba(156, 156, 156, 0.5);
-  border-radius: 15px;
-
+  border-radius: 11.25px;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-
+  font-size: 9.9px;
+  line-height: 13.2px;
   color: #202123;
 `;

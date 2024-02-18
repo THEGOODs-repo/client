@@ -2,26 +2,38 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CategoryComponent from "../CustomizedInformation/CategoryComponent";
 import Modal from "../CustomizedInformation/Modal";
-
 //마이페이지_맞춤정보관리
+// 특이사항 ** 저장하기 및 취소하기 버튼 기능 필요 **
+// 특이사항 ** 전문 보기 내용 필요 **
+// 특이사항 ** 내 맞춤정보 삭제 > 확인 버튼 기능 필요 **
+
 export default function CustomizedInformation() {
   const [checkBtn, setCheckBtn] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [categorySelected, setCategorySelected] = useState(
+    Array(100).fill(false),
+  );
+  const [tagSelected, setTagSelected] = useState(Array(100).fill(false));
 
-  const checkBoxHandler = (e) => {
-    if (checkBtn === null) {
-      setCheckBtn(true);
-    } else if (checkBtn === true) {
-      setCheckBtn(null);
-    }
-  };
-
+  // 내 맞춤정보 삭제 Btn
   const modalHandler = (e) => {
     setModalOpen(true);
   };
 
+  const handleCategoryClick = (index) => {
+    const updatedCategorySelected = [...categorySelected];
+    updatedCategorySelected[index] = !updatedCategorySelected[index];
+    setCategorySelected(updatedCategorySelected);
+  };
+
+  const handleTagClick = (index) => {
+    const updatedTagSelected = [...tagSelected];
+    updatedTagSelected[index] = !updatedTagSelected[index];
+    setTagSelected(updatedTagSelected);
+  };
+
   const Sample1 = () => {
-    const categories = [
+    const categoryKeywords = [
       "키워드1",
       "키워드2",
       "키워드3",
@@ -31,13 +43,74 @@ export default function CustomizedInformation() {
       "키워드7",
     ];
 
-    return categories.map((category, index) => (
-      <CategoryComponent key={index} keyword={category} />
+    return categoryKeywords.map((category, index) => (
+      <CategoryComponent
+        key={index}
+        keyword={category}
+        isTagSelected={categorySelected[index]}
+        handleButtonClick={() => handleCategoryClick(index)}
+      />
     ));
   };
 
   const Sample2 = () => {
-    const categories = [
+    const tagKeywords = [
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
+      "태그1",
+      "태그2",
+      "태그3",
+      "태그4",
+      "태그5",
+      "태그6",
+      "태그7",
       "태그1",
       "태그2",
       "태그3",
@@ -47,8 +120,13 @@ export default function CustomizedInformation() {
       "태그7",
     ];
 
-    return categories.map((category, index) => (
-      <CategoryComponent key={index} keyword={category} />
+    return tagKeywords.map((tag, index) => (
+      <CategoryComponent
+        key={index}
+        keyword={tag}
+        isTagSelected={tagSelected[index]}
+        handleButtonClick={() => handleTagClick(index)}
+      />
     ));
   };
 
@@ -68,90 +146,78 @@ export default function CustomizedInformation() {
         </Title>
         <Category>
           <Sample2 />
-          <Sample2 />
-          <Sample2 />
-          <Sample2 />
-          <Sample2 />
-          <Sample2 />
-          <Sample2 />
-          <Sample2 />
         </Category>
 
+        {/* 정보 활용 동의 */}
         <h4>정보 활용 동의</h4>
         <div>
-          <InputCheckBox
-            type="checkbox"
-            value="checked"
-            onChange={checkBoxHandler}
-          />
-          <CheckBoxLabel>
-            후기/추천 서비스 활용을 위한 맞춤정보 수집 및 이용동의(선택)
-            <a
-              href="링크할 주소"
-              style={{
-                marginLeft: "10px",
-                fontFamily: "Noto Sans",
-                fontStyle: "normal",
-                fontWeight: "500",
-                fontSize: "16px",
-                textDecorationLine: "underline",
-                color: "#9C9C9C",
-              }}
-            >
-              전문보기
-            </a>
-          </CheckBoxLabel>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <CustomButtonWrapper>
+              <ButtonInput
+                type="checkbox"
+                id="checkbox"
+                name="checkbox"
+                checked={checkBtn}
+                onChange={() => setCheckBtn((checkBtn) => !checkBtn)}
+              />
+              <ButtonLabel htmlFor="checkbox">
+                <ButtonDiv>
+                  후기/추천 서비스 활용을 위한 맞춤정보 수집 및 이용동의(선택)
+                </ButtonDiv>
+              </ButtonLabel>
+            </CustomButtonWrapper>
+            <CheckBoxLabel>
+              <a href="" style={{ color: "#9c9c9c" }}>
+                전문보기
+              </a>
+            </CheckBoxLabel>
+          </div>
+
+          {/* 선 */}
           <hr
             style={{
-              width: "790px",
+              width: "660px",
+              margin: "10px 0px 0px 0px",
               backgroundColor: "#9c9c9c",
-              border: "none",
-              height: "1px",
-              margin: "0px",
+              height: "0.3px",
             }}
           />
 
+          {/* 내 맞춤정보 삭제 */}
           <ModalBtn onClick={modalHandler}>
-            <h3>내 맞춤정보 삭제</h3>
+            <h5>내 맞춤정보 삭제</h5>
           </ModalBtn>
           {modalOpen && <Modal setModalOpen={setModalOpen} />}
         </div>
+
+        {/* 취소, 저장하기  Btn */}
         <div>
-          <CancelBtn
-          // onClick={withdrawalButtonClick}
-          // disabled={!(radionBtn && email && checkBtn)}
-          >
-            취소
-          </CancelBtn>
-          <SaveBtn
-          // onClick={withdrawalButtonClick}
-          // disabled={!(radionBtn && email && checkBtn)}
-          >
-            저장하기
-          </SaveBtn>
+          <CancelBtn>취소</CancelBtn>
+          <SaveBtn>저장하기</SaveBtn>
         </div>
       </CategoryContainer>
     </MainContainer>
   );
 }
+
 const MainContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
-  width: 870px;
-  height: 972px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
+  width: 718.125px;
+  height: 801.9px;
+  border: 2.475px solid rgba(0, 0, 0, 0.05);
 
   h1 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
+    margin-top: 33px;
+    margin-left: 28.875px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 26px;
-    line-height: 35px;
+    font-size: 21.45px;
+    line-height: 28.875px;
     color: #202123;
   }
 `;
@@ -159,36 +225,28 @@ const MainContainer = styled.div`
 const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 9%;
-  width: 870px;
-  height: 50px;
+  margin-left: 49.5px;
+  width: 718.125px;
+  height: 41.25px;
 
-  h2 {
-    font-family: "Noto Sans";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
-    color: #202123;
-  }
-
+  h2,
   h3 {
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
-    color: #9c9c9c;
+    font-size: 14.85px;
+    line-height: 20.625px;
+    color: #202123;
   }
 
   h4 {
-    margin-top: 30px;
-    margin-bottom: 0px;
+    margin-top: 14.85px;
+    margin-bottom: 8.25px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 14.85px;
+    line-height: 20.625px;
     color: #202123;
   }
 `;
@@ -197,75 +255,61 @@ const Title = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 5px;
+  margin-left: 4.125px;
 `;
+
 const Category = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
-  width: 780px;
+  gap: 5.775px;
+  width: 643.125px;
   height: auto; /* 자동으로 높이 조절 */
 `;
 
-const InputCheckBox = styled.input`
-  position: relative;
-  top: 0px;
-  width: 20px;
-  height: 20px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border: 1px solid #9c9c9c;
-  color: white;
-  accent-color: #f0c920;
-`;
-
-const CheckBoxLabel = styled.label`
-  position: relative;
-  top: -3px;
-  margin: 0px 0px 3px 3px;
+const CheckBoxLabel = styled.div`
+  margin-left: 9.9px;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
-  line-height: 22px;
-  color: #202123;
+  font-size: 14px;
+  line-height: 18.15px;
 `;
 
 const CancelBtn = styled.button`
-  width: 395px;
-  height: 60px;
-  margin-top: 25px;
-  margin-right: 5px;
+  width: 326.625px;
+  height: 49.5px;
+  margin-top: 4px;
+  margin-right: 4.125px;
   background: #f9f9f9;
-  border: 1px solid rgba(156, 156, 156, 0.5);
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
+  border: 0.825px solid rgba(156, 156, 156, 0.5);
+  box-shadow: 0px 0px 4.125px 0.825px rgba(0, 0, 0, 0.08);
+  border-radius: 4.125px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
-  line-height: 22px;
+  font-size: 19.8px;
+  line-height: 18.15px;
   text-align: center;
   color: #888888;
 `;
 
 const SaveBtn = styled.button`
-  width: 395px;
-  height: 60px;
+  width: 326.625px;
+  height: 49.5px;
   align-self: flex-end;
-  margin-right: 5%;
-  margin-bottom: 35px;
+  margin-right: 4.125%;
+  margin-bottom: 28.875px;
   border: none;
   background: #f0c920;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
+  box-shadow: 0px 0px 4.125px 0.825px rgba(0, 0, 0, 0.08);
+  border-radius: 4.125px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
-  line-height: 22px;
+  font-size: 19.8px;
+  line-height: 18.15px;
   text-align: center;
   color: #ffffff;
 `;
@@ -274,13 +318,94 @@ const ModalBtn = styled.button`
   background-color: #fefdfd;
   border: none;
   text-decoration: underline;
+  color: #9c9c9c;
 
-  h3 {
+  h5 {
+    margin: 8.25px 0px 8.25px 0px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 14.85px;
+    line-height: 20.625px;
     color: #9c9c9c;
   }
+`;
+
+//Checkbox 준석님
+const CustomButtonWrapper = styled.div`
+  display: flex;
+  padding: 0;
+  align-items: flex-start;
+`;
+
+const ButtonLabel = styled.label`
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  padding: 0;
+  margin: 0 0 0 0; /* 기본값 설정 */
+
+  &:before {
+    content: "";
+    height: 14px;
+    width: 14px;
+    border: 1px solid #9c9c9c;
+    border-radius: 1px;
+    background-size: 9px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    transition: opacity 0.1s;
+    /* Add the SVG checkmark as a background image */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%239C9C9C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  }
+
+  &:after {
+    opacity: 0;
+    content: "";
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    border: 1px solid transparent;
+    border-radius: 1px;
+    background-size: 9px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: #f0c920;
+    transition: opacity 0.1s;
+    /* Add the SVG checkmark as a background image */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%23FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  }
+`;
+
+const ButtonInput = styled.input`
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 1px;
+  transition: opacity 1s ease; // 추가된 부분
+
+  &:checked + ${ButtonLabel} {
+    &:after {
+      opacity: 1;
+      transition: opacity 0.1s;
+    }
+  }
+`;
+
+const ButtonDiv = styled.div`
+  margin: 0 0 0 7px;
+  white-space: pre-line;
+  text-align: start;
+  color: #202123;
+  margin-left: 5px;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18.9px;
 `;

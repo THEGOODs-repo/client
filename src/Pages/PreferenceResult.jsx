@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
-import PreferenceResult from "../Components/Preference/Pre_Result";
+import PreferenceResult from "../Components/Preference/Result";
 export default function PreferenceResultPage() {
   return (
     <PreferenceContainer>

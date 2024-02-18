@@ -4,6 +4,7 @@ import Result from "../../img/결과.png";
 
 export default function PreferenceResult() {
   //카카오톡 공유하기는 사이트가 배포가 되어있는 상태에서 가능함.
+
   const [url, setUrl] = useState(window.location.href);
 
   const copyToClipboard = () => {
@@ -26,6 +27,7 @@ export default function PreferenceResult() {
     </PreferenceContainer>
   );
 }
+
 const PreferenceContainer = styled.div`
   display: flex;
   /* width: 1920px;

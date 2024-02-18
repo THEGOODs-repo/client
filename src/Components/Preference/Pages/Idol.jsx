@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PreferenceProduct from "./Pre_Product";
-import PreferenceSeller from "./Pre_Seller";
-import PreferenceTop10 from "./Pre_Top10";
-import PreferenceTag from "./Pre_Tag";
+import PreferenceProduct from "../Component/Pre_Product";
+import PreferenceSeller from "../Component/Pre_Seller";
+import PreferenceTop10 from "../Component/Pre_Top10";
+import PreferenceTag from "../Component/Pre_Tag";
 import { useEffect, useState } from "react";
 
 const Sample1 = () => {
@@ -13,7 +13,7 @@ const Sample1 = () => {
     { name: "아이유", img: "https://ifh.cc/g/sbymR1.png" },
     { name: "장원영", img: "https://ifh.cc/g/vClyqr.png" },
     { name: "RIZE", img: "https://ifh.cc/g/fncJ4M.png" },
-    { name: "aespa", img: "https://ifh.cc/g/fncJ4M.png" },
+    { name: "aespa", img: "https://ifh.cc/g/R5yYzW.png" },
   ];
 
   return sampleList.map((item, index) => (
@@ -67,41 +67,42 @@ const Sample2 = () => {
 const Sample3 = () => {
   const sampleList = [
     { name: "뉴진스 ID Card", img: "https://ifh.cc/g/TNJHqQ.png" },
+
     {
-      name: "뉴진스 ID Card",
+      name: "블랙핑크 레트로 앨범",
+      img: "https://ifh.cc/g/f6DbSK.png",
+    },
+    {
+      name: "아이돌 퀸카 특전",
       img: "https://ifh.cc/g/TNJHqQ.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "SVT 호시 포카",
+      img: "https://ifh.cc/g/djKYsv.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "장원영 반포자이 포카",
+      img: "https://ifh.cc/g/oDA8SO.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "NCT 스티커 사진",
+      img: "https://ifh.cc/g/kLNHnw.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "에이티즈 잡즈",
+      img: "https://ifh.cc/g/hyfXj0.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "뉴진스 포카 홀더",
+      img: "https://ifh.cc/g/WMtfgw.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "플레이브 인생네컷",
+      img: "https://ifh.cc/g/h3Dgz5.png",
     },
     {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
-    },
-    {
-      name: "뉴진스 ID Card",
-      img: "https://ifh.cc/g/TNJHqQ.png",
+      name: "해찬 핸드폰 케이스",
+      img: "https://ifh.cc/g/rwGXBW.png",
     },
   ];
 
@@ -132,16 +133,12 @@ const Sample4 = () => {
   ));
 };
 
-export default function PreferenceComponent() {
+export default function PreferenceIdol() {
   const [click, setClick] = useState(false);
   const product = useSelector((state) => state.preference.product);
-  console.log("product:" + product);
   const seller = useSelector((state) => state.preference.seller);
-  console.log("seller:" + seller);
   const top10 = useSelector((state) => state.preference.top10);
-  console.log("top10:" + top10);
   const tag = useSelector((state) => state.preference.tag);
-  console.log("tag:" + tag);
 
   useEffect(() => {
     const checkPreference = () => {
@@ -178,7 +175,7 @@ export default function PreferenceComponent() {
           display: "flex",
           flexDirection: "row",
           margin: "0px",
-          gap: "20px",
+          gap: "18px",
         }}
       >
         <Sample2 />
@@ -189,7 +186,7 @@ export default function PreferenceComponent() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
-          gap: "10px",
+          gap: "7px",
           flexDirection: "row",
           margin: "0px",
         }}
@@ -201,7 +198,7 @@ export default function PreferenceComponent() {
       <div
         style={{
           display: "flex",
-          gap: "20px",
+          gap: "8px",
           flexDirection: "row",
           margin: "0px",
         }}
@@ -219,54 +216,54 @@ const PreferenceContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 3300px;
+  height: 660px;
 
-  h1 {
-    margin-bottom: 0px;
+  h1,
+  h3 {
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 35px;
-    line-height: 48px;
-    color: #000000;
+    color: #000;
+  }
+
+  h1 {
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 38px;
   }
 
   h2 {
-    width: 838px;
-    height: 101px;
+    width: 670px;
+    height: 81px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 25px;
-    color: #000000;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000;
   }
 
   h3 {
-    margin-top: 100px;
-    font-family: "Noto Sans";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 30px;
-    line-height: 41px;
-    color: #000000;
+    margin-top: 80px;
+    font-size: 24px;
+    line-height: 33px;
   }
 `;
 
 const Button = styled.button`
-  width: 185px;
-  height: 75px;
-  margin-top: 100px;
+  width: 148px;
+  height: 60px;
+  margin-top: 50px;
   background: #f0c920;
   border: none;
-  border-radius: 40px;
+  border-radius: 32px;
   text-decoration: none;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
-  line-height: 33px;
-  color: #ffffff;
+  font-size: 20px;
+  line-height: 28px;
+  color: #fff;
 
   &:disabled {
     background: rgba(156, 156, 156, 0.4);

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { increaseTop10, decreaseTop10 } from "../../redux/preferenceSlice";
+import { increaseTop10, decreaseTop10 } from "../../../redux/preferenceSlice";
 
 export default function PreferenceTop10({ index, name, img }) {
   const [click, setClick] = useState(false);
@@ -22,8 +22,11 @@ export default function PreferenceTop10({ index, name, img }) {
         <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
           <h5
             style={{
-              width: "34px",
-              height: "34px",
+              width: "22px",
+              height: "22px",
+              marginTop: "0px",
+              marginLeft: "10px",
+              fontSize: "15px",
               textAlign: "center",
               background: click ? "#F0C920" : "black",
               borderRadius: "50%",
@@ -35,6 +38,7 @@ export default function PreferenceTop10({ index, name, img }) {
           <h5
             style={{
               color: click ? "#F0C920" : "black",
+              marginLeft: "0px",
             }}
           >
             {name}
@@ -69,26 +73,26 @@ const PreferenceProductContainer = styled.div`
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 24px;
-    line-height: 33px;
+    font-size: 14.5px;
+    line-height: 22px;
     color: #000000;
   }
 
   h6 {
-    width: 303px;
+    width: 300px;
     margin: 0px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 25px;
     color: #000000;
   }
 `;
 
 const Img = styled.div`
-  width: 280px;
-  height: 280px;
+  width: 170px;
+  height: 180px;
   margin-left: 10px;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
   border-radius: 20px;

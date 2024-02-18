@@ -60,7 +60,7 @@ export default function EditProfileSeller() {
 
   return (
     <MainContainer>
-      <h1>프로필 편집</h1>
+      <h1>프로필 수정</h1>
       <InputBackground
         style={{
           background: uploadBackground
@@ -144,62 +144,46 @@ const MainContainer = styled.div`
   position: relative;
   flex-direction: column;
   align-items: center;
-  width: 870px;
-  height: 1300px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
+  width: 717.75px;
+  height: 1100px;
+  border: 2.475px solid rgba(0, 0, 0, 0.05);
 
   h1 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
+    margin-top: 33px;
+    margin-left: 28.875px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 26px;
-    line-height: 35px;
+    font-size: 21.45px;
+    line-height: 29.925px;
     color: #202123;
   }
 
   h2 {
     color: gray;
-    margin-top: 5vh;
+    margin-top: 4.125vh;
 
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
 
     color: #52555b;
   }
-`;
-
-const ButtonBackground = styled.button`
-  width: 53px;
-  height: 53px;
-  border: none;
-  border-radius: 50%;
-  background: url(${AddPicture}) center/cover;
-`;
-
-const ButtonProfile = styled.button`
-  width: 53px;
-  height: 53px;
-  border: none;
-  border-radius: 50%;
-  background: url(${AddPicture}) center/cover;
 `;
 
 const InputBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 794px;
-  height: 184px;
-
-  border-radius: 5px;
+  width: 655.05px;
+  height: 151.8px;
+  border-radius: 4.125px;
   background: #d9d9d9;
-  margin-bottom: 40px;
+  margin-top: 12.3105px;
+  margin-bottom: 33px;
 `;
 
 const InputProfile = styled.div`
@@ -207,111 +191,133 @@ const InputProfile = styled.div`
   position: absolute;
   justify-content: center;
   align-items: center;
-  width: 125px;
-  height: 125px;
-  top: 180px;
-  left: 70px;
-
+  width: 103.125px;
+  height: 103.125px;
+  top: 178.875px;
+  left: 57.75px;
   border-radius: 50%;
   background: #d9d9d9;
-  border: 5px solid #fefdfd;
+  border: 4.125px solid #fefdfd;
+`;
+
+const ButtonBackground = styled.button`
+  width: 43.575px;
+  height: 43.575px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+`;
+
+const ButtonProfile = styled.button`
+  width: 43.575px;
+  height: 43.575px;
+  border: none;
+  border-radius: 50%;
+  background: none;
 `;
 
 const InputContainer = styled.div`
   display: flex;
-  width: 794px;
+  width: 655.05px;
   justify-content: space-between;
 
   h2 {
-    width: 64px;
-    height: 23px;
+    width: 52.8px;
+    height: 18.975px;
     color: #52555b;
-    font-size: 16px;
+    font-size: 13.2px;
     font-weight: medium;
-    margin-top: 4vh;
+    margin-top: 3.4vh;
   }
 
   h3 {
-    width: 38px;
-    height: 23px;
-    margin-top: 4vh;
+    width: 31.35px;
+    height: 18.975px;
+    margin-top: 3.4vh;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
 
     color: #9c9c9c;
   }
 `;
 
 const InputName = styled.input`
-  width: 780px;
-  height: 60px;
-  padding-left: 15px;
+  width: 643.5px;
+  height: 49.5px;
+  padding-left: 12.375px;
   border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 3px;
+  border-radius: 2.475px;
+
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16.2px;
+  line-height: 22.275px;
 
   &::placeholder {
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 16.2px;
+    line-height: 22.275px;
     color: #9c9c9c;
   }
 `;
 
 const InputText = styled.textarea`
-  width: 780px;
-  height: 133px;
-  padding-left: 15px;
-  padding-top: 15px;
-  border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 3px;
+  width: 642px;
+  height: 113.05px;
+  padding-left: 12.75px;
+  padding-top: 12.75px;
+  border: 1px solid rgba(156, 156, 156, 0.68);
+  border-radius: 2.55px;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16.2px;
+  line-height: 22.275px;
 
   &::placeholder {
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 15.3px;
+    line-height: 21px;
     color: #9c9c9c;
   }
 `;
 
 const EditBtn = styled.button`
-  width: 120px;
-  height: 47px;
-  margin-top: 35px;
-
+  width: 99px;
+  height: 38.775px;
+  margin-top: 28.875px;
   background: #f0c920;
   border: none;
-  border-radius: 2px;
+  border-radius: 1.65px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-
+  font-size: 13.2px;
+  line-height: 18.15px;
   color: #ffffff;
 `;
 
 const SaveBtn = styled.button`
-  width: 120px;
-  height: 47px;
-  margin-top: 35px;
-
+  width: 99px;
+  height: 38.775px;
+  margin-top: 28.875px;
   background: #ffffff;
   border: 1px solid #f0c920;
-  border-radius: 2px;
+  border-radius: 1.65px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-
+  font-size: 13.2px;
+  line-height: 18.15px;
   color: #f0c920;
 `;

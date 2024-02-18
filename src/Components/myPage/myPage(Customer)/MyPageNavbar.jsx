@@ -14,10 +14,12 @@ export default function MyPageNavbar() {
           }}
         />
         <h1>햄스터</h1>
-        <SwitchBtn to="/mypageSeller/EditProfile">
+        <SwitchBtn to="/mypageSeller/ManagePurchase">
           <Img2
             style={{
               background: `url(${Switch}) center/cover`,
+              marginTop: "2px",
+              marginRight: "3px",
             }}
           />
           사장님으로 전환
@@ -68,16 +70,16 @@ export default function MyPageNavbar() {
 
         <h1>도움 센터</h1>
 
-        <LinkPage to="/Report">
+        <LinkPage>
           <h2>신고하기</h2>
         </LinkPage>
-        <LinkPage to="/Report_Details">
+        <LinkPage>
           <h2>신고내역</h2>
         </LinkPage>
-        <LinkPage to="/Notice">
+        <LinkPage>
           <h2>공지사항</h2>
         </LinkPage>
-        <LinkPage to="/Event">
+        <LinkPage>
           <h2>이벤트</h2>
         </LinkPage>
       </ListContainer>
@@ -87,67 +89,66 @@ export default function MyPageNavbar() {
 
 export const NavbarContainer = styled.div`
   flex-direction: row;
-  width: 300px;
-  height: 972px;
-  border-top: 3px solid rgba(0, 0, 0, 0.05);
-  border-bottom: 3px solid rgba(0, 0, 0, 0.05);
-  border-left: 3px solid rgba(0, 0, 0, 0.05);
-  border-radius: 1px;
+  width: 247.5px;
+  height: 801.75px;
+  border-top: 2.475px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 2.475px solid rgba(0, 0, 0, 0.05);
+  border-left: 2.475px solid rgba(0, 0, 0, 0.05);
+  border-radius: 0.825px;
 `;
 
 export const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 296px;
-  height: 280px;
+
+  width: 244.5px;
+  height: 231px;
   padding-bottom: 0px;
-  padding-top: 15%;
-  border: 3px solid #f0c920;
-  border-radius: 2px;
+  padding-top: 12.375%;
+  border: 2.475px solid #f0c920;
+  border-radius: 1.65px;
   text-align: center;
 
   h1 {
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 20px;
-    line-height: 27px;
-
+    font-size: 16.5px;
+    line-height: 22.275px;
     color: #000000;
   }
 
   h3 {
+    text-align: center;
     position: absolute;
-    width: 44px;
-    height: 22px;
-    padding-top: 3px;
-    margin-left: 90px;
-    border-radius: 5px;
-
+    width: 36.3px;
+    height: 18.15px;
+    padding-top: 3.75px;
+    margin-left: 74.25px;
+    border-radius: 3.75px;
     background-color: #f0c920;
-
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 9.9px;
+    line-height: 13.2px;
     color: #ffffff;
   }
 `;
 
 export const Img1 = styled.div`
   display: flex;
-  width: 145px;
-  height: 145px;
+  width: 119.25px;
+  height: 119.25px;
   border-radius: 50%;
   margin: 0 auto;
 `;
 
 export const Img2 = styled.div`
   display: flex;
-  width: 18px;
-  height: 15px;
+  width: 14.85px;
+  height: 12.375px;
   margin: 0;
 `;
 
@@ -156,69 +157,71 @@ export const SwitchBtn = styled(NavLink)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 180px;
-  height: 40px;
+  width: 148.5px;
+  height: 33px;
   text-decoration: none;
   background-color: #ffffff;
   border: 1px solid rgba(156, 156, 156, 0.5);
-  border-radius: 20px;
+  border-radius: 16.5px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 11.55px;
+  line-height: 13.2px;
   color: #202123;
 `;
 
 export const ListContainer = styled.div`
-  flex-direction: row;
-  width: 285px;
-  height: 639px;
-  padding-top: 5%;
-  padding-left: 3.5%; /* 카테고리 */
-
+  width: 234.375px;
+  height: 526.575px;
+  padding-left: 2.8875%;
+  padding-top: 14.025px;
   h1 {
-    padding-left: 5%;
-    padding-top: 3%;
-    margin: 0px;
+    padding-left: 4.125%;
+    margin-top: 9.9px;
+    margin-bottom: 0px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 15px;
+    font-size: 14.85px;
+    line-height: 12.375px;
     color: #202123;
   }
 
   hr {
-    width: 240px;
+    width: 204.6px;
     height: 0px;
     border: 1px solid rgba(156, 156, 156, 0.5);
+    margin-top: 0px;
+    margin-bottom: 16.5px;
+    margin-left: 11.3625px;
   }
 `;
 
 export const LinkPage = styled(NavLink)`
   color: black;
   text-decoration: none;
-  margin: 5px;
+  margin: 4.125px;
 
   h2 {
-    padding-left: 5%;
-    margin: 0px;
+    padding-left: 4.125%;
+    margin-top: 0px;
+    margin-bottom: 0px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 0.7;
+    font-size: 13.2px;
+    line-height: 0.35;
     color: #202123;
 
     &:hover {
-      padding-left: 5%;
+      padding-left: 4.125%;
       margin: 0px;
       font-family: "Noto Sans";
       font-style: normal;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 13.2px;
       color: #f0c920;
     }
 

@@ -8,26 +8,32 @@ import Food from "../../img/Preference/chef.png";
 import Fashion from "../../img/Preference/shirt.png";
 import { useDispatch } from "react-redux";
 import { choicePreference } from "../../redux/preferenceSlice";
+import { useNavigate } from "react-router-dom";
 
-export default function PreferenceModal() {
+export default function PreferenceBannerModal({ setModalOpen }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [click, setClick] = useState(false);
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modal, setModal] = useState(true);
 
   const handleClick = (category) => {
     dispatch(choicePreference(category));
+    navigate(`/preference/${category}`);
     setClick(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    setModal(false);
+    setClick(false);
   };
 
   return (
     <MainContainer
       style={{
-        display: modalOpen && !click ? "flex" : "none",
+        display: modal && !click ? "flex" : "none",
       }}
+      onClick={closeModal}
     >
       <ModalContainer>
         <h5>원활한 서비스 이용을 위해 원하는 카테고리를 선택해주세요.</h5>
@@ -88,7 +94,6 @@ export default function PreferenceModal() {
             <h6>패션</h6>
           </div>
         </div>
-        <CancelBtn onClick={closeModal}> 닫기 </CancelBtn>
       </ModalContainer>
     </MainContainer>
   );
@@ -135,7 +140,7 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 630px;
-  height: 400px;
+  height: 380px;
   background: #f9f9f9 center/cover;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
@@ -163,24 +168,4 @@ const IconContainer = styled.div`
     width: 45.05px;
     height: 45.05px;
   }
-`;
-
-const CancelBtn = styled.button`
-  width: 100px;
-  height: 34px;
-  margin-top: 13px;
-  background: #f0c920;
-  border: none;
-  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 25px;
-  text-align: center;
-  color: #ffffff;
-
-  cursor: pointer;
 `;

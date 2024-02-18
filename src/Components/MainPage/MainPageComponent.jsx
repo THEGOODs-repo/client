@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -9,26 +8,14 @@ import NavigationCategoryMenu from "../NavigationMenu/NavigationCategoryMenu";
 import NavigationMenu from "../NavigationMenu/NavigationMenu";
 import ProductCardComponent from "../Global/ProductComponent";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import HeaderComponent from "../Header/Header";
 import CustomHorizontalLine from "./HorizontalLineComponent";
 import ArrowCircleRight from "../../img/arrow-circle-right.png";
+import BaseFooter from "../Footer/BaseFooter";
 import PreferenceModal from "../Preference/Modal";
-=======
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import LeftArrow from '../../img/LeftArrow.png';
-import RightArrow from '../../img/RightArrow.png';
-import Banner from '../../img/banner.svg';
-import NavigationCategoryMenu from '../NavigationMenu/NavigationCategoryMenu';
-import NavigationMenu from '../NavigationMenu/NavigationMenu';
-import ProductCardComponent from '../Global/ProductComponent';
-import { useEffect } from 'react';
-import HeaderComponent from '../Header/Header';
-import CustomHorizontalLine from './HorizontalLineComponent';
-import ArrowCircleRight from '../../img/arrow-circle-right.png';
-import BaseFooter from '../Footer/BaseFooter';
->>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
+import PreferenceBannerModal from "../Preference/BannerModal";
 
 const PageContainer = styled.div`
   width: 100%;
@@ -186,8 +173,19 @@ const products = [
 ];
 
 function MainPageComponent() {
+  const navigate = useNavigate();
+  const choice = useSelector((state) => state.preference.choice);
+  const [modalOpen, setModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const bannerRef = useRef(null);
+
+  const handleModalOpen = () => {
+    if (choice !== "") {
+      navigate(`/preference/${choice}`);
+    } else {
+      setModalOpen(true);
+    }
+  };
 
   const handlePrevSlide = () => {
     if (currentIndex === 0) {
@@ -220,6 +218,7 @@ function MainPageComponent() {
   return (
     <>
       <PreferenceModal />
+      {modalOpen && <PreferenceBannerModal setModalOpen={setModalOpen} />}
       <HeaderComponent />
       <NavWrapContainer>
         <NavigationMenu />
@@ -229,7 +228,11 @@ function MainPageComponent() {
         <BannerWrapContainer>
           <BannerContainer ref={bannerRef}>
             <BannerItemContainer>
-              <BannerImg src={Banner} alt="Banner 1" />
+              <BannerImg
+                src={Banner}
+                alt="Banner 1"
+                onClick={handleModalOpen}
+              />
             </BannerItemContainer>
             <BannerItemContainer>
               <BannerImg src={Banner} alt="Banner 2" />
@@ -279,16 +282,10 @@ function MainPageComponent() {
             </div>
           ))}
         </MainWrapContent>
-<<<<<<< HEAD
       </PageContainer>
+      <BaseFooter />
     </>
   );
-=======
-            </PageContainer>
-        <BaseFooter/>
-        </>
-    );
->>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
 }
 
 export default MainPageComponent;

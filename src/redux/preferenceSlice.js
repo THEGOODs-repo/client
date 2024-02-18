@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 //선호도 조사 슬라이스
 
 const initialState = {
+  choice: "",
   product: 0,
   seller: 0,
   top10: 0,
@@ -12,6 +13,10 @@ const preferenceSlice = createSlice({
   name: "preference",
   initialState,
   reducers: {
+    //선택한 선호도 조사 카테고리
+    choicePreference: (state, action) => {
+      state.choice = action.payload;
+    },
     // "아이돌 인기 상품"으로 키워드 찾아보기
     increaseProduct: (state, action) => {
       state.product = state.product + action.payload;
@@ -42,6 +47,14 @@ const preferenceSlice = createSlice({
     decreaseTag: (state, action) => {
       state.tag = state.tag - action.payload;
     },
+    //페이지 새로 로딩 될 때마다 리셋
+    resetPreference: (state) => {
+      state.product = initialState.product;
+      state.seller = initialState.seller;
+      state.top10 = initialState.top10;
+      state.tag = initialState.tag;
+      state.choice = initialState.choice;
+    },
   },
 });
 
@@ -54,5 +67,7 @@ export const {
   decreaseTop10,
   increaseTag,
   decreaseTag,
+  resetPreference,
+  choicePreference,
 } = preferenceSlice.actions;
 export default preferenceSlice.reducer;

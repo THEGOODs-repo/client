@@ -23,6 +23,12 @@ import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 // 선호도 조사
 import Preference from "./Pages/Preference";
 import PreferenceResultPage from "./Pages/PreferenceResult";
+import PreferenceCreate from "./Components/Preference/Pages/Create";
+import PreferenceAni from "./Components/Preference/Pages/Ani";
+import PreferenceFashion from "./Components/Preference/Pages/Fashion";
+import PreferenceFood from "./Components/Preference/Pages/Food";
+import PreferenceMungu from "./Components/Preference/Pages/Mungu";
+import PreferenceModal from "./Components/Preference/Modal";
 
 // 포스트
 import Post from "./Pages/Post";
@@ -41,18 +47,11 @@ import HelpCenter from "./Components/HelpCenter/HelpCenter";
 import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
 import ShoppingList from "./Pages/ShoppingList";
 //상품상세페이지
-import ProductPageComponent from './Components/Product/ProductPageComponent';
+import ProductPageComponent from "./Components/Product/ProductPageComponent";
 import Guest from "./Pages/Guest";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
-import PreferenceCreate from "./Components/Preference/Pages/Create";
-import PreferenceAni from "./Components/Preference/Pages/Ani";
-import PreferenceFashion from "./Components/Preference/Pages/Fashion";
-import PreferenceFood from "./Components/Preference/Pages/Food";
-import PreferenceMungu from "./Components/Preference/Pages/Mungu";
-import PreferenceModal from "./Components/Preference/Modal";
-
 
 function App() {
   return (
@@ -60,6 +59,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <Routes>
+            {/* 편지 버튼 ->선호도 조사 */}
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference/Idol" element={<Preference />} />
             <Route path="/preference/Create" element={<PreferenceCreate />} />
@@ -74,7 +74,7 @@ function App() {
             />
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product" element={<ProductPageComponent />} />
-            
+
             <Route path="/posting" element={<Post />} />
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
@@ -140,31 +140,7 @@ function App() {
               <Route path="/mypage/MyReview" element={<MyReview />} />
             </Route>
             <Route path="/seller" element={<Seller />} />
-            <Route path="/shoppingList" element={<ShoppingList/>}/>
-            <Route path="/mypage" element={<MyPageComponent />}>
-            <Route path="/mypage" element={<MyPageCustomerComponent />}>
-              <Route path="/mypage/EditProfile" element={<EditProfile />} />
-              <Route
-                path="/mypage/ManagePurchase"
-                element={<ManagePurchase />}
-              />
-              <Route
-                path="/mypage/ManageShippingRefund"
-                element={<ManageShippingRefund />}
-              />
-              <Route
-                path="/mypage/NotificationSettings"
-                element={<NotificationSettings />}
-              />
-              <Route
-                path="/mypage/PasswordChange"
-                element={<PasswordChange />}
-              />
-              <Route
-                path="/mypage/MemberWithdrawal"
-                element={<MemberWithdrawal />}
-              />
-            </Route>
+            <Route path="/shoppingList" element={<ShoppingList />} />
             <Route path="/login/*" element={<Login />} />
             <Route
               path="/api/members/kakao/callback"
@@ -177,6 +153,7 @@ function App() {
             <Route path="/register">
               <Route path="/register" element={<Register />} />
               <Route path="/register/form" element={<RegisterForm />} />
+            </Route>
             <Route path="/login">
               <Route path="" element={<Login />} />
               <Route path="/login/findemail" element={<FindEmail />} />

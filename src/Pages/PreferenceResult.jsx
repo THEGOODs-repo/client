@@ -4,7 +4,6 @@ import PreferenceResult from "../Components/Preference/Result";
 export default function PreferenceResultPage() {
   return (
     <PreferenceContainer>
-      <NavigationMenu />
       <PreferenceResult />
     </PreferenceContainer>
   );

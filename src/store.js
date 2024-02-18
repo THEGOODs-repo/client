@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage: storageSession, // Corrected import here
+  storage: storageSession,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

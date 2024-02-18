@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-<<<<<<< HEAD
-import { StartDelivery } from "../ManagePurchase/StartDelivery";
-//마이페이지_구매관리
-// 특이사항 ** 구매관리 디자인 개별 컴포넌트로 분리 필요 **
-// 특이사항 ** 전체, 결제전, 결제완료, 배송준비, 거래종료 등의 버튼 기능 필요 **
-// 특이사항 ** 구매관리 페이지네이션 필요 **
-
-export default function ManagePurchaseSeller() {
-  const handleButtonClick = () => {};
-=======
 import OrderItems from "../ManagePurchase/OrderItems";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -36,7 +26,12 @@ export default function TopElement() {
     </Routes>
   );
 }
-//마이페이지_구매관리
+
+// //마이페이지_구매관리
+// // 특이사항 ** 구매관리 디자인 개별 컴포넌트로 분리 필요 **
+// // 특이사항 ** 전체, 결제전, 결제완료, 배송준비, 거래종료 등의 버튼 기능 필요 **
+// // 특이사항 ** 구매관리 페이지네이션 필요 **
+
 export function ManagePurchase({
   Guest,
   OrderNumber,
@@ -53,7 +48,6 @@ export function ManagePurchase({
   const handlePageChange = (pageNumber) => {
     SetCurrentPage(pageNumber);
   };
->>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
 
   useEffect(() => {
     console.log(Guest);
@@ -118,75 +112,18 @@ export function ManagePurchase({
 
   return (
     <MainContainer>
-<<<<<<< HEAD
-      <h1>판매관리</h1>
-      <ButtonContainer style={{ marginTop: 12.312 }}>
-        <Button
-          style={{ width: 53.625, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          전체
-        </Button>
-        <Button
-          style={{ width: 60.225, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          결제전
-        </Button>
-        <Button
-          style={{ width: 70.95, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          결제완료
-        </Button>
-        <Button
-          style={{ width: 70.95, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          배송준비
-        </Button>
-        <Button
-          style={{ width: 70.95, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          거래종료
-        </Button>
-        <Button
-          style={{ width: 70.95, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          주문취소
-        </Button>
-        <Button
-          style={{ width: 90.75, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          자동주문취소
-        </Button>
-        <Button
-          style={{ width: 60.225, height: 31.725 }}
-          onClick={handleButtonClick}
-        >
-          삭제됨
-        </Button>
-      </ButtonContainer>
-      <BeforePurchase />
-      <CompletePurchase />
-      <ReadyToDelivery />
-      <StartDelivery />
-=======
       {!Guest ? <h1>구매관리</h1> : <h1>주문 상품</h1>}
       {!Guest && (
         <ButtonContainer>
           <Button
-            style={{ width: 50, height: 37 }}
+            style={{ width: 50, height: 30 }}
             onClick={() => SetOrderStatusFilter(null)}
             className={OrderStatusFilter === null && "selected"}
           >
             전체
           </Button>
           <Button
-            style={{ width: 73, height: 37 }}
+            style={{ width: 58, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.PAY_PREV)}
             className={
               OrderStatusFilter === OrderStatusEnum.PAY_PREV && "selected"
@@ -195,7 +132,7 @@ export function ManagePurchase({
             결제전
           </Button>
           <Button
-            style={{ width: 86, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.PAY_COMP)}
             className={
               OrderStatusFilter === OrderStatusEnum.PAY_COMP && "selected"
@@ -204,7 +141,7 @@ export function ManagePurchase({
             결제완료
           </Button>
           <Button
-            style={{ width: 86, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.DEL_PREP)}
             className={
               OrderStatusFilter === OrderStatusEnum.DEL_PREP && "selected"
@@ -213,7 +150,7 @@ export function ManagePurchase({
             배송준비
           </Button>
           <Button
-            style={{ width: 86, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.DEL_START)}
             className={
               OrderStatusFilter === OrderStatusEnum.DEL_START && "selected"
@@ -222,7 +159,7 @@ export function ManagePurchase({
             배송시작
           </Button>
           <Button
-            style={{ width: 86, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.DEL_COMP)}
             className={
               OrderStatusFilter === OrderStatusEnum.DEL_COMP && "selected"
@@ -231,7 +168,7 @@ export function ManagePurchase({
             배송완료
           </Button>
           <Button
-            style={{ width: 86, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.CONFIRM)}
             className={
               OrderStatusFilter === OrderStatusEnum.CONFIRM && "selected"
@@ -240,7 +177,7 @@ export function ManagePurchase({
             구매확정
           </Button>
           <Button
-            style={{ width: 86, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.CANCEL)}
             className={
               OrderStatusFilter === OrderStatusEnum.CANCEL && "selected"
@@ -249,7 +186,7 @@ export function ManagePurchase({
             주문취소
           </Button>
           <Button
-            style={{ width: 96, height: 37 }}
+            style={{ width: 74, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.REFUND_ONGOING)}
             className={
               OrderStatusFilter === OrderStatusEnum.REFUND_ONGOING && "selected"
@@ -258,7 +195,7 @@ export function ManagePurchase({
             반품진행중
           </Button>
           <Button
-            style={{ width: 73, height: 37 }}
+            style={{ width: 66, height: 30 }}
             onClick={() => SetOrderStatusFilter(OrderStatusEnum.REFUND_COMP)}
             className={
               OrderStatusFilter === OrderStatusEnum.REFUND_COMP && "selected"
@@ -268,11 +205,31 @@ export function ManagePurchase({
           </Button>
         </ButtonContainer>
       )}
-      {Array.isArray(OrderItemList) && OrderItemList.length > 0
-        ? OrderItemList.map((data, index) => (
-            <OrderItems {...data} key={index} />
-          ))
-        : "주문하신 상품이 없습니다!"}
+      {Array.isArray(OrderItemList) && OrderItemList.length > 0 ? (
+        OrderItemList.map((data, index) => <OrderItems {...data} key={index} />)
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "50px",
+          }}
+        >
+          <img src={"https://ifh.cc/g/1TTV8d.png"} alt={"사진"} />
+          <h5
+            style={{
+              fontFamily: "Noto Sans",
+              fontStyle: "normal",
+              fontWeight: "500",
+              fontSize: "15px",
+              lineHeight: "22px",
+              color: "#202123",
+            }}
+          >
+            주문하신 상품이 없습니다.
+          </h5>
+        </div>
+      )}
       {!Guest && (
         <PageNationWrapper>
           <PageNation className="prevprev" />
@@ -292,7 +249,7 @@ export function ManagePurchase({
           <PageNation className="nextnext" />
         </PageNationWrapper>
       )}
->>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
+      {/* >>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708 */}
     </MainContainer>
   );
 }
@@ -302,15 +259,9 @@ const MainContainer = styled.div`
   position: relative;
   flex-direction: column;
   align-items: center;
-<<<<<<< HEAD
   width: 717.75px;
   height: 1100px;
   border: 2.475px solid rgba(0, 0, 0, 0.05);
-=======
-  width: 870px;
-  height: 972px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
->>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
 
   h1 {
     align-self: flex-start;
@@ -319,12 +270,8 @@ const MainContainer = styled.div`
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-<<<<<<< HEAD
     font-size: 21.45px;
     line-height: 29.925px;
-=======
-    font-size: 26px;
->>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
     color: #202123;
   }
 `;
@@ -345,7 +292,7 @@ const Button = styled.button`
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 12.375px;
+  font-size: 12px;
   line-height: 16.5px;
   text-align: center;
 
@@ -358,7 +305,7 @@ const Button = styled.button`
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 12.375px;
+    font-size: 12.5px;
     line-height: 16.5px;
     text-align: center;
 
@@ -372,7 +319,7 @@ const Button = styled.button`
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 20px;
     text-align: center;
 

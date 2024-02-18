@@ -2,6 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../../img/logo.svg";
 import { useNavigate } from "react-router-dom";
+const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
+const N_REST_API_KEY = process.env.REACT_APP_N_REST_API_KEY;
+const K_REDIRECT_URI = `http://localhost:3000/api/members/kakao/callback`;
+const N_REDIRECT_URI = `http://localhost:3000/api/members/naver/callback`;
+const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
+const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${N_REST_API_KEY}&state=TEST&redirect_uri=${N_REDIRECT_URI}`;
 
 const RegisterWrapper = styled.div`
   display: flex;
@@ -21,6 +27,7 @@ const TextWrapper = styled.div`
   width: 100%;
   margin: ${17 / 19.2}vw 0 ${59 / 19.2}vw 0;
   font-size: ${20 / 19.2}vw;
+  text-align: center;
 `;
 
 const SocialWrapper = styled.div`
@@ -30,6 +37,10 @@ const SocialWrapper = styled.div`
   padding: 0 0 ${18.5 / 19.2}vw 0;
 `;
 
+const EmailWrapper = styled.div`
+  margin: ${10 / 19.2}vw 0 0 0;
+`;
+
 const RegisterImg = {
   display: "block",
   width: `${570 / 19.2}vw`,
@@ -37,11 +48,7 @@ const RegisterImg = {
   padding: 0,
 };
 
-const EmailWrapper = styled.div`
-  margin: ${10 / 19.2}vw 0 0 0;
-`;
-
-const RegisterMenu = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   return (
     <RegisterWrapper>
@@ -72,6 +79,9 @@ const RegisterMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={RegisterImg}
+          onClick={() => {
+            window.location.href = kakaoURL;
+          }}
         >
           <rect width="570" height="54" rx="5" fill="#FEE500" />
           <g clip-path="url(#clip0_323_19687)">
@@ -103,6 +113,9 @@ const RegisterMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={RegisterImg}
+          onClick={() => {
+            window.location.href = naverURL;
+          }}
         >
           <rect width="570" height="54" rx="5" fill="#03C75A" />
           <g clip-path="url(#clip0_323_19686)">
@@ -134,7 +147,7 @@ const RegisterMenu = () => {
           xmlns="http://www.w3.org/2000/svg"
           style={RegisterImg}
           onClick={() => {
-            navigate("/registerpage");
+            navigate("/register/form");
           }}
         >
           <rect width="570" height="54" rx="5" fill="#F0C920" />
@@ -148,4 +161,4 @@ const RegisterMenu = () => {
   );
 };
 
-export default RegisterMenu;
+export default RegisterPage;

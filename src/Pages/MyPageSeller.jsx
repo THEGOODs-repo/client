@@ -5,7 +5,9 @@ import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 function MyPageSellerComponent() {
   return (
     <PageContainer>
+      <NavWrapContainer>
       <NavigationMenu />
+      </NavWrapContainer>
       <MyPageContainer>
         <MyPageNavbarSeller />
         <Outlet />
@@ -14,6 +16,14 @@ function MyPageSellerComponent() {
   );
 }
 
+const NavWrapContainer = styled.div`
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; 
+`;
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;

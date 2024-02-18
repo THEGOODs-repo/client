@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -12,6 +13,22 @@ import HeaderComponent from "../Header/Header";
 import CustomHorizontalLine from "./HorizontalLineComponent";
 import ArrowCircleRight from "../../img/arrow-circle-right.png";
 import PreferenceModal from "../Preference/Modal";
+=======
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import LeftArrow from '../../img/LeftArrow.png';
+import RightArrow from '../../img/RightArrow.png';
+import Banner from '../../img/banner.svg';
+import NavigationCategoryMenu from '../NavigationMenu/NavigationCategoryMenu';
+import NavigationMenu from '../NavigationMenu/NavigationMenu';
+import ProductCardComponent from '../Global/ProductComponent';
+import { useEffect } from 'react';
+import HeaderComponent from '../Header/Header';
+import CustomHorizontalLine from './HorizontalLineComponent';
+import ArrowCircleRight from '../../img/arrow-circle-right.png';
+import BaseFooter from '../Footer/BaseFooter';
+>>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
 
 const PageContainer = styled.div`
   width: 100%;
@@ -262,9 +279,16 @@ function MainPageComponent() {
             </div>
           ))}
         </MainWrapContent>
+<<<<<<< HEAD
       </PageContainer>
     </>
   );
+=======
+            </PageContainer>
+        <BaseFooter/>
+        </>
+    );
+>>>>>>> 31a6d49154cabb9a83e05462f54d84a057236708
 }
 
 export default MainPageComponent;

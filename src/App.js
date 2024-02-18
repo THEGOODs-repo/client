@@ -30,15 +30,19 @@ import Seller from "./Pages/Seller";
 
 // 로그인
 import Login from "./Pages/Login";
+import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
+import NaverLoginHandler from "./Components/Login/NaverLoginHandler";
 import Register from "./Pages/Register";
 import RegisterForm from "./Components/Register/RegisterForm";
 import FindEmail from "./Components/Login/FindEmail";
 import FindPassWord from "./Components/Login/FindPassWord";
 import FindGuestOrder from "./Components/Login/FindGuestOrder";
-import OrderDetail from "./Components/Order/OrderDetail";
 import HelpCenter from "./Components/HelpCenter/HelpCenter";
 import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
-
+import ShoppingList from "./Pages/ShoppingList";
+//상품상세페이지
+import ProductPageComponent from './Components/Product/ProductPageComponent';
+import Guest from "./Pages/Guest";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
@@ -48,6 +52,7 @@ import PreferenceFashion from "./Components/Preference/Pages/Fashion";
 import PreferenceFood from "./Components/Preference/Pages/Food";
 import PreferenceMungu from "./Components/Preference/Pages/Mungu";
 import PreferenceModal from "./Components/Preference/Modal";
+
 
 function App() {
   return (
@@ -68,6 +73,9 @@ function App() {
               element={<PreferenceResultPage />}
             />
             {/* <Route path="/*" element={<Post />} /> */}
+            <Route path="/product" element={<ProductPageComponent />} />
+            
+            <Route path="/posting" element={<Post />} />
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
               <Route
@@ -132,6 +140,8 @@ function App() {
               <Route path="/mypage/MyReview" element={<MyReview />} />
             </Route>
             <Route path="/seller" element={<Seller />} />
+            <Route path="/shoppingList" element={<ShoppingList/>}/>
+            <Route path="/mypage" element={<MyPageComponent />}>
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route
@@ -155,17 +165,26 @@ function App() {
                 element={<MemberWithdrawal />}
               />
             </Route>
+            <Route path="/login/*" element={<Login />} />
+            <Route
+              path="/api/members/kakao/callback"
+              element={<KakaoLoginHandler />}
+            />
+            <Route
+              path="/api/members/naver/callback"
+              element={<NaverLoginHandler />}
+            />
+            <Route path="/register">
+              <Route path="/register" element={<Register />} />
+              <Route path="/register/form" element={<RegisterForm />} />
             <Route path="/login">
               <Route path="" element={<Login />} />
               <Route path="/login/findemail" element={<FindEmail />} />
               <Route path="/login/resetpw" element={<FindPassWord />} />
               <Route path="/login/guest" element={<FindGuestOrder />} />
-              <Route path="/login/order" element={<OrderDetail />} />
             </Route>
-            <Route path="/register">
-              <Route path="/register" element={<Register />} />
-              <Route path="/register/form" element={<RegisterForm />} />
-            </Route>
+            <Route path="/register/*" element={<Register />} />
+            <Route path="/guest/*" element={<Guest />} />
             <Route path="/helpcenter">
               <Route path="/helpcenter" element={<HelpCenter />} />
               <Route path="/helpcenter/write" element={<HelpCenterWrite />} />

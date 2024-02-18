@@ -14,7 +14,7 @@ import ReviewComponent from '../Review/Review';
 import ProductInfoComponent from '../Product/ProductInfoComponent';
 import Pagination from '../Footer/PageNationComponent';
 import ImageSlider from './SlideComponent';
-
+import FixedButtons from '../Global/FixedButtons';
 
 const WrapContainer = styled.div`
     width: 100%;
@@ -208,6 +208,28 @@ const images = [profile, product1Img, product1Img, product1Img, product1Img, pro
 function ProductPageComponent() {
     const [currentPage,setCurrentPage] = useState(1);       
     const [mainImageURI,setMainImageURI] = useState(product1Img);
+    const [item, setItem] = useState({
+        itemId: 0,
+        sellerName: "string",
+        itemName: "string",
+        itemImg: "img/asdasdasdasdasd.png",
+        deliveryFee: 3000,
+        optionList: [
+          {
+            optionId: 0,
+            optionName: "string",
+            optionPrice: 0,
+            amount: 0
+          },
+          {
+            optionId: 0,
+            optionName: "string",
+            optionPrice: 0,
+            amount: 0
+          }
+        ]
+      });
+      
 
     const totalPages = 5;
     
@@ -308,6 +330,7 @@ function ProductPageComponent() {
             <div>
                 <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
             </div>            
+            <FixedButtons/>
         </>
     );
 }

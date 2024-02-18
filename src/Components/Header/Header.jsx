@@ -1,5 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 const StyledLink = styled(Link)`
     text-decoration: none; /* underline 제거 */
     color: gray; /* 글씨 색상 설정 */
@@ -8,6 +10,7 @@ const StyledLink = styled(Link)`
 
 
 function HeaderComponent() {
+
     return (
         <>
             <SubHeaderContainer>
@@ -33,13 +36,11 @@ const SubHeaderContainer = styled.div`
    display : flex;
    justify-content : flex-end;
    align-items : center;
-   margin-right : 100px;
-
+   
    `
 const SubHeaderItemContainer = styled.div`
    display : flex; 
    width : 300px;
    height : 23px;  
-   margin-right : 350px;
+   margin-right : 310px;
 `
-

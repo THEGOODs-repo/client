@@ -100,10 +100,10 @@ const ProductCardComponent = ({ product }) => {
                     </CalenderContainer>
                     <ProfileViewerContainer>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <SellerImage src={profile} alt="Seller" />
-                            <SellerName>박선균</SellerName>
+                            <SellerImage src={product.memberProfileImgUrl} alt="Seller" />
+                            <SellerName>{product.memberName}</SellerName>
                         </div>
-                        <Views>조회수: 100</Views>
+                        <Views>{product.viewCount}</Views>
                     </ProfileViewerContainer>
                 </SellerInfo>
             </InfoContainer>

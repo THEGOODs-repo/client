@@ -46,6 +46,10 @@ import Guest from "./Pages/Guest";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
+import CategoryPage from "./Components/Category/CategoryComponent";
+import NewProductPage from "./Pages/NewProductPage";
+import SearchResultComponent from "./Components/Search/SearchComponent";
+import MorePage from "./Pages/MoreProductPage";
 
 
 function App() {
@@ -56,14 +60,21 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference" element={<Preference />} />
+            <Route path="/newproduct" element={<NewProductPage type="new"/>} />
+            <Route path="/popularproduct" element={<NewProductPage  type="popular"/>} />
+            <Route path="/endingproduct" element={<NewProductPage  type="last"/>} />
+            <Route path="/search" element={<SearchResultComponent />} />
+            <Route path="/product" element={<MorePage />} />
             <Route
               path="/preference/result"
               element={<PreferenceResultPage />}
             />
+            <Route path="/category" element={<CategoryPage />} />
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
             
             <Route path="/posting" element={<Post />} />
+            
             
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
@@ -132,9 +143,8 @@ function App() {
               <Route path="/login/findemail" element={<FindEmail />} />
               <Route path="/login/resetpw" element={<FindPassWord />} />
               <Route path="/login/guest" element={<FindGuestOrder />} />
+            </Route>
             <Route path="/shoppingList" element={<ShoppingList />} />
-            
-            <Route path="/login/*" element={<Login />} />
             <Route path="/api/members/kakao/callback" element={<KakaoLoginHandler />} />
             <Route path="/api/members/naver/callback" element={<NaverLoginHandler />} />
             

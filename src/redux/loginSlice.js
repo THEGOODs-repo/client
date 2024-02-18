@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: null,
 };
+const CartState= {
+  productList : [],
+}
 
 const loginSlice = createSlice({
   name: "login",

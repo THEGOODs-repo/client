@@ -163,7 +163,7 @@ const Login = () => {
 
   const fetchLogin = async () => {
     try {
-      const endpoint = `/api/members/login`;
+      const endpoint = `https://dev.the-goods.store/api/members/login`;
       const requestBody = {
         email: Email,
         password: Password,

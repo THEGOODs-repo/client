@@ -2,47 +2,138 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import X from "../../img/x.png";
 import CustomButton from '../Register/CustomButton';
+import axios from 'axios';
+import { useSelector } from "react-redux";
 
-const OrderModificationModal = ({options, onClose}) => {
-  const [selectedOptions, setSelectedOptions] = useState(options);
-  const [localSelectedOptions, setLocalSelectedOptions] = useState(selectedOptions.map(option => ({ ...option, isChecked: false })));
+const OrderModificationModal = ({optionList, onClose}) => {
+  const [selectedOptions, setSelectedOptions] = useState(optionList || []);
+  const [localSelectedOptions, setLocalSelectedOptions] = useState(selectedOptions ? selectedOptions.map(option => ({ ...option, isChecked: false })) : []);
+
+  useEffect(() => {
+    if (selectedOptions) {
+      setLocalSelectedOptions(selectedOptions.map(option => ({ ...option, isChecked: false })));
+    }
+  }, [selectedOptions]);
+
   
-  const handleOptionAmountChange = (index, amount) => {
-    const newOptions = [...selectedOptions];
-    newOptions[index].amount = amount;
-    setSelectedOptions(newOptions);
-  };
 
-  const handleDecreaseAmount = (index) => {
-    const newAmount = Math.max(selectedOptions[index].amount - 1, 1);
-    handleOptionAmountChange(index, newAmount);
+  const handleDecreaseAmount = (cartDetailId) => {
+    const updatedOptions = selectedOptions.map(option => {
+      if (option.cartDetailId === cartDetailId) {
+        return {
+          ...option,
+          amount: Math.max(option.amount - 1, 1)
+        };
+      }
+      return option;
+    });
+    setSelectedOptions(updatedOptions);
   };
-
-  const handleIncreaseAmount = (index) => {
-    const newAmount = selectedOptions[index].amount + 1;
-    handleOptionAmountChange(index, newAmount);
+  
+  const handleIncreaseAmount = (cartDetailId) => {
+    const updatedOptions = selectedOptions.map(option => {
+      if (option.cartDetailId === cartDetailId) {
+        return {
+          ...option,
+          amount: option.amount + 1
+        };
+      }
+      return option;
+    });
+    setSelectedOptions(updatedOptions);
   };
-  const handleToggleOption = (index) => {
-    const newOptions = [...selectedOptions];
-    newOptions[index].isChecked = !newOptions[index].isChecked;
-    setSelectedOptions(newOptions);
+  
+  const handleToggleOption = (cartDetailId) => {
+    const updatedOptions = localSelectedOptions.map(option => {
+      if (option.cartDetailId === cartDetailId) {
+        return {
+          ...option,
+          isChecked: !option.isChecked
+        };
+      }
+      return option;
+    });
+  
+    // 상태 업데이트
+    setLocalSelectedOptions(updatedOptions);
   };
+  
+  
+  
 
   const handleToggleAllOptions = () => {
     const allSelected = localSelectedOptions.every(option => option.isChecked);
+  
     const newOptions = localSelectedOptions.map(option => ({
       ...option,
       isChecked: !allSelected
     }));
-    setLocalSelectedOptions(newOptions);
+  
+    setLocalSelectedOptions(newOptions); // localSelectedOptions 상태 업데이트
     setSelectedOptions(newOptions); // selectedOptions도 업데이트
   };
+  
 
-  const handleDeleteSelectedOptions = () => {
-    const newOptions = localSelectedOptions.filter(option => !option.isChecked);
-    setLocalSelectedOptions(newOptions);
-    setSelectedOptions(newOptions); // 부모 컴포넌트로 변경된 옵션들 전달
+  const token = useSelector((state)=>state.login.token);
+  const handleConfirmChanges = () => {
+    // API에 변경된 옵션 정보를 전송
+    const requestBody = {
+      cartUpdateDTOList: selectedOptions.map(option => ({
+        cartDetailId: option.cartDetailId,
+        amount: option.amount
+      }))
+    };
+  
+    // 요청 헤더에 인증 토큰 추가
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    };
+  
+    axios.put('https://dev.the-goods.store/api/cart', requestBody, header)
+      .then(response => {
+        console.log('API 요청이 성공적으로 완료되었습니다.');
+        onClose(); // 수정 모달 닫기
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('API 요청이 실패하였습니다.', error);
+      });
+
+    
   };
+  
+
+  
+  const handleDeleteSelectedOptions = () => {
+    const deletedOptionIds = localSelectedOptions
+      .filter(option => option.isChecked)
+      .map(option => option.cartDetailId);
+  
+    // DELETE 요청의 본문에 데이터를 넣어서 요청을 보냄
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    };
+  
+    axios.delete('https://dev.the-goods.store/api/cart/detail/delete', {
+      ...header,
+      data: { cartDetailIdList: deletedOptionIds }
+    })
+      .then(response => {
+        // 삭제된 옵션들을 상태에서 제거
+        console.log('옵션 삭제 요청이 성공적으로 완료되었습니다.');
+      })
+      .catch(error => {
+        console.error('옵션 삭제 요청이 실패하였습니다.', error);
+      });
+  };
+  
+
 
 
 
@@ -56,30 +147,31 @@ const OrderModificationModal = ({options, onClose}) => {
         <Container>
           <OptionContainer>
             
-              <CustomButton  state={selectedOptions.every(option => option.isChecked)} onChange={()=>handleToggleAllOptions((selectedOptions)=>!selectedOptions)} index="selectedOptions" label="전체 선택"/> 
+              <CustomButton state={selectedOptions.every(option => option.isChecked)} onChange={()=>handleToggleAllOptions((selectedOptions)=>!selectedOptions)} index="selectedOptions" label="전체 선택"/> 
             
             <DeleteButton onClick={handleDeleteSelectedOptions}>X 선택 삭제</DeleteButton>
           </OptionContainer>
           {selectedOptions.map((option, index) => (
+            
             <OptionContainer key={index}>
               <OptionItem>
                 <CheckPosition>
-                <CustomButton  state={option.isChecked} onChange={() => handleToggleOption(index)} index={index} label="" /> 
+                <CustomButton  state={option.isChecked} onChange={() => handleToggleOption(option.cartDetailId)} index={option.cartDetailId} label="" /> 
                 </CheckPosition>
                 <div style={{width:'20vw'}}>
                 <OptionName>{option.optionName}</OptionName>
                 </div>
                 <QuantityControl>
-                  <Button onClick={() => handleDecreaseAmount(index)}>-</Button>
+                  <Button onClick={() => handleDecreaseAmount(option.cartDetailId)}>-</Button>
                   <AmountInput><span style={{marginTop:'9px'}}>{option.amount}</span></AmountInput>
                   
-                  <Button onClick={() => handleIncreaseAmount(index)}>+</Button>
+                  <Button onClick={() => handleIncreaseAmount(option.cartDetailId)}>+</Button>
                 </QuantityControl>
               </OptionItem>
             </OptionContainer>
           ))}
         </Container>
-        <CloseButton onClick={onClose}>확인</CloseButton>
+        <CloseButton onClick={handleConfirmChanges}>확인</CloseButton>
       </ModalWrapper>
     </ModalOverlay>
   );

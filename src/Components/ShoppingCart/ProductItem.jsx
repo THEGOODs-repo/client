@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import homeimg from "../../img/home.png";
 import plusimg from "../../img/Plus.png"
-import Checkbox from './CheckBox';
 import OrderModificationModal from "./OrderModificationModal";
 import CustomButton from "../Register/CustomButton";
-const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isChecked }) => {
+import { useDispatch } from "react-redux";
+import { setSelectedItems } from "./selectedItemsSlice";
+import { useNavigate } from 'react-router-dom';
+
+
+const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, isChecked,itemId  }) => {
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(isChecked);
 
+  const dispatch = useDispatch();
   // 전체 선택 상태가 변경될 때 isCheckedAll 상태 업데이트
   useEffect(() => {
     setIsCheckedAll(isChecked);
@@ -18,9 +23,26 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
   // 체크박스 상태 변경 핸들러
   const handleCheckboxChange = (event) => {
     setIsCheckedAll(event.target.checked);
-    setIsCheckboxChecked(event.target.checked);
-    
+    const selectedItem = { sellerName, itemName, itemImg, optionList, deliveryFee};
+    dispatch(setSelectedItems(selectedItem)); // 선택된 항목을 Redux store에 dispatch
   };
+
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
+
+  const handleOrderClick = () => {
+    const item = {
+      itemId,
+      sellerName,
+      itemName,
+      itemImg,
+      deliveryFee,
+      optionList
+    };
+    console.log('전달되는 상품 정보:', item);
+    //navigate('/payment', { state: { item } }); // 결제 페이지로 이동하면서 item 객체 전달
+  }
+  
+
 
   const handleModifyOrderClick = () => {
     setIsModalOpen(true);
@@ -28,23 +50,49 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
   // 각 옵션의 가격과 개수를 곱하여 합산하는 함수
   const calculateOptionTotalPrice = () => {
     let totalPrice = 0;
-    options.forEach(option => {
-      totalPrice += option.price * option.amount;
+  
+    if (!optionList || !Array.isArray(optionList)) {
+      console.error('options 배열이 올바르지 않습니다.');
+      return null;
+    }
+  
+    optionList.forEach(option => {
+      if (typeof option.price !== 'number' || typeof option.amount !== 'number') {
+        console.error('옵션의 price 또는 amount 속성이 올바르지 않습니다:', option);
+        return null;
+      }
+      totalPrice += option.price * option.amount; // 각 옵션의 가격과 수량을 곱한 값을 totalPrice에 더합니다.
     });
+    
+  
     return totalPrice;
   };
+
+  const [optionsList, setOptionsList] = useState([]); // 초기 옵션 리스트 상태
+
+  const handleUpdateOptions = (selectedOptions) => {
+    // 변경된 옵션 정보를 받아와서 상태 업데이트
+    setOptionsList(selectedOptions);
+  };
   // 옵션이 있는지 여부 확인
-  const hasOptions = options.some(option => option.optionName !== null);
-  const firstItem = options[0];
+  const hasOptions = optionList.some(option => option.optionName !== null);
+  const firstItem = optionList[0];
   const firstItemPrice = firstItem.price;
   const firstItemAmount = firstItem.amount;
 
+  const formattedPrice = (price) => {
+    return price.toLocaleString();
+  };
+  
+  const totalOrderPrice = calculateOptionTotalPrice() + deliveryFee;
+  const formattedTotalPrice = formattedPrice(totalOrderPrice);
+  
   return (
     <>
       <Form>
         <SellerBox>
           <Check>
-            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index={itemName} label=""/> 
+            <CustomButton  state={isCheckedAll} onChange={handleCheckboxChange}index={itemName} label=""/> 
 
           </Check>
           <SellerName>{sellerName}</SellerName>
@@ -64,8 +112,10 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
             <ModifyOrder onClick={handleModifyOrderClick}>주문수정</ModifyOrder>
             {isModalOpen && (
               <OrderModificationModal
-                options={options}
+                optionList={optionList}
                 onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
+                onUpdate={handleUpdateOptions} // 변경된 내용을 부모 컴포넌트로 전달하는 콜백 함수 전달
+       
               />
             )}
           </ProductForm>
@@ -73,7 +123,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
           <>
             <NoOptionProductForm>
               <Check2>
-            <CustomButton  state={isCheckedAll} onChange={()=>setIsCheckedAll((isCheckedAll)=>!isCheckedAll)} index={itemName} label=""/> 
+              <CustomButton  state={isCheckedAll} onChange={handleCheckboxChange} index={itemName} label="" /> 
               </Check2>
               <ItemImg2 src={itemImg} alt={itemName}/>
               <NameBox>
@@ -81,12 +131,12 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
                 <SellerName2>{sellerName}</SellerName2></div>
                 <ItemName>{itemName}</ItemName>
               </NameBox>
-              <PriceText><Text>{firstItemPrice}원</Text></PriceText>
+              <PriceText><Text>{firstItemPrice.toLocaleString()}원</Text></PriceText>
               <AmountText><Text>{firstItemAmount}개</Text></AmountText>
               <ModifyOrder2 onClick={handleModifyOrderClick}>주문수정</ModifyOrder2>
               {isModalOpen && (
                 <OrderModificationModal
-                  options={options}
+                  optionList={optionList}
                   onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
                 />
               )}
@@ -95,11 +145,11 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
           </>
         )}
 
-        {hasOptions && options.map((option, idx) => (
+        {hasOptions && optionList.map((option, idx) => (
           // 옵션 이름이 null이 아닌 경우에만 렌더링
           option.optionName !== null && (
             <OptionForm key={idx}>
-              <OptionText>선택 {idx + 1} : {option.optionName} / {option.price}원 ({option.amount}개)</OptionText>
+              <OptionText>선택 {idx + 1} : {option.optionName} / {option.price.toLocaleString()}원 ({option.amount}개)</OptionText>
             </OptionForm>
           )
         ))}
@@ -108,18 +158,18 @@ const ProductItem = ({ sellerName, itemName, itemImg, options, deliveryFee, isCh
           <PriceBox>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Price>상품 금액</Price>
-              <Price>{calculateOptionTotalPrice()}원</Price>
+              <Price>{calculateOptionTotalPrice().toLocaleString()}원</Price>
             </div>
             <Plus src={plusimg}></Plus>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Price>배송비</Price>
-              <Price>{deliveryFee}원</Price>
+              <Price>{deliveryFee.toLocaleString()}원</Price>
             </div>
           </PriceBox>
           <MarketPriceBox>
-            <MarketPrice1>주문금액 <MarketPrice>{calculateOptionTotalPrice() + deliveryFee}원</MarketPrice></MarketPrice1>
-            <OptionOrder onClick={() => isCheckboxChecked && console.log("click")} isActive={isCheckedAll}>
-              {sellerName} 0건 주문하기
+            <MarketPrice1>주문금액 <MarketPrice>{formattedTotalPrice}원</MarketPrice></MarketPrice1>
+            <OptionOrder onClick={handleOrderClick}  isActive={isCheckedAll}>
+              {sellerName}  주문하기
             </OptionOrder>
           </MarketPriceBox>
         </div>
@@ -132,9 +182,9 @@ export default ProductItem;
 
 
 const Form = styled.div`
-  width: 50vw;
-  min-height: 25vh;
-  margin-left:25vw;
+  width: ${1096/19.2}vw;
+  min-height: ${345/19.2}vw;
+  margin-left:${375/19.2}vw;
   margin-top:3vh;
   margin-bottom:3vh;
   flex-direction: column;
@@ -142,7 +192,7 @@ const Form = styled.div`
   background: #FEFDFD;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
-  padding:1.5vw;
+  padding:${37/19.2}vw;
 `
 const SellerBox = styled.div`
   display:flex;
@@ -155,14 +205,14 @@ const SellerName = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 1.5vw;
+  font-size: ${31/19.2}vw;
   color: #202123;
   margin-right: 0.5vw;
-  margin-left: 1vw;
+  margin-left: ${21/19.2}vw;
 `
 const Home=styled.img`
-  width: 1.5vw;
-  height: 1.5vw;
+  width: ${30/19.2}vw;
+  height: ${30/19.2}vw;
 `
 const ProductForm = styled.div`
   display: flex;
@@ -171,13 +221,13 @@ const ProductForm = styled.div`
   margin-bottom:1vw;
 `
 const ItemImg = styled.img`
-  width: 6.5vw;
-  height: 6.5vw;
+  width: ${130/19.2}vw;
+  height: ${130/19.2}vw;
   margin-left: 1vw;
 `
 const ItemImg2 = styled.img`
-  width: 6.5vw;
-  height: 6.5vw;
+  width: ${130/19.2}vw;
+  height: ${130/19.2}vw;
   margin-left: 1vw;
   margin-top:1.5vh;
 `
@@ -187,7 +237,7 @@ const ItemName = styled.div`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1vw;
+  font-size: ${16/19.2}vw;
   color: #202123;
 `
 const Divider = styled.hr`
@@ -201,7 +251,7 @@ const Divider2 = styled.hr`
 `;
 
 const OptionSellerItem = styled.div`
-  width:30vw;
+  width: ${770/19.2}vw;
   padding:1vw;
 `
 const SellerName2 = styled.p`
@@ -213,38 +263,38 @@ const SellerName2 = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 13px;
+  font-size: ${14/19.2}vw;
   color: #9C9C9C;
 `
 const ModifyOrder = styled.button`
   box-sizing: border-box;
-  width: 4.5vw;
-  height: 2vw;
+  width: ${70/19.2}vw;
+  height: ${25/19.2}vw;
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  margin-left: 2vw;
-  margin-top: 4vh;
+  margin-left: 0vw;
+  margin-top: ${50/19.2}vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 0.9vw;
+  font-size: ${12/19.2}vw;
   color: #888888;
   background:#FEFDFD;
 `
 const ModifyOrder2 = styled.button`
   box-sizing: border-box;
-  width: 4.5vw;
-  height: 2vw;
+  width: ${70/19.2}vw;
+  height: ${25/19.2}vw;
   border: 1px solid rgba(156, 156, 156, 0.5);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  margin-left: 2vw;
-  margin-top: 5.5vh;
+  margin-left: ${45/19.2}vw;
+  margin-top: ${65/19.2}vw;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 0.9vw;
+  font-size: ${12/19.2}vw;
   color: #888888;
   background:#FEFDFD;
 `
@@ -253,8 +303,8 @@ const OptionForm = styled.div`
   display:flex;
   padding-left: 2vw;
   margin-left: 3vw;
-  width: 45vw;
-  height: 6vh;
+  width:  ${1003/19.2}vw;
+  height:  ${60/19.2}vw;
   border-bottom: 1px solid rgba(156, 156, 156, 0.5);
   background: rgba(156, 156, 156, 0.08);
   border-radius: 5px 5px 0px 0px;
@@ -265,7 +315,7 @@ const OptionText = styled.div`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 1vw;
+  font-size:  ${14/19.2}vw;
   color: #202123;
   text-align: center;
 `
@@ -273,10 +323,10 @@ const OptionText = styled.div`
 const PriceBox = styled.div`
   display:flex;
   border-right: 0.5px solid black;
-  margin-top: 3vh;
-  margin-left: 8vw;
-  width: 14vw;
-  height: 6vh;
+  margin-top:  ${35/19.2}vw;
+  margin-left:  ${275/19.2}vw;
+  width: 13vw;
+  height:  ${46/19.2}vw;
 `
 const Price = styled.p`
   font-family: 'Noto Sans';
@@ -297,7 +347,7 @@ const Plus=styled.img`
 const MarketPriceBox = styled.div`
   display:flex;
   width: 30vw;
-  margin-top: 2vh;
+  margin-top:  ${15/19.2}vw;
   margin-left: 1.5vw;
   height: 8vh;
 `
@@ -323,10 +373,10 @@ const MarketPrice1 = styled.p`
 `
 const OptionOrder = styled.button`
   box-sizing: border-box;
-  width: 13vw;
-  height: 5vh;
+  width: ${211/19.2}vw;
+  height: ${43/19.2}vw;
   margin-left:2vw;
-  margin-top:1.5vh;
+  margin-top: ${20/19.2}vw;
   background: ;
   background-color: ${(props) => (props.isActive ? "#F0C920" : "rgba(156, 156, 156, 0.8)")};
   border: 1px solid rgba(156, 156, 156, 0.5);
@@ -335,7 +385,7 @@ const OptionOrder = styled.button`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  //font-size: 15px;
+  font-size: ${15/19.2}vw;
   line-height: 20px;
   color: #FFFFFF;
   padding :1px;
@@ -355,7 +405,7 @@ const NoOptionProductForm = styled.div`
 `
 const NameBox = styled.div`
   position : relative;
-  width:13vw;
+  width:${290/19.2}vw;
   border-right: 0.5px solid black;
   overflow-wrap: break-word; 
   padding: 1vw;
@@ -363,11 +413,11 @@ const NameBox = styled.div`
 //margin-left: 1vw;
 `
 const PriceText = styled.div`
-  width:8.5vw;
+  width:${230/19.2}vw;
   border-right: 0.5px solid #9C9C9C;
 `
 const AmountText =styled.div`
-  width:8.5vw;
+  width:${200/19.2}vw;
   border-right: 0.5px solid #9C9C9C;
 `
 const Text = styled.p`
@@ -375,7 +425,7 @@ const Text = styled.p`
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 0.9vw;
+  font-size: ${15/19.2}vw;
   text-align: center;
   margin-top:6.5vh;
   color: #202123;

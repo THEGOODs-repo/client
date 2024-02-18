@@ -19,11 +19,11 @@ const ButtonLabel = styled.label`
 
   &:before {
     content: "";
-    height: 21px;
-    width: 21px;
-    border: 1px solid #9c9c9c;
-    border-radius: 1px;
-    background-size: 12px;
+    height: ${23 / 19.2}vw;
+    width: ${23 / 19.2}vw;
+    border: ${1 / 19.2}vw solid #9c9c9c;
+    border-radius: ${2 / 19.2}vw;
+    background-size: ${11 / 19.2}vw ${8 / 19.2}vw;
     background-position: 50%;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -36,11 +36,11 @@ const ButtonLabel = styled.label`
     opacity: 0;
     content: "";
     position: absolute;
-    height: 21px;
-    width: 21px;
-    border: 1px solid transparent;
-    border-radius: 1px;
-    background-size: 12px;
+    height: ${23 / 19.2}vw;
+    width: ${23 / 19.2}vw;
+    border: ${1 / 19.2}vw solid transparent;
+    border-radius: ${2 / 19.2}vw;
+    background-size: ${11 / 19.2}vw ${8 / 19.2}vw;
     background-position: 50%;
     background-repeat: no-repeat;
     background-color: #f0c920;
@@ -49,6 +49,7 @@ const ButtonLabel = styled.label`
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5.8L4.14286 9L12 1" stroke="%23FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
   }
 `;
+
 
 const ButtonInput = styled.input`
   position: absolute;

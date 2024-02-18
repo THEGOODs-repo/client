@@ -124,7 +124,7 @@ function NavigationCategoryMenu() {
                 <Label to="/newproduct">신상품</Label>
             </NavItem>
             <NavItem>
-                <Label to="/popularzproduct">인기상품</Label>
+                <Label to="/popularproduct">인기상품</Label>
             </NavItem>
             <NavItem>
                 <Label to="/endingproduct">마감임박</Label>

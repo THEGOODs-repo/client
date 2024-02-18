@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import ProductCardComponent from '../Components/Global/ProductComponent';
 import newbanner from '../img/newBanner.png';
+import FixedButtons from '../Components/Global/FixedButtons';
 
 const NavWrapContainer = styled.div`
     max-width: 100vw;
@@ -23,22 +24,28 @@ const StyledLink = styled(Link)`
     color : black;
 `
 
-function NewProductPage(){
+function NewProductPage(props){
     const [productList,setProductList] = useState([]);
+    const [count,setCount] = useState(0);
+    const titleList = {
+        'new': '신상품',
+        'popular': '인기상품',
+        'last': '마감임박',
+    };
 
     useEffect(() => {
-        axios.get('/api/item/main?type=popular&page=1') //ENDPOINT작성
+        axios.get(`/api/item/main?type=${props.type}&page=1`) //ENDPOINT작성
             .then(response => {
-                console.log(response.data['result']);
+                setCount(response.data['result']['totalElements']);
                 setProductList(response.data['result']['itemList'])
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [props.type]);
     return (
         <>
-                    <HeaderComponent />
+            <HeaderComponent />
             <NavWrapContainer>
                 <NavigationMenu />
                 <div style={{ borderBottom: '1px solid #9C9C9C', width:'100%',height:'3px' }}></div>
@@ -49,9 +56,9 @@ function NewProductPage(){
             </div>
             <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
                 <div style={{width : "66%",display:"flex",flexDirection:"column"}}>
-                <h1>창작 전체</h1>
+                <h1>{titleList[props.type]}</h1>
                 <div style={{display:"flex",justifyContent:"space-between"}}>
-                    999개의 판매상품
+                    <p>{count}개의 판매 상품</p>
                 </div>
                 </div>
                 <div style={{ width: "66%", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", justifyContent: "center" }}>
@@ -62,6 +69,7 @@ function NewProductPage(){
                     ))}
                 </div>
             </div>
+            <FixedButtons/>
         </>
     )
 }

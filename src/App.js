@@ -48,6 +48,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
 import CategoryPage from "./Components/Category/CategoryComponent";
 import NewProductPage from "./Pages/NewProductPage";
+import SearchResultComponent from "./Components/Search/SearchComponent";
+import MorePage from "./Pages/MoreProductPage";
 
 
 function App() {
@@ -58,8 +60,11 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference" element={<Preference />} />
-            <Route path="/newproduct" element={<NewProductPage />} />
-            
+            <Route path="/newproduct" element={<NewProductPage type="new"/>} />
+            <Route path="/popularproduct" element={<NewProductPage  type="popular"/>} />
+            <Route path="/endingproduct" element={<NewProductPage  type="last"/>} />
+            <Route path="/search" element={<SearchResultComponent />} />
+            <Route path="/product" element={<MorePage />} />
             <Route
               path="/preference/result"
               element={<PreferenceResultPage />}
@@ -69,6 +74,7 @@ function App() {
             <Route path="/product/:id" element={<ProductPageComponent />} />
             
             <Route path="/posting" element={<Post />} />
+            
             
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>

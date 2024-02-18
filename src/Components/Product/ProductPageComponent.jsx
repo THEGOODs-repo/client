@@ -14,7 +14,7 @@ import ReviewComponent from '../Review/Review';
 import ProductInfoComponent from '../Product/ProductInfoComponent';
 import Pagination from '../Footer/PageNationComponent';
 import ImageSlider from './SlideComponent';
-
+import FixedButtons from '../Global/FixedButtons';
 
 const WrapContainer = styled.div`
     width: 100%;
@@ -330,6 +330,7 @@ function ProductPageComponent() {
             <div>
                 <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
             </div>            
+            <FixedButtons/>
         </>
     );
 }

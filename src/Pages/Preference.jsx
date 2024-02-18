@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import PreferenceComponent from "../Components/Preference/Pre_Component";
-import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
+import PreferenceIdol from "../Components/Preference/Pages/Idol";
 
 export default function Preference() {
   return (
     <PreferenceContainer>
-      <NavigationMenu />
-      <PreferenceComponent />
+      <PreferenceIdol />
     </PreferenceContainer>
   );
 }

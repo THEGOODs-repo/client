@@ -3,28 +3,21 @@ import styled from "styled-components";
 import AddPicture from "../../../img/AddPicture.png";
 
 export default function EditProfile() {
-  const [editBtn, setEditBtn] = useState(false);
+  const fileInputBackground = useRef(null);
+  const fileInputProfile = useRef(null);
   const [inputNickName, setInputNickName] = useState(0);
-  const [inputIntroduce, setInputIntroduce] = useState(0);
   const [uploadBackground, setUploadBackground] = useState("");
   const [uploadProfile, setUploadProfile] = useState("");
+  const [editBtn, setEditBtn] = useState(false);
 
+  // 닉네임 글자수 표시
   const onInputNickNameHandler = (e) => {
     setInputNickName(e.target.value.length);
   };
-  const onInputIntroduceHandler = (e) => {
-    setInputIntroduce(e.target.value.length);
-  };
 
-  const fileInputBackground = useRef(null);
-  const fileInputProfile = useRef(null);
-
+  // 배경 Btn
   const handleButtonClickBackground = (e) => {
     fileInputBackground.current.click();
-  };
-
-  const handleButtonClickProfile = (e) => {
-    fileInputProfile.current.click();
   };
 
   const handleBackground = (e) => {
@@ -38,6 +31,11 @@ export default function EditProfile() {
     }
   };
 
+  // 프로필 Btn
+  const handleButtonClickProfile = (e) => {
+    fileInputProfile.current.click();
+  };
+
   const handleProfile = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -49,9 +47,9 @@ export default function EditProfile() {
     }
   };
 
+  // "수정" Btn
   const handleEdit = (e) => {
     if (editBtn === false) {
-      console.log(editBtn);
       setEditBtn(true);
     } else if (editBtn === true) {
       setEditBtn(false);
@@ -60,7 +58,9 @@ export default function EditProfile() {
 
   return (
     <MainContainer>
-      <h1>프로필 편집</h1>
+      <h1>프로필 수정</h1>
+
+      {/* 배경 사진 */}
       <InputBackground
         style={{
           background: uploadBackground
@@ -75,9 +75,7 @@ export default function EditProfile() {
               ? ""
               : `url(${AddPicture}) center/cover`,
           }}
-        >
-          {" "}
-        </ButtonBackground>
+        ></ButtonBackground>
         <input
           type="file"
           accept="image/*"
@@ -86,6 +84,8 @@ export default function EditProfile() {
           style={{ display: "none" }}
         />
       </InputBackground>
+
+      {/* 프로필 사진 */}
       <InputProfile
         style={{
           background: uploadProfile
@@ -108,6 +108,7 @@ export default function EditProfile() {
         />
       </InputProfile>
 
+      {/* 닉네임 */}
       <InputContainer>
         <h2>닉네임</h2>
         <h3>{inputNickName}/15</h3>
@@ -119,17 +120,8 @@ export default function EditProfile() {
         maxLength="14"
         placeholder="닉네임을 입력해주세요."
       />
-      <InputContainer>
-        <h2>자기소개</h2>
-        <h3>{inputIntroduce}/100</h3>
-      </InputContainer>
-      <InputText
-        disabled={!editBtn}
-        type="text"
-        onChange={onInputIntroduceHandler}
-        maxLength="99"
-        placeholder="자기소개를 작성해주세요."
-      />
+
+      {/* Btn */}
       {editBtn ? (
         <SaveBtn onClick={handleEdit}> 확인 </SaveBtn>
       ) : (
@@ -144,62 +136,46 @@ const MainContainer = styled.div`
   position: relative;
   flex-direction: column;
   align-items: center;
-  width: 870px;
-  height: 972px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
+  width: 717.75px;
+  height: 801.75px;
+  border: 2.475px solid rgba(0, 0, 0, 0.05);
 
   h1 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
+    margin-top: 33px;
+    margin-left: 28.875px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 26px;
-    line-height: 35px;
+    font-size: 21.45px;
+    line-height: 29.925px;
     color: #202123;
   }
 
   h2 {
     color: gray;
-    margin-top: 5vh;
+    margin-top: 4.125vh;
 
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
 
     color: #52555b;
   }
-`;
-
-const ButtonBackground = styled.button`
-  width: 53px;
-  height: 53px;
-  border: none;
-  border-radius: 50%;
-  background: url(../../img/AddPicture.png) center/cover;
-`;
-
-const ButtonProfile = styled.button`
-  width: 53px;
-  height: 53px;
-  border: none;
-  border-radius: 50%;
-  background: url(${AddPicture}) center/cover;
 `;
 
 const InputBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 794px;
-  height: 184px;
-
-  border-radius: 5px;
+  width: 655.05px;
+  height: 151.8px;
+  border-radius: 4.125px;
   background: #d9d9d9;
-  margin-bottom: 40px;
+  margin-top: 12.3105px;
+  margin-bottom: 33px;
 `;
 
 const InputProfile = styled.div`
@@ -207,111 +183,110 @@ const InputProfile = styled.div`
   position: absolute;
   justify-content: center;
   align-items: center;
-  width: 125px;
-  height: 125px;
-  top: 180px;
-  left: 70px;
-
+  width: 103.125px;
+  height: 103.125px;
+  top: 178.875px;
+  left: 57.75px;
   border-radius: 50%;
   background: #d9d9d9;
-  border: 5px solid #fefdfd;
+  border: 4.125px solid #fefdfd;
+`;
+
+const ButtonBackground = styled.button`
+  width: 43.575px;
+  height: 43.575px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+`;
+
+const ButtonProfile = styled.button`
+  width: 43.575px;
+  height: 43.575px;
+  border: none;
+  border-radius: 50%;
+  background: none;
 `;
 
 const InputContainer = styled.div`
   display: flex;
-  width: 794px;
+  width: 655.05px;
   justify-content: space-between;
 
   h2 {
-    width: 64px;
-    height: 23px;
+    width: 52.8px;
+    height: 18.975px;
     color: #52555b;
-    font-size: 16px;
+    font-size: 13.2px;
     font-weight: medium;
-    margin-top: 4vh;
+    margin-top: 3.4vh;
   }
 
   h3 {
-    width: 38px;
-    height: 23px;
-    margin-top: 4vh;
+    width: 31.35px;
+    height: 18.975px;
+    margin-top: 3.4vh;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
 
     color: #9c9c9c;
   }
 `;
 
 const InputName = styled.input`
-  width: 780px;
-  height: 60px;
-  padding-left: 15px;
+  width: 643.5px;
+  height: 49.5px;
+  padding-left: 12.375px;
   border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 3px;
+  border-radius: 2.475px;
+
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16.2px;
+  line-height: 22.275px;
 
   &::placeholder {
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 25px;
-    color: #9c9c9c;
-  }
-`;
-
-const InputText = styled.textarea`
-  width: 780px;
-  height: 133px;
-  padding-left: 15px;
-  padding-top: 17px;
-  border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 3px;
-
-  &::placeholder {
-    font-family: "Noto Sans";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 16.2px;
+    line-height: 22.275px;
     color: #9c9c9c;
   }
 `;
 
 const EditBtn = styled.button`
-  width: 120px;
-  height: 47px;
-  margin-top: 35px;
-
+  width: 99px;
+  height: 38.775px;
+  margin-top: 28.875px;
   background: #f0c920;
   border: none;
-  border-radius: 2px;
+  border-radius: 1.65px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-
+  font-size: 13.2px;
+  line-height: 18.15px;
   color: #ffffff;
 `;
 
 const SaveBtn = styled.button`
-  width: 120px;
-  height: 47px;
-  margin-top: 35px;
-
+  width: 99px;
+  height: 38.775px;
+  margin-top: 28.875px;
   background: #ffffff;
   border: 1px solid #f0c920;
-  border-radius: 2px;
+  border-radius: 1.65px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-
+  font-size: 13.2px;
+  line-height: 18.15px;
   color: #f0c920;
 `;

@@ -1,13 +1,11 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
-
 //마이페이지_배송환불관리
-export default function ManageShippingRefund() {
-  const fileInput = React.useRef(null);
+// 특이사항 ** 등록하기 버튼을 누른 후 나오는 팝업창 필요 **
+// 특이사항 ** 배송지 정보와 환불정보가 등록되었을 때 보이는 컴포넌트 필요 (삭제하는 기능도 필요) **
 
-  const handleButtonClick = (e) => {
-    fileInput.current.click();
-  };
+export default function ManageShippingRefund() {
+  const handleButtonClick = (e) => {};
 
   return (
     <MainContainer>
@@ -30,32 +28,31 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 870px;
-  height: 972px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
+  width: 717.75px;
+  height: 801.9px;
+  border: 2.475px solid rgba(0, 0, 0, 0.05);
 
   h1 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
+    margin-top: 33px;
+    margin-left: 28.875px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 26px;
-    line-height: 35px;
+    font-size: 21.45px;
+    line-height: 29.925px;
     color: #202123;
   }
 
   h2 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
-
+    margin-top: 12.3835px;
+    margin-left: 28.875px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 20px;
-    line-height: 27px;
+    font-size: 16.5px;
+    line-height: 22.275px;
     color: #202123;
   }
 `;
@@ -65,38 +62,37 @@ const SubContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 794px;
-  height: 193px;
+  width: 655.35px;
+  height: 159.075px;
   margin: 0px;
-  border: 1.5px dashed #202123;
-  border-radius: 3px;
+  border: 1.2375px dashed #202123;
+  border-radius: 2.3625px;
 
   h3 {
     margin-top: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 8.25px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 13.2px;
+    line-height: 18.15px;
     color: #202123;
   }
 `;
 
 const Button = styled.button`
-  width: 100px;
-  height: 40px;
+  width: 82.5px;
+  height: 33px;
   background: #f0c920;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 4.125px 1.2375px rgba(0, 0, 0, 0.08);
   border: none;
-  border-radius: 5px;
+  border-radius: 4.125px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 12.375px;
+  line-height: 16.5px;
   text-align: center;
-
   color: #ffffff;
 `;

@@ -1,54 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+// 마이페이지_ 맞춤정보관리_ 카테고리 및 태그 컴포넌트
 
-export default function CategoryComponent({ keyword }) {
-  const [tag, setTag] = useState(null);
-
-  const handleButtonClick = (e) => {
-    if (tag === null) {
-      setTag(true);
-    } else if (tag === true) {
-      setTag(null);
-    }
-  };
-
+export default function CategoryComponent({
+  keyword,
+  isTagSelected,
+  handleButtonClick,
+}) {
   return (
-    <Category>
-      <Button
-        style={{ width: 110, height: 50 }}
-        onClick={handleButtonClick}
-        isTagSelected={tag === true}
-      >
-        {keyword}
-      </Button>
-    </Category>
+    <Button onClick={handleButtonClick} isTagSelected={isTagSelected}>
+      {keyword}
+    </Button>
   );
 }
 
-const Category = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 2px;
-`;
-
 const Button = styled.button`
-  width: 110px;
-  height: 50px;
-
+  width: 90px;
+  height: 40px;
   background: ${({ isTagSelected }) =>
     isTagSelected ? "#F0C920" : "rgba(228, 228, 228, 0.4)"};
-
   border: ${({ isTagSelected }) =>
     isTagSelected ? "none" : "1px solid rgba(156, 156, 156, 0.5)"};
-  border-radius: 10px;
-
+  border-radius: 8px;
   font-family: "Noto Sans";
-  font-style: normal;
   font-weight: 700;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 18px;
   text-align: center;
-
-  color: ${({ isTagSelected }) => (isTagSelected ? "#FFFFFF" : " #888888")};
+  color: ${({ isTagSelected }) => (isTagSelected ? "#FFFFFF" : "#888888")};
 `;

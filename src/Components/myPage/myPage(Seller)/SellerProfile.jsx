@@ -135,10 +135,12 @@ export default function SellerProfile() {
     <MainContainer>
       <h1>판매자 정보</h1>
       <h2>개인 판매자 정보</h2>
+
       <label>
         <h3>이메일</h3>
         <InputEmail type="email" placeholder="이메일 주소를 입력해주세요." />
       </label>
+
       <label>
         <h3>본인 인증</h3>
         <InputCertification
@@ -147,10 +149,13 @@ export default function SellerProfile() {
         />
         <CertificationBtn>인증하기</CertificationBtn>
       </label>
+
       <h2>계좌 관리</h2>
       <AddAcountBtn>계좌 추가하기</AddAcountBtn>
+
       <h2>연락 가능 시간</h2>
       <TimeContainer>
+        {/* 수정버튼을 눌렀는가? */}
         {correctionBtn ? (
           <ThemeProvider theme={theme}>
             <React.Fragment>
@@ -220,12 +225,14 @@ export default function SellerProfile() {
               </Popper>
             </React.Fragment>
           </ThemeProvider>
-        ) : checkBox ? (
+        ) : // 수정버튼을 안 눌렀을 경우 && "상시가능"이 체크되었는가?
+        checkBox ? (
           <Label
             style={{
-              marginRight: "222px",
+              marginRight: "210px",
+              marginLeft: "5px",
               display: "flex",
-              fontSize: "18px",
+              fontSize: "16px",
               fontWeight: "bolder",
             }}
           >
@@ -235,16 +242,19 @@ export default function SellerProfile() {
           <div style={{ display: "flex", flexDirection: "row", margin: "0px" }}>
             <Label
               style={{
-                fontSize: "18px",
+                width: "70px",
+                fontSize: "16px",
                 fontWeight: "bolder",
                 margin: "24.94px 0px",
               }}
             >
               {options[selectedIndexLeft]}
             </Label>
-            <h4>부터</h4>
+            <h4 style={{ width: "35px", marginTop: "24px" }}>부터</h4>
           </div>
         )}
+
+        {/* 수정버튼을 눌렀는가? */}
         {correctionBtn ? (
           <ThemeProvider theme={theme}>
             <React.Fragment>
@@ -314,7 +324,8 @@ export default function SellerProfile() {
               </Popper>
             </React.Fragment>
           </ThemeProvider>
-        ) : checkBox ? (
+        ) : // 수정버튼을 안 눌렀을 경우 && "상시가능"이 체크되었는가?
+        checkBox ? (
           <Label
             style={{
               fontSize: "18px",
@@ -326,14 +337,15 @@ export default function SellerProfile() {
           <div style={{ display: "flex", flexDirection: "row", margin: "0px" }}>
             <Label
               style={{
-                fontSize: "18px",
+                width: "70px",
+                fontSize: "16px",
                 fontWeight: "bolder",
                 margin: "24.94px 0px",
               }}
             >
               {options[selectedIndexRight]}
             </Label>
-            <h4>까지 연락가능</h4>
+            <h4 style={{ width: "90px", marginTop: "24px" }}>까지 연락가능</h4>
           </div>
         )}
         {correctionBtn ? (
@@ -345,7 +357,6 @@ export default function SellerProfile() {
                 onClick={checkBoxHandler}
               />
               <Label style={{ position: "relative", top: "-4px" }}>
-                {" "}
                 상시가능
               </Label>
             </div>
@@ -353,6 +364,8 @@ export default function SellerProfile() {
         ) : (
           <Label></Label>
         )}
+
+        {/* 수정버튼이 눌린 경우 버튼의 상태 */}
         {correctionBtn ? (
           <React.Fragment>
             <CorrectionBtn onClick={correctionHandler}>저장</CorrectionBtn>
@@ -360,7 +373,7 @@ export default function SellerProfile() {
         ) : (
           <CorrectionBtn
             onClick={correctionHandler}
-            style={{ marginLeft: "333px" }}
+            style={{ marginLeft: "220px" }}
           >
             수정
           </CorrectionBtn>
@@ -375,19 +388,19 @@ const MainContainer = styled.div`
   position: relative;
   flex-direction: column;
   align-items: center;
-  width: 870px;
-  height: 1300px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
+  width: 717.75px;
+  height: 1100px;
+  border: 2.475px solid rgba(0, 0, 0, 0.05);
 
   h1 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
+    margin-top: 33px;
+    margin-left: 28.875px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 26px;
-    line-height: 35px;
+    font-size: 21.45px;
+    line-height: 29.925px;
     color: #202123;
   }
 
@@ -415,37 +428,37 @@ const MainContainer = styled.div`
 `;
 
 const InputEmail = styled.input`
-  width: 750px;
-  height: 40px;
-  margin-bottom: 8px;
-  border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 5px;
+  width: 618.75px;
+  height: 33px;
+  margin-bottom: 6.6px;
+  border: 0.825px solid rgba(156, 156, 156, 0.66);
+  border-radius: 4.125px;
+  padding-left: 8.25px;
 
   &::placeholder {
-    padding-left: 10px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 400;
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 12.375px;
+    line-height: 16.5px;
     color: #9c9c9c;
   }
 `;
 
 const InputCertification = styled.input`
-  width: 623px;
-  height: 40px;
-  margin-bottom: 10px;
-  border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 5px;
+  width: 513.375px;
+  height: 33px;
+  margin-bottom: 8.25px;
+  border: 0.825px solid rgba(156, 156, 156, 0.66);
+  border-radius: 4.125px;
+  padding-left: 8.25px;
 
   &::placeholder {
-    padding-left: 10px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 400;
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 12.375px;
+    line-height: 16.5px;
     color: #9c9c9c;
   }
 `;
@@ -454,87 +467,88 @@ const Label = styled.label`
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
+  font-size: 13.2px;
+  line-height: 18.15px;
   color: #202123;
 `;
 
 const CheckBox = styled.input`
-  width: 20px;
-  height: 20px;
-  margin-left: 178px;
+  width: 16.5px;
+  height: 16.5px;
+  margin-left: 80px;
 `;
 
 const CertificationBtn = styled.button`
-  width: 120px;
-  height: 40px;
-  margin-left: 3px;
-  margin-bottom: 20px;
+  width: 99px;
+  height: 36px;
+  margin-left: 2.475px;
+  margin-bottom: 16.5px;
   border: none;
   background: #f0c920;
-  border-radius: 5px;
+  border-radius: 4.125px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
-  line-height: 20px;
-
+  font-size: 12.375px;
+  line-height: 16.5px;
+  text-align: center;
   color: #ffffff;
 `;
 
 const AddAcountBtn = styled.button`
-  width: 750px;
-  height: 50px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background: rgba(217, 217, 217, 0.2);
-  border: 1px solid rgba(156, 156, 156, 0.8);
-  border-radius: 5px;
+  width: 628px;
+  height: 41.25px;
+  margin-top: 16.5px;
+  margin-left: 5px;
+  margin-bottom: 16.5px;
+  background: rgba(217, 217, 217, 0.165);
+  border: 0.825px solid rgba(156, 156, 156, 0.66);
+  border-radius: 4.125px;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 12.375px;
+  line-height: 16.5px;
   color: #52555b;
 `;
 
 const TimeContainer = styled.div`
   display: flex;
-  width: 740px;
-  height: 80px;
-  padding: 10px;
+  width: 615px;
+  height: 66px;
+  padding: 8.25px;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 20px;
-  border: 1px solid rgba(156, 156, 156, 0.8);
-  box-shadow: 3px 3px 8px 1px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  margin-top: 16.5px;
+  margin-left: 10px;
+  border: 0.825px solid rgba(156, 156, 156, 0.66);
+  box-shadow: 2.475px 2.475px 6.6px 1.65px rgba(0, 0, 0, 0.0825);
+  border-radius: 8.25px;
 
   h4 {
-    margin-left: 3px;
+    margin-left: 5px;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 14.85px;
+    line-height: 20.475px;
     color: #52555b;
   }
 `;
 
 const CorrectionBtn = styled.button`
-  width: 72px;
-  height: 38px;
-  margin-left: 5px;
+  width: 58px;
+  height: 31.35px;
   background: #f0c920;
-  border: 1px solid rgba(156, 156, 156, 0.1);
-  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border: 0.825px solid rgba(156, 156, 156, 0.05);
+  box-shadow: 0px 0px 4.125px 1.65px rgba(0, 0, 0, 0.05);
+  border-radius: 8.25px;
 
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
-  line-height: 19px;
+  font-size: 11.55px;
+  line-height: 15.975px;
   color: #ffffff;
 `;

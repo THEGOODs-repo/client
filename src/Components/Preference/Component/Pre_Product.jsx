@@ -2,7 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { increaseProduct, decreaseProduct } from "../../redux/preferenceSlice";
+import {
+  increaseProduct,
+  decreaseProduct,
+} from "../../../redux/preferenceSlice";
+
 export default function PreferenceProduct({ index, name, img }) {
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
@@ -29,8 +33,8 @@ export default function PreferenceProduct({ index, name, img }) {
       <h4
         style={{
           display: "flex",
-          width: "280px",
-          height: "300px",
+          width: "180px",
+          height: "190px",
           margin: "0px",
           justifyContent: "center",
           alignItems: "center",
@@ -48,14 +52,10 @@ export default function PreferenceProduct({ index, name, img }) {
 
 const PreferenceProductContainer = styled.div`
   display: flex;
-  width: 280px;
-  height: 300px;
+  width: 180px;
+  height: 190px;
   margin-left: 10px;
   border-radius: 20px;
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 33px;
-  color: #ffffff;
+  font: 700 18px/25px "Noto Sans";
+  color: #fff;
 `;

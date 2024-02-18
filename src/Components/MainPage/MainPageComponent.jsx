@@ -23,10 +23,10 @@ const StyledLink = styled(Link)`
    text-decoration: none; 
 `
 const PageContainer = styled.div`
-    width: 100%;
-    min-width: 1200px;
-    margin: 0 auto;
-    position: relative;
+  width: 100%;
+  min-width: 1200px;
+  margin: 0 auto;
+  position: relative;
 `;
 
 const MainContent = styled.div`
@@ -40,56 +40,56 @@ const MainContent = styled.div`
 `;
 
 const NavWrapContainer = styled.div`
-    max-width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px; /* 위쪽 여백 추가 */
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* 위쪽 여백 추가 */
 `;
 
 const BannerWrapContainer = styled.div`
-    overflow: hidden;
-    position: relative;
-    width: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
 `;
 
 const BannerContainer = styled.div`
-    display: flex;
-    transition: transform 0.5s ease;
-    position: relative;
+  display: flex;
+  transition: transform 0.5s ease;
+  position: relative;
 `;
 
 const BannerItemContainer = styled.div`
-    flex: 0 0 100%;
+  flex: 0 0 100%;
 `;
 
 const BannerImg = styled.img`
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 const ArrowContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 `;
 
 const LeftArrowImg = styled.img`
-    position: absolute;
-    left: 0;
+  position: absolute;
+  left: 0;
 `;
 
 const RightArrowImg = styled.img`
-    position: absolute;
-    right: 0;
+  position: absolute;
+  right: 0;
 `;
 const MainWrapContent =styled.div`
     display : flex;

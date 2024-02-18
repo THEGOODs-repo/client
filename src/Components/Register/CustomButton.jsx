@@ -19,11 +19,11 @@ const ButtonLabel = styled.label`
 
   &:before {
     content: "";
-    height: ${23 / 19.2}vw;
-    width: ${23 / 19.2}vw;
-    border: ${1 / 19.2}vw solid #9c9c9c;
-    border-radius: ${2 / 19.2}vw;
-    background-size: ${11 / 19.2}vw ${8 / 19.2}vw;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #9c9c9c;
+    border-radius: 1px;
+    background-size: 12px;
     background-position: 50%;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -36,11 +36,11 @@ const ButtonLabel = styled.label`
     opacity: 0;
     content: "";
     position: absolute;
-    height: ${23 / 19.2}vw;
-    width: ${23 / 19.2}vw;
-    border: ${1 / 19.2}vw solid transparent;
-    border-radius: ${2 / 19.2}vw;
-    background-size: ${11 / 19.2}vw ${8 / 19.2}vw;
+    height: 21px;
+    width: 21px;
+    border: 1px solid transparent;
+    border-radius: 1px;
+    background-size: 12px;
     background-position: 50%;
     background-repeat: no-repeat;
     background-color: #f0c920;
@@ -69,9 +69,15 @@ const ButtonInput = styled.input`
 `;
 
 const ButtonDiv = styled.div`
-  margin: 0 0 0 ${11 / 19.2}vw;
+  margin: 0 0 0 7px;
   white-space: pre-line;
   text-align: start;
+  color: #202123;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25px;
   color: #202123;
 `;
 

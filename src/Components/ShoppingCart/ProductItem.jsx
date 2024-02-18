@@ -7,12 +7,34 @@ import CustomButton from "../Register/CustomButton";
 import { useDispatch } from "react-redux";
 import { setSelectedItems } from "./selectedItemsSlice";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import axios from 'axios';
 
-
-const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, isChecked,itemId  }) => {
+const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, isChecked,itemId ,cartId }) => {
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(isChecked);
+
+  const token = useSelector((state)=>state.login.token);
+  const [stockInfo, setStockInfo] = useState([]); // 재고 정보 상태 추가
+
+
+  const fetchStockInfo = async () => {
+    try {
+      const response = await axios.get(`https://dev.the-goods.store/api/cart/${cartId}/stock`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setStockInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching stock info:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStockInfo();
+  }, [itemId, cartId, token]);
+  
 
   const dispatch = useDispatch();
   // 전체 선택 상태가 변경될 때 isCheckedAll 상태 업데이트
@@ -38,8 +60,10 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
       deliveryFee,
       optionList
     };
+    if (isCheckedAll){
     console.log('전달되는 상품 정보:', item);
     //navigate('/payment', { state: { item } }); // 결제 페이지로 이동하면서 item 객체 전달
+    }
   }
   
 
@@ -115,7 +139,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
                 optionList={optionList}
                 onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
                 onUpdate={handleUpdateOptions} // 변경된 내용을 부모 컴포넌트로 전달하는 콜백 함수 전달
-       
+                stockInfo={stockInfo} 
               />
             )}
           </ProductForm>
@@ -138,6 +162,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
                 <OrderModificationModal
                   optionList={optionList}
                   onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
+                  stockInfo={stockInfo} 
                 />
               )}
             </NoOptionProductForm>

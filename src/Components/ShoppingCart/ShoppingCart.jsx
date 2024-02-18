@@ -130,7 +130,7 @@ const ShoppingCart = ({ cartItems }) => {
             optionList={cartItem.cartDetailViewDTOList}
             deliveryFee={cartItem.deliveryFee}
             onUpdate={handleConfirmChanges} // 모달에서 변경된 내용을 받아오는 콜백 함수 전달
-     
+            cartId={cartItem.cartId}
             onItemToggle={handleItemToggle} // 선택된 항목 토글 핸들러를 props로 전달
             isChecked={checkedItems.includes(cartItem.itemId)} // 선택 여부를 상태에 따라 동적으로 설정합니다.
             

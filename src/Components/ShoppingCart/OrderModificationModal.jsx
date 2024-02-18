@@ -5,7 +5,7 @@ import CustomButton from '../Register/CustomButton';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 
-const OrderModificationModal = ({optionList, onClose}) => {
+const OrderModificationModal = ({optionList, onClose, stockInfo}) => {
   const [selectedOptions, setSelectedOptions] = useState(optionList || []);
   const [localSelectedOptions, setLocalSelectedOptions] = useState(selectedOptions ? selectedOptions.map(option => ({ ...option, isChecked: false })) : []);
 
@@ -32,12 +32,13 @@ const OrderModificationModal = ({optionList, onClose}) => {
   
   const handleIncreaseAmount = (cartDetailId) => {
     const updatedOptions = selectedOptions.map(option => {
-      if (option.cartDetailId === cartDetailId) {
+      if (option.amount + 1 <= stockQuantity) {
         return {
           ...option,
           amount: option.amount + 1
         };
       }
+      
       return option;
     });
     setSelectedOptions(updatedOptions);
@@ -101,11 +102,7 @@ const OrderModificationModal = ({optionList, onClose}) => {
       .catch(error => {
         console.error('API 요청이 실패하였습니다.', error);
       });
-
-    
   };
-  
-
   
   const handleDeleteSelectedOptions = () => {
     const deletedOptionIds = localSelectedOptions
@@ -132,9 +129,10 @@ const OrderModificationModal = ({optionList, onClose}) => {
         console.error('옵션 삭제 요청이 실패하였습니다.', error);
       });
   };
+
+
   
-
-
+  const stockQuantity = stockInfo && stockInfo.result && stockInfo.result.cartDetailStockDTOList && stockInfo.result.cartDetailStockDTOList[0] && stockInfo.result.cartDetailStockDTOList[0].stock;
 
 
   return (
@@ -158,15 +156,18 @@ const OrderModificationModal = ({optionList, onClose}) => {
                 <CheckPosition>
                 <CustomButton  state={option.isChecked} onChange={() => handleToggleOption(option.cartDetailId)} index={option.cartDetailId} label="" /> 
                 </CheckPosition>
-                <div style={{width:'20vw'}}>
+                <div style={{width:'20vw',display:'flex'}}>
+                  
                 <OptionName>{option.optionName}</OptionName>
+                <Stock>남은 재고 : {stockQuantity}개</Stock>
                 </div>
+                
                 <QuantityControl>
                   <Button onClick={() => handleDecreaseAmount(option.cartDetailId)}>-</Button>
                   <AmountInput><span style={{marginTop:'9px'}}>{option.amount}</span></AmountInput>
                   
-                  <Button onClick={() => handleIncreaseAmount(option.cartDetailId)}>+</Button>
-                </QuantityControl>
+                  <Button onClick={() => handleIncreaseAmount(option.cartDetailId)} disabled={option.amount >= {stockQuantity}}>+</Button>
+          </QuantityControl>
               </OptionItem>
             </OptionContainer>
           ))}
@@ -314,4 +315,13 @@ const Button = styled.div`
 `;
 const CheckPosition = styled.div`
   margin-left:1vw;
+`
+const Stock =styled.p`
+  margin-left: 5vw;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1vw;
+  line-height: 25px;
+  color: #52555B;
 `

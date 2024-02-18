@@ -114,7 +114,6 @@ function App() {
             <Route path="/seller" element={<Seller />} />
             <Route path="/shoppingList" element={<ShoppingList/>}/>
             <Route path="/noncustomerorder" element={<NonCustomerOrder/>}></Route>
-            <Route path="/mypage" element={<MyPageComponent />}>
             {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />

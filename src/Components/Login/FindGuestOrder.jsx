@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import logo from "../../img/logo.svg";
 import { useNavigate } from "react-router-dom";
@@ -42,13 +42,6 @@ const InputWrapper = styled.input`
   }
 `;
 
-const TitleBar = {
-  display: "flex",
-  width: `${570 / 19.2}vw`,
-  margin: `${14 / 19.2}vw 0 ${16 / 19.2}vw 0`,
-  padding: 0,
-};
-
 const ConfirmButton = styled.div`
   display: flex;
   width: ${570 / 19.2}vw;
@@ -70,6 +63,13 @@ const FindLink = styled.div`
   color: #202123;
   padding: 0;
 `;
+
+const TitleBar = {
+  display: "flex",
+  width: `${570 / 19.2}vw`,
+  margin: `${14 / 19.2}vw 0 ${16 / 19.2}vw 0`,
+  padding: 0,
+};
 
 const FindGuestOrder = () => {
   const navigate = useNavigate();

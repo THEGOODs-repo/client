@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LeftArrow from '../../img/LeftArrow.png';
 import RightArrow from '../../img/RightArrow.png';
@@ -11,7 +11,17 @@ import { useEffect } from 'react';
 import HeaderComponent from '../Header/Header';
 import CustomHorizontalLine from './HorizontalLineComponent';
 import ArrowCircleRight from '../../img/arrow-circle-right.png';
+import BaseFooter from '../Footer/BaseFooter';
+import axios from 'axios';
+import mainBannerURL from '../../img/mainbanner.png';
+import likeBannerURL from '../../img/likebanner.png';
 
+
+
+const StyledLink = styled(Link)`
+   color : black;
+   text-decoration: none; 
+`
 const PageContainer = styled.div`
     width: 100%;
     min-width: 1200px;
@@ -26,6 +36,7 @@ const MainContent = styled.div`
     justify-items: center;
     align-items: center;
     padding: 20px; /* 여백 추가 */
+    width : 88%;
 `;
 
 const NavWrapContainer = styled.div`
@@ -85,39 +96,69 @@ const MainWrapContent =styled.div`
     justify-content : center;
     align-items : center;
     flex-direction : column;
+    width : 100%;
 `
 const SubInfoContainer = styled.div`
     margin-top : 50px;
     padding-top : 50px;
-    width : 100%;
+    width : 87%;
     display : flex;
     justify-content : space-between;
-    margin : 0 auto;
     align-items: center;
 `
-const MoreContainer = styled.div`
+const MoreContainer = styled(Link)`
     display : flex;
     align-items : center;
     width : 5vw;
+    margin-left : 100px;
+    text-decoration : none;
+    color : black;
 
 `
+const TotalContainer = styled.div`
+    width : 75%;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items: center;
+`
+const SubInfoWrapContainer = styled.div`
 
-const products = [
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-    { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 }
-];
+    width : 100%;
+    display :flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+`
+
+
+// const products = [
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
+//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 }
+// ];
 
 function MainPageComponent() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [productLists, setProductLists] = useState(Array(6).fill([]));
+    const navigate = useNavigate();
     const bannerRef = useRef(null);
+
+    const handleMoveLikePage = () => {
+        navigate('/preference')
+
+    }
+    const handleMainPage = () => {
+        navigate('/')
+
+    }
 
     const handlePrevSlide = () => {
         if (currentIndex === 0) {
@@ -126,7 +167,7 @@ function MainPageComponent() {
             setCurrentIndex(currentIndex - 1);
         }
     };
-
+    
     const handleNextSlide = () => {
         if (currentIndex === 2) {
             setCurrentIndex(0);
@@ -134,34 +175,66 @@ function MainPageComponent() {
             setCurrentIndex(currentIndex + 1);
         }
     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const responses = await Promise.all([
+                    axios.get('/api/item/today?page=1'),
+                    axios.get('/api/item/today?page=1'),
+                    // axios.get('/api/similar/item?page=1'), /?이거 왜 안됨
+                    axios.get('/api/item/topsale?page=1'),
+                    axios.get('/api/item/steady?page=1'),
+                    axios.get('/api/item/main?type=last&page=1'),
+                    axios.get('/api/item/main?type=popular&page=1')
+                ]);
+                
+                const dataLists = responses.map(response => response.data.result.itemList);
+                setProductLists(dataLists);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         bannerRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
     }, [currentIndex]);
+
     const subInfoTitles = [
         '오늘의 추천상품',
         '방금 전 본 상품과 비슷한 상품',
-        '이번주 가장 많이 조회된 상품',
+        '가장 많이 판매된 상품은 어때요?',
         '구매자들에게 꾸준히 사랑받는 상품',
-        '내 또래 급상승 인기 키워드',
-        '신규 사장님의 첫 상품'
+        '라스트 찬스!',
+        '아직도 고민이라면 이런 상품은 어때요?'
     ];
+    const navigateURL = [
+        '/product?tag=new',
+        '/product?tag=similar',
+        '/product?tag=popular',
+        '/product?tag=steady',
+        '/product?tag=last',
+        '/product?tag=recommend',
+    ]
 
     return (
         <>
             <HeaderComponent />
             <NavWrapContainer>
                 <NavigationMenu />
+                <div style={{ borderBottom: '1px solid #9C9C9C', width:'100%',height:'3px' }}></div>
                 <NavigationCategoryMenu />
             </NavWrapContainer>
             <PageContainer>
                 <BannerWrapContainer>
                     <BannerContainer ref={bannerRef}>
                         <BannerItemContainer>
-                            <BannerImg src={Banner} alt="Banner 1" />
+                            <BannerImg src={mainBannerURL} alt="메인베너" onClick={handleMainPage}/>
                         </BannerItemContainer>
                         <BannerItemContainer>
-                            <BannerImg src={Banner} alt="Banner 2" />
+                            <BannerImg src={likeBannerURL} alt="선호도조사 베너" onClick={handleMoveLikePage}/>
                         </BannerItemContainer>
                         <BannerItemContainer>
                             <BannerImg src={Banner} alt="Banner 3" />
@@ -175,25 +248,30 @@ function MainPageComponent() {
                 </ArrowContainer>
                 </BannerWrapContainer>
                 <MainWrapContent>
-            {subInfoTitles.map((title, index) => (
-                <div key={index}>
-                    <SubInfoContainer>
-                        <h2>{title}</h2>
-                        <MoreContainer>
-                            <p>더보기</p>
-                            <img src={ArrowCircleRight} alt="" width="30px" height="30px"/>
-                        </MoreContainer>
-                    </SubInfoContainer>
-                    <CustomHorizontalLine />
-                    <MainContent>
-                        {products.map((product, index) => (
-                            <ProductCardComponent key={index} product={product} />
-                        ))}
-                    </MainContent>
-                </div>
-            ))}
-        </MainWrapContent>
+                    {subInfoTitles.map((title, index) => (
+                        <TotalContainer key={index}>
+                            <SubInfoWrapContainer>
+                                <SubInfoContainer>
+                                    <h2>{title}</h2>
+                                    <MoreContainer to={navigateURL[index]}>
+                                        <p>더보기</p>
+                                        <img src={ArrowCircleRight} alt="" width="30px" height="30px"/>
+                                    </MoreContainer>
+                                </SubInfoContainer>
+                                <CustomHorizontalLine />
+                            </SubInfoWrapContainer>
+                            <MainContent>
+                                {productLists[index].map((product) => (
+                                    <StyledLink to={`/product/${product.itemId}`} key={product.itemId}>
+                                        <ProductCardComponent product={product} />
+                                    </StyledLink>
+                                ))}
+                            </MainContent>
+                        </TotalContainer>
+                    ))}
+                </MainWrapContent>
             </PageContainer>
+        <BaseFooter/>
         </>
     );
 }

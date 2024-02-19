@@ -54,6 +54,5 @@
   },
   "devDependencies": {
     "prettier": "^3.2.4"
-  },
-  "proxy": "https://dev.the-goods.store"
+  }
 }

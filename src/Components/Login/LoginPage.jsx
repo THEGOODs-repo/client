@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import logo from "../../img/logo.svg";
+import logo from "../../img/loginlogo.svg";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "./ErrorModal";
-import CustomButton from "../Register/CustomButton";
+import { CheckBox } from "../Global/CustomBox";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../redux/loginSlice";
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
@@ -17,7 +17,7 @@ const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&cl
 const LoginWrapper = styled.div`
   display: flex;
   width: ${570 / 19.2}vw;
-  margin: ${105 / 19.2}vw 0 0 0;
+  margin: ${113 / 19.2}vw 0 0 0;
   font-family: NotoSans;
   flex-direction: column;
   align-items: center;
@@ -26,15 +26,17 @@ const LoginWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.img`
-  width: ${487 / 19.2}vw;
+  width: ${318 / 19.2}vw;
+  cursor: grab;
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   width: 100%;
-  margin: ${17 / 19.2}vw 0 ${60 / 19.2}vw 0;
+  margin: ${37 / 19.2}vw 0 ${60 / 19.2}vw 0;
   font-size: ${20 / 19.2}vw;
   justify-content: center;
+  font-weight: bold;
 `;
 
 const SocialWrapper = styled.div`
@@ -63,6 +65,7 @@ const InputWrapper = styled.input`
   &.invalidinput {
     border: ${1.3 / 19.2}vw solid #fd3c56;
   }
+  background: rgba(249, 249, 249);
 `;
 
 const WarningText = styled.div`
@@ -93,13 +96,16 @@ const LoginButton = styled.div`
   height: ${55 / 19.2}vw;
   flex-shrink: 0;
   border-radius: ${5 / 19.2}vw;
-  background: #f0c920;
-  color: #fff;
+  background: ${(e) =>
+    (e.$kakao && "#fee500") || (e.$naver && "#03C75A") || "#f0c920"};
+  color: ${(e) => (e.$kakao ? "rgba(0,0,0,0.85)" : "#fff")};
   justify-content: center;
   align-items: center;
   font-size: ${18 / 19.2}vw;
   padding: 0;
-  margin: 0 0 ${18 / 19.2}vw 0;
+  margin: ${27 / 19.2}vw 0 0 0;
+  cursor: grab;
+  font-weight: bold;
 `;
 
 const ExtraWrapper = styled.div`
@@ -121,12 +127,13 @@ const ExtraButton = styled.div`
   align-items: center;
   font-size: ${18 / 19.2}vw;
   padding: 0;
+  cursor: grab;
 `;
 
 const LoginImg = {
   display: "flex",
   width: `${570 / 19.2}vw`,
-  margin: `0 0 ${23 / 19.2}vw 0`,
+  margin: `0 0 0 0`,
   padding: 0,
 };
 
@@ -160,13 +167,17 @@ const LoginPage = () => {
   useEffect(() => {
     alreadyUser !== null && navigate("/", { replace: true });
     if (localStorage.getItem("KeepEmail") !== null) {
-      SetEmail(localStorage.getItem("KeepEmail"));
       SetEmailSave(true);
+      SetEmail(localStorage.getItem("KeepEmail"));
     }
     SetValidEmail(true);
     SetValidPassword(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // check login status, set bool variables to true when page init(mount)
+
+  useEffect(() => {
+    !EmailSave && localStorage.removeItem("KeepEmail");
+  }, [EmailSave]);
 
   const EmailChange = (e) => {
     !DeActive && SetEmail(e.target.value);
@@ -178,15 +189,8 @@ const LoginPage = () => {
 
   const HandleLoginRequest = () => {
     EmailSave && ValidEmail && localStorage.setItem("KeepEmail", Email);
-    !EmailSave && localStorage.removeItem("KeepEmail");
     SetDeActive((DeActive) => !DeActive);
-    if (
-      Email !== "" &&
-      Password !== "" &&
-      !DeActive &&
-      ValidEmail &&
-      ValidPassword
-    ) {
+    if (Email !== "" && Password !== "" && !DeActive && ValidEmail) {
       fetchLogin();
     }
     SetDeActive((DeActive) => !DeActive);
@@ -194,7 +198,7 @@ const LoginPage = () => {
 
   const fetchLogin = async () => {
     try {
-      const endpoint = `/api/members/login`;
+      const endpoint = `https://dev.the-goods.store/api/members/login`;
       const requestBody = {
         email: Email,
         password: Password,
@@ -243,7 +247,11 @@ const LoginPage = () => {
         ]}
         onClose={() => SetDisplayPasswordError(!DisplayPasswordError)}
       />
-      <LogoWrapper src={logo} />
+      <LogoWrapper
+        onClick={() => navigate("/")}
+        src={logo}
+        style={{ cursor: "grab" }}
+      />
       <TextWrapper>로그인을 진행해주세요.</TextWrapper>
       <SocialWrapper>
         <svg
@@ -265,78 +273,77 @@ const LoginPage = () => {
             fill="#202123"
           />
         </svg>
-        <svg // 카카오 로그인
-          viewBox="0 0 570 54"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={LoginImg}
+        <LoginButton
           onClick={() => {
             window.location.href = kakaoURL;
           }}
+          $kakao
         >
-          <rect width="570" height="54" rx="5" fill="#FEE500" />
-          <g clipPath="url(#clip0_139_1886)">
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M224.5 10.2031C214.558 10.2031 206.5 16.429 206.5 24.1077C206.5 28.8832 209.617 33.0931 214.363 35.597L212.366 42.8921C212.19 43.5367 212.927 44.0505 213.493 43.677L222.247 37.8995C222.985 37.9708 223.736 38.0124 224.5 38.0124C234.441 38.0124 242.5 31.7867 242.5 24.1077C242.5 16.429 234.441 10.2031 224.5 10.2031Z"
-              fill="black"
-            />
-          </g>
-          <path
-            d="M265.52 20.036H267.86C267.86 25.184 266.636 29.468 260.426 32.618L259.148 30.8C264.332 28.19 265.52 25.004 265.52 20.324V20.036ZM260.174 20.036H266.942V21.926H260.174V20.036ZM265.574 24.122V25.958L259.598 26.534L259.31 24.482L265.574 24.122ZM269.876 18.416H272.288V35.084H269.876V18.416ZM271.658 24.788H274.592V26.75H271.658V24.788ZM282.079 20.036H284.419C284.419 25.184 283.195 29.468 276.985 32.618L275.707 30.8C280.891 28.19 282.079 25.004 282.079 20.324V20.036ZM276.733 20.036H283.501V21.926H276.733V20.036ZM282.133 24.122V25.958L276.157 26.534L275.869 24.482L282.133 24.122ZM286.435 18.416H288.847V35.084H286.435V18.416ZM288.217 24.788H291.151V26.75H288.217V24.788ZM298.673 27.812H301.067V31.61H298.673V27.812ZM299.879 19.28C303.443 19.28 306.107 21.098 306.107 23.87C306.107 26.678 303.443 28.478 299.879 28.478C296.315 28.478 293.651 26.678 293.651 23.87C293.651 21.098 296.315 19.28 299.879 19.28ZM299.879 21.17C297.593 21.17 296.009 22.178 296.009 23.87C296.009 25.598 297.593 26.588 299.879 26.588C302.165 26.588 303.749 25.598 303.749 23.87C303.749 22.178 302.165 21.17 299.879 21.17ZM292.355 31.232H307.439V33.176H292.355V31.232ZM313.59 31.322H328.674V33.266H313.59V31.322ZM319.908 28.172H322.302V32.114H319.908V28.172ZM315.282 19.514H326.982V25.058H317.694V27.866H315.318V23.186H324.606V21.404H315.282V19.514ZM315.318 26.912H327.36V28.838H315.318V26.912ZM331.678 19.964H342.244V21.854H331.678V19.964ZM330.148 30.98H345.214V32.924H330.148V30.98ZM340.984 19.964H343.36V21.944C343.36 24.284 343.36 26.552 342.766 29.972L340.372 29.774C340.984 26.57 340.984 24.194 340.984 21.944V19.964ZM358.137 18.452H360.549V30.422H358.137V18.452ZM349.443 32.906H360.963V34.814H349.443V32.906ZM349.443 29.216H351.837V33.68H349.443V29.216ZM351.477 19.496C354.033 19.496 355.995 21.26 355.995 23.726C355.995 26.174 354.033 27.956 351.477 27.956C348.921 27.956 346.941 26.174 346.941 23.726C346.941 21.26 348.921 19.496 351.477 19.496ZM351.477 21.566C350.235 21.566 349.281 22.358 349.281 23.726C349.281 25.076 350.235 25.868 351.477 25.868C352.701 25.868 353.655 25.076 353.655 23.726C353.655 22.358 352.701 21.566 351.477 21.566Z"
-            fill="black"
-            fillOpacity="0.85"
-          />
-          <defs>
-            <clipPath id="clip0_139_1886">
-              <rect
-                width="35.9999"
-                height="36"
-                fill="white"
-                transform="translate(206.5 9)"
+          <svg
+            width={`${18 / 19.2}vw`}
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ margin: `0 ${14 / 19.2}vw ${2 / 19.2}vw 0` }}
+          >
+            <g clip-path="url(#clip0_2100_6336)">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.00005 0.601562C4.02919 0.601562 0 3.71452 0 7.55385C0 9.94159 1.55841 12.0465 3.93154 13.2985L2.93304 16.9461C2.84482 17.2684 3.21343 17.5252 3.49648 17.3385L7.87337 14.4498C8.24274 14.4854 8.61811 14.5062 9.00005 14.5062C13.9705 14.5062 18 11.3934 18 7.55385C18 3.71452 13.9705 0.601562 9.00005 0.601562Z"
+                fill="black"
               />
-            </clipPath>
-          </defs>
-        </svg>
-        <svg // 네이버 로그인
-          viewBox="0 0 570 54"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={LoginImg}
+            </g>
+            <defs>
+              <clipPath id="clip0_2100_6336">
+                <rect width="18" height="18" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          카카오 로그인
+        </LoginButton>
+        <LoginButton
           onClick={() => {
             window.location.href = naverURL;
           }}
+          $naver
         >
-          <rect width="570" height="54" rx="5" fill="#03C75A" />
-          <g clipPath="url(#clip0_139_1885)">
-            <path
-              d="M227.849 27.5627L221.917 19H217V35H222.151V26.436L228.083 35H233V19H227.849V27.5627Z"
-              fill="white"
-            />
-          </g>
-          <path
-            d="M249.35 20.018H251.726V29.702H249.35V20.018ZM249.35 29.09H250.52C252.536 29.09 254.21 29.018 256.136 28.622L256.442 30.62C254.444 31.052 252.644 31.124 250.52 31.124H249.35V29.09ZM260.798 18.434H263.084V35.102H260.798V18.434ZM253.994 23.69H257.792V25.616H253.994V23.69ZM257.27 18.722H259.502V34.364H257.27V18.722ZM276.709 18.416H279.121V35.138H276.709V18.416ZM270.139 19.586C272.659 19.586 274.513 21.89 274.513 25.526C274.513 29.198 272.659 31.502 270.139 31.502C267.619 31.502 265.765 29.198 265.765 25.526C265.765 21.89 267.619 19.586 270.139 19.586ZM270.139 21.764C268.897 21.764 268.051 23.078 268.051 25.526C268.051 28.01 268.897 29.342 270.139 29.342C271.381 29.342 272.209 28.01 272.209 25.526C272.209 23.078 271.381 21.764 270.139 21.764ZM293.447 18.416H295.823V35.138H293.447V18.416ZM289.667 24.284H294.131V26.21H289.667V24.284ZM282.449 19.73H284.825V23.762H288.101V19.73H290.459V31.214H282.449V19.73ZM284.825 25.616V29.288H288.101V25.616H284.825ZM303.09 31.322H318.174V33.266H303.09V31.322ZM309.408 28.172H311.802V32.114H309.408V28.172ZM304.782 19.514H316.482V25.058H307.194V27.866H304.818V23.186H314.106V21.404H304.782V19.514ZM304.818 26.912H316.86V28.838H304.818V26.912ZM321.178 19.964H331.744V21.854H321.178V19.964ZM319.648 30.98H334.714V32.924H319.648V30.98ZM330.484 19.964H332.86V21.944C332.86 24.284 332.86 26.552 332.266 29.972L329.872 29.774C330.484 26.57 330.484 24.194 330.484 21.944V19.964ZM347.637 18.452H350.049V30.422H347.637V18.452ZM338.943 32.906H350.463V34.814H338.943V32.906ZM338.943 29.216H341.337V33.68H338.943V29.216ZM340.977 19.496C343.533 19.496 345.495 21.26 345.495 23.726C345.495 26.174 343.533 27.956 340.977 27.956C338.421 27.956 336.441 26.174 336.441 23.726C336.441 21.26 338.421 19.496 340.977 19.496ZM340.977 21.566C339.735 21.566 338.781 22.358 338.781 23.726C338.781 25.076 339.735 25.868 340.977 25.868C342.201 25.868 343.155 25.076 343.155 23.726C343.155 22.358 342.201 21.566 340.977 21.566Z"
-            fill="white"
-          />
-          <defs>
-            <clipPath id="clip0_139_1885">
-              <rect
-                width="16"
-                height="16"
+          <svg
+            width={`${18 / 19.2}vw`}
+            viewBox="0 0 17 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ margin: `0 ${14 / 19.2}vw ${2 / 19.2}vw 0` }}
+          >
+            <g clip-path="url(#clip0_2116_680)">
+              <path
+                d="M11.3491 9.06267L5.41687 0.5H0.5V16.5H5.65088V7.936L11.5831 16.5H16.5V0.5H11.3491V9.06267Z"
                 fill="white"
-                transform="translate(217 19)"
               />
-            </clipPath>
-          </defs>
-        </svg>
+            </g>
+            <defs>
+              <clipPath id="clip0_2116_680">
+                <rect
+                  width="16"
+                  height="16"
+                  fill="white"
+                  transform="translate(0.5 0.5)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          네이버 로그인
+        </LoginButton>
       </SocialWrapper>
       <EmailWrapper>
         <svg
           viewBox="0 0 570 19"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={LoginImg}
+          style={
+            (LoginImg,
+            { marginTop: `${27 / 19.2}vw`, marginBottom: `${27 / 19.2}vw` })
+          }
         >
           <line
             x1="4.37114e-08"
@@ -381,7 +388,7 @@ const LoginPage = () => {
           </WarningText>
         )}
         <SaveWrapper>
-          <CustomButton
+          <CheckBox
             index="EmailSave"
             state={EmailSave}
             onChange={() => SetEmailSave((EmailSave) => !EmailSave)}
@@ -392,6 +399,7 @@ const LoginPage = () => {
               onClick={() => {
                 navigate("/login/findemail");
               }}
+              style={{ cursor: "grab" }}
             >
               아이디
             </span>{" "}
@@ -400,12 +408,18 @@ const LoginPage = () => {
               onClick={() => {
                 navigate("/login/resetpw");
               }}
+              style={{ cursor: "grab" }}
             >
               비밀번호 찾기
             </span>
           </FindLink>
         </SaveWrapper>
-        <LoginButton onClick={HandleLoginRequest}>로그인</LoginButton>
+        <LoginButton
+          onClick={HandleLoginRequest}
+          style={{ marginTop: `0`, marginBottom: `${18 / 19.2}vw` }}
+        >
+          로그인
+        </LoginButton>
       </EmailWrapper>
       <ExtraWrapper>
         <ExtraButton
@@ -417,7 +431,7 @@ const LoginPage = () => {
         </ExtraButton>
         <ExtraButton
           onClick={() => {
-            navigate("/login/guest");
+            navigate("/guest");
           }}
         >
           비회원 주문 조회

@@ -17,7 +17,7 @@ const NaverLoginHandler = () => {
 
   const fetch = async () => {
     try {
-      const endpoint = `/api/members/naver/callback?code=${code}&state=${state}`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/naver/callback?code=${code}&state=${state}`;
       const response = await axios.get(endpoint, {
         headers: {
           accept: "*/*",

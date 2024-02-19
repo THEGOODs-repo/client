@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CustomButton from "../../Register/CustomButton";
+import { CheckBox } from "../../Global/CustomBox";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -192,7 +192,7 @@ const RefundChangeModal = ({ isOpen, onClose, OrderItemId }) => {
             }}
           />
         </InputWrapper>
-        <CustomButton
+        <CheckBox
           index="SaveAsDefaultRefundAccount"
           state={SaveAsDefaultRefundAccount}
           onChange={() =>

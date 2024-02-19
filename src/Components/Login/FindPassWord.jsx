@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import logo from "../../img/logo.svg";
+import logo from "../../img/loginlogo.svg";
 import ErrorModal from "./ErrorModal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,15 +19,17 @@ const FindPassWordWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.img`
-  width: ${487 / 19.2}vw;
+  width: ${318 / 19.2}vw;
+  cursor: grab;
 `;
 
 const InputTextWrapper = styled.div`
-  margin: ${10 / 19.2}vw 0 0 ${1 / 19.2}vw;
+  margin: ${10 / 19.2}vw 0 ${6 / 19.2}vw ${1 / 19.2}vw;
   font-size: ${16 / 19.2}vw;
   flex-shrink: 0;
   color: #52555b;
   align-self: flex-start;
+  font-weight: bold;
 `;
 
 const TextWrapper = styled.div`
@@ -41,7 +43,7 @@ const TextWrapper = styled.div`
 
 const InputWrapper = styled.input`
   display: flex;
-  margin: ${10 / 19.2}vw 0 0 0;
+  margin: 0 0 0 0;
   width: ${(e) => e.$width / 19.2}vw;
   height: ${60 / 19.2}vw;
   flex-shrink: 0;
@@ -58,6 +60,7 @@ const InputWrapper = styled.input`
     pointer-events: none;
     background: rgba(156, 156, 156, 0.2);
   }
+  background: rgba(249, 249, 249);
 `;
 
 const DuplicateCheckButton = styled.div`
@@ -71,7 +74,7 @@ const DuplicateCheckButton = styled.div`
   align-items: center;
   font-size: ${18 / 19.2}vw;
   padding: 0;
-  margin: ${10 / 19.2}vw 0 0 ${4 / 19.2}vw;
+  margin: 0 0 0 ${4 / 19.2}vw;
   &.gray {
     background: rgba(156, 156, 156, 0.3);
     color: #9c9c9c;
@@ -82,13 +85,14 @@ const DuplicateCheckButton = styled.div`
     background: #f9f9f9;
     color: #888;
   }
+  cursor: grab;
 `;
 
 const WarningText = styled.div`
   font-size: ${14 / 19.2}vw;
   height: ${24 / 19.2}vw;
   color: #fd3c56;
-  padding: ${9 / 19.2}vw 0 0 ${1 / 19.2}vw;
+  padding: ${6 / 19.2}vw 0 0 ${1 / 19.2}vw;
   margin: 0;
   align-self: flex-start;
 `;
@@ -109,13 +113,14 @@ const ConfirmButton = styled.div`
 
   &.invalid {
     color: gray;
+    background: rgba(156, 156, 156, 0.3);
   }
 `;
 
 const LoginImg = {
   display: "flex",
   width: `${570 / 19.2}vw`,
-  margin: `${14 / 19.2}vw 0 ${24 / 19.2}vw 0`,
+  margin: `${40 / 19.2}vw 0 ${24 / 19.2}vw 0`,
   padding: 0,
 };
 
@@ -170,6 +175,8 @@ const FindPassWord = () => {
 
   useEffect(() => {
     SetValidEmail(true);
+    SetValidNewPassword(true);
+    SetValidNewPasswordCheck(true);
   }, []);
 
   const EmailChange = (e) => {
@@ -201,7 +208,7 @@ const FindPassWord = () => {
   const fetchChangePassword = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `/api/members/password/update`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/password/update`;
       const requestBody = {
         password: NewPassword,
         checkPassword: NewPasswordCheck,
@@ -257,7 +264,7 @@ const FindPassWord = () => {
   const fetchEmailAuth = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `/api/members/email/auth`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/email/auth`;
       const requestBody = {
         email: Email,
       };
@@ -280,7 +287,14 @@ const FindPassWord = () => {
         // 요청 실패시 코드작성
       }
     } catch (error) {
-      console.error("Error during POST request:", error);
+      if (error.response) {
+        if (error.response.status === 400) {
+          SetDisplayErrorModal(true);
+          SetDisplayErrorMSG("가입되지 않은 이메일입니다.");
+        }
+      } else {
+        console.log("Unhandled error:", error);
+      }
     }
     SetDeActive((DeActive) => !DeActive);
   };
@@ -292,7 +306,7 @@ const FindPassWord = () => {
   const fetchEmailAuthVerify = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `/api/members/email/auth/verify`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/email/auth/verify`;
       const requestBody = {
         email: Email,
         code: VerificationEmail,
@@ -323,7 +337,7 @@ const FindPassWord = () => {
   if (IsFound)
     return (
       <FindPassWordWrapper>
-        <LogoWrapper src={logo} />
+        <LogoWrapper src={logo} onClick={() => navigate("/")} />
 
         <svg
           viewBox="0 0 570 19"
@@ -354,7 +368,13 @@ const FindPassWord = () => {
           placeholder="변경할 비밀번호를 입력해주세요."
           className={!ValidNewPassword && "invalidinput"}
           type="password"
-        ></InputWrapper>
+        />
+        {!ValidNewPassword && (
+          <WarningText>
+            영문, 숫자, 특수문자를 조합한 8자 이상, 20자 이하의 비밀번호를
+            입력해주세요.
+          </WarningText>
+        )}
         <InputTextWrapper>한번 더 입력</InputTextWrapper>
         <InputWrapper
           $width={552}
@@ -364,10 +384,13 @@ const FindPassWord = () => {
           placeholder="변경할 비밀번호를 한번 더 입력해주세요."
           className={!ValidNewPasswordCheck && "invalidinput"}
           type="password"
-        ></InputWrapper>
+        />
+        {!ValidNewPasswordCheck && (
+          <WarningText>비밀번호를 동일하게 입력해주세요.</WarningText>
+        )}
         <ConfirmButton
           onClick={HandleChangePassword}
-          className={!ValidNewPassword && !ValidNewPasswordCheck && "invalid"}
+          className={(!ValidNewPassword || !ValidNewPasswordCheck) && "invalid"}
         >
           확인
         </ConfirmButton>
@@ -381,7 +404,7 @@ const FindPassWord = () => {
           text={[DisplayErrorMSG]}
           onClose={() => SetDisplayErrorModal(!DisplayErrorModal)}
         />
-        <LogoWrapper src={logo} />
+        <LogoWrapper src={logo} onClick={() => navigate("/")} />
         <svg
           viewBox="0 0 570 19"
           fill="none"
@@ -404,8 +427,11 @@ const FindPassWord = () => {
         <TextWrapper>
           더 굿즈 계정 연동 이메일을 입력해주세요.
           <br />
-          <br />
         </TextWrapper>
+        <InputTextWrapper>
+          이메일
+          <span style={{ color: "#F0C920", marginLeft: "0.26vw" }}>*</span>
+        </InputTextWrapper>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <InputWrapper
             $width={416}

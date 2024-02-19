@@ -7,9 +7,11 @@ import RegisterForm from "../Components/Register/RegisterForm";
 const RegisterContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
+  background: rgba(249, 249, 249);
 `;
 
 const Register = () => {

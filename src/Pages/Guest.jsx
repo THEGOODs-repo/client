@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import logo from "../img/logo.svg";
+import logo from "../img/loginlogo.svg";
 import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import OrderDetail from "../Components/myPage/ManagePurchase/OrderDetail";
@@ -39,7 +39,7 @@ const FindGuestOrderWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.img`
-  width: ${487 / 19.2}vw;
+  width: ${318 / 19.2}vw;
 `;
 
 const TextWrapper = styled.div`
@@ -47,20 +47,22 @@ const TextWrapper = styled.div`
   margin: 0;
   font-size: ${15 / 19.2}vw;
   text-align: start;
-  padding: 0 0 0 ${9 / 19.2}vw;
+  padding: 0 0 0 ${6.5 / 19.2}vw;
   color: #52555b;
+  line-height: 1.3;
 `;
 
 const InputWrapper = styled.input`
   display: flex;
   margin: ${10 / 19.2}vw 0 0 0;
   width: ${550 / 19.2}vw;
-  height: ${55 / 19.2}vw;
+  height: ${54.5 / 19.2}vw;
   flex-shrink: 0;
   border-radius: ${5 / 19.2}vw;
   border: ${1.3 / 19.2}vw solid #9c9c9c;
-  font-size: ${16 / 19.2}vw;
+  font-size: ${18 / 19.2}vw;
   padding: 0 0 0 ${17 / 19.2}vw;
+  font-weight: 500;
 
   &.invalidinput {
     border: ${1.3 / 19.2}vw solid #fd3c56;
@@ -70,7 +72,7 @@ const InputWrapper = styled.input`
 const TitleBar = {
   display: "flex",
   width: `${570 / 19.2}vw`,
-  margin: `${14 / 19.2}vw 0 ${16 / 19.2}vw 0`,
+  margin: `${37 / 19.2}vw 0 ${17.5 / 19.2}vw 0`,
   padding: 0,
 };
 
@@ -78,7 +80,6 @@ const ConfirmButton = styled.div`
   display: flex;
   width: ${570 / 19.2}vw;
   height: ${55 / 19.2}vw;
-  flex-shrink: 0;
   border-radius: ${5 / 19.2}vw;
   background: #f0c920;
   color: #fff;
@@ -86,14 +87,17 @@ const ConfirmButton = styled.div`
   align-items: center;
   font-size: ${18 / 19.2}vw;
   padding: 0;
-  margin: ${39 / 19.2}vw 0 ${21 / 19.2}vw 0;
+  margin: ${40 / 19.2}vw 0 ${21 / 19.2}vw 0;
+  cursor: grab;
 `;
 
 const FindLink = styled.div`
   margin: 0;
   font-size: ${16 / 19.2}vw;
   color: #202123;
-  padding: 0;
+  padding: ${2 / 19.2}vw 0 0 ${3.5 / 19.2}vw;
+  font-weight: bold;
+  cursor: grab;
 `;
 
 const Guest = () => {
@@ -124,7 +128,7 @@ const Guest = () => {
 
   const fetchData = async () => {
     try {
-      const endpoint = `/api/order/api/nologin/order`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/order/api/nologin/order`;
       const requestBody = {
         ordersId: OrderNumber,
         name: OrderName,
@@ -189,12 +193,12 @@ const Guest = () => {
           id="ordercontact"
           placeholder="주문자 연락처"
         />
-        <ConfirmButton onClick={() => HandleGuestLogin(1)}>확인</ConfirmButton>
+        <ConfirmButton onClick={() => HandleGuestLogin()}>확인</ConfirmButton>
         <TextWrapper>
-          <span style={{ marginRight: `${11 / 19.2}vw` }}>&#8226;</span>비회원은
-          정보 수정이 불가하며, 주문 조회만 가능합니다.
+          <span style={{ marginRight: `${4.5 / 19.2}vw` }}>&#8226;</span>
+          비회원은 정보 수정이 불가하며, 주문 조회만 가능합니다.
           <br />
-          <span style={{ marginRight: `${11 / 19.2}vw` }}>&#8226;</span>더
+          <span style={{ marginRight: `${4.5 / 19.2}vw` }}>&#8226;</span>더
           굿즈에 회원가입하면 구매한 폼을 간편하게 조회하고 관리할 수 있습니다.{" "}
           <br />
           <FindLink

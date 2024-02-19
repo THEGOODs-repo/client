@@ -8,13 +8,13 @@ export const selectedItemsSlice = createSlice({
     selectedItems: [],
   },
   reducers: {
-    setSelectedItems: (state, action) => {
+    updateSelectedItems: (state, action) => {
       state.selectedItems = action.payload;
     },
   },
 });
 
-export const { setSelectedItems } = selectedItemsSlice.actions;
+export const { updateSelectedItems } = selectedItemsSlice.actions;
 
 export default selectedItemsSlice.reducer;
 

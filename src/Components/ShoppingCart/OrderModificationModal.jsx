@@ -125,6 +125,7 @@ const OrderModificationModal = ({optionList, onClose, stockInfo}) => {
       .then(response => {
         // 삭제된 옵션들을 상태에서 제거
         console.log('옵션 삭제 요청이 성공적으로 완료되었습니다.');
+        window.location.reload();
       })
       .catch(error => {
         console.error('옵션 삭제 요청이 실패하였습니다.', error);

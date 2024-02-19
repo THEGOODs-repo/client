@@ -6,10 +6,10 @@ import OrderModificationModal from "./OrderModificationModal";
 import { setSelectedItems } from "./selectedItemsSlice";
 import CustomButton from "../Global/CustomButton";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import axios from 'axios';
 
-const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, isChecked,itemId ,cartId , onToggle }) => {
+const ProductItem = ({ sellerName, itemName, itemImg, cartDetailViewDTOList, deliveryFee, isChecked,itemId ,cartId , onToggle }) => {
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
 
@@ -46,7 +46,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
 const handleCheckboxChange = (event) => {
   const isChecked = event.target.checked;
   setIsCheckedAll(isChecked);
-  const selectedItem = { sellerName, itemName, itemImg, optionList, deliveryFee, cartId };
+  const selectedItem = { sellerName, itemName, itemImg, cartDetailViewDTOList, deliveryFee, cartId };
   // 부모 컴포넌트로 체크 여부와 상품 정보 전달
   onToggle(selectedItem, isChecked);
   
@@ -62,7 +62,7 @@ const handleCheckboxChange = (event) => {
       itemName,
       itemImg,
       deliveryFee,
-      optionList
+      cartDetailViewDTOList
     };
     if (isCheckedAll){
     console.log('전달되는 상품 정보:', item);
@@ -79,12 +79,12 @@ const handleCheckboxChange = (event) => {
   const calculateOptionTotalPrice = () => {
     let totalPrice = 0;
   
-    if (!optionList || !Array.isArray(optionList)) {
+    if (!cartDetailViewDTOList || !Array.isArray(cartDetailViewDTOList)) {
       console.error('options 배열이 올바르지 않습니다.');
       return null;
     }
   
-    optionList.forEach(option => {
+    cartDetailViewDTOList.forEach(option => {
       if (typeof option.price !== 'number' || typeof option.amount !== 'number') {
         console.error('옵션의 price 또는 amount 속성이 올바르지 않습니다:', option);
         return null;
@@ -103,8 +103,8 @@ const handleCheckboxChange = (event) => {
     setOptionsList(selectedOptions);
   };
   // 옵션이 있는지 여부 확인
-  const hasOptions = optionList.some(option => option.optionName !== null);
-  const firstItem = optionList[0];
+  const hasOptions = cartDetailViewDTOList.some(option => option.optionName !== null);
+  const firstItem = cartDetailViewDTOList[0];
   const firstItemPrice = firstItem.price;
   const firstItemAmount = firstItem.amount;
 
@@ -141,7 +141,7 @@ const handleCheckboxChange = (event) => {
             <ModifyOrder onClick={handleModifyOrderClick}>주문수정</ModifyOrder>
             {isModalOpen && (
               <OrderModificationModal
-                optionList={optionList}
+                cartDetailViewDTOList={cartDetailViewDTOList}
                 onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
                 onUpdate={handleUpdateOptions} // 변경된 내용을 부모 컴포넌트로 전달하는 콜백 함수 전달
                 stockInfo={stockInfo} 
@@ -165,7 +165,7 @@ const handleCheckboxChange = (event) => {
               <ModifyOrder2 onClick={handleModifyOrderClick}>주문수정</ModifyOrder2>
               {isModalOpen && (
                 <OrderModificationModal
-                  optionList={optionList}
+                  cartDetailViewDTOList={cartDetailViewDTOList}
                   onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
                   stockInfo={stockInfo} 
                 />
@@ -175,7 +175,7 @@ const handleCheckboxChange = (event) => {
           </>
         )}
 
-        {hasOptions && optionList.map((option, idx) => (
+        {hasOptions && cartDetailViewDTOList.map((option, idx) => (
           // 옵션 이름이 null이 아닌 경우에만 렌더링
           option.optionName !== null && (
             <OptionForm key={idx}>

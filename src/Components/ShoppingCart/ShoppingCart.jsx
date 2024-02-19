@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import ProductItem from './ProductItem';
 import styled from "styled-components";
 import arrow from "../../img/chevron-right.png";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from "../Global/CustomButton";
-import { setSelectedItems } from './selectedItemsSlice'; // 선택된 항목을 Redux store에 dispatch하기 위해 추가
 import axios from 'axios';
+import {updateSelectedItems} from './selectedItemsSlice';
 
 const ShoppingCart = ({ cartItems }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [isTotalChecked, setIsTotalChecked] = useState(false);
   const dispatch = useDispatch(); // useDispatch 훅을 사용하여 dispatch 함수를 가져옴
   const [selectedItems, setSelectedItems] = useState([]);
   const navigate = useNavigate();
@@ -18,12 +19,23 @@ const ShoppingCart = ({ cartItems }) => {
   const [productItemData, setProductItemData] = useState([]); // ProductItem의 데이터 상태
   const [totalPrice, setTotalPrice] = useState(0);
   
+  useEffect(()=>{
+    console.log("dispatch실행")
+    dispatch(updateSelectedItems(selectedItems));
+ 
+  },[selectedItems])
+
+
+  
   const handleOrderButtonClick = () => {
     console.log(selectedItems); // 선택된 상품들의 정보를 콘솔에 출력하거나 결제 페이지로 전달하는 로직 추가
     navigate('/payment', { state: { selectedItems } });
   };
   
-  
+  const handleButtonToggle = () => {
+    setIsTotalChecked(!isTotalChecked); // 상태를 토글하여 변경
+    handleSelectAll(!isTotalChecked)
+  };
 
   const handleContinueShopping = () => {
     // MainPageComponent로 이동
@@ -44,21 +56,36 @@ const ShoppingCart = ({ cartItems }) => {
     );
   }
   
+  // 전체 선택/해제 처리
+  const handleSelectAll = (isChecked) => {
+    if (isChecked) {
+      console.log(cartItems.length)
+      let cartIdList = cartItems.map((cartItem) => cartItem.cartId)
+      console.log(cartIdList)
+      console.log(cartItems)
+      setCheckedItems(cartIdList); // 선택된 상품 ID 목록 초기화
+      setSelectedItems(cartItems); // 선택된 상품 목록 초기화
+      
+    } else {
+      setCheckedItems([]); // 선택된 상품 ID 목록 초기화
+      setSelectedItems([]); // 선택된 상품 목록 초기화 
+    }
+  };
+  
   const handleItemToggle = (item, isChecked) => {
     // 선택된 상품 배열의 상태를 변경
     if (isChecked) {
       // 선택하는 경우, selectedItems에 추가
-      dispatch(setSelectedItems([...selectedItems, item]));
+      //dispatch(setSelectedItems([...selectedItems, item]));
       // 상품의 ID를 checkedItems에 추가
       setCheckedItems([...checkedItems, item.cartId]);
     } else {
       // 선택 해제하는 경우, selectedItems에서 해당 상품 제거
-      dispatch(setSelectedItems(selectedItems.filter(selectedItem => selectedItem.cartId !== item.cartId)));
+      //dispatch(setSelectedItems(selectedItems.filter(selectedItem => selectedItem.cartId !== item.cartId)));
       // 해당 상품의 ID를 checkedItems에서 제거
       setCheckedItems(checkedItems.filter(id => id !== item.cartId));
     }
   };
-  
   
 
   const handleDeleteSelectedItems = () => {
@@ -99,25 +126,24 @@ const ShoppingCart = ({ cartItems }) => {
     
   const handleToggleItem = (item, isChecked) => {
     let updatedSelectedItems;
-  
+    
     if (isChecked) {
       // 새 항목을 추가한 새로운 배열 생성
       updatedSelectedItems = [...selectedItems, item];
+      console.log(updatedSelectedItems)
     } else {
       // 선택 해제된 항목을 제외한 새로운 배열 생성
-      updatedSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+      updatedSelectedItems = selectedItems.filter((selectedItem) => selectedItem.cartId !== item.cartId);
+      console.log(updatedSelectedItems)
     }
-  
+
+    // 선택된 항목들의 총 가격을 업데이트
+    setTotalPrice(calculateTotalOrderPrice(updatedSelectedItems));  
     // 선택된 항목들을 업데이트
     setSelectedItems(updatedSelectedItems);
   
-    // 선택된 항목들의 총 가격을 업데이트
-    setTotalPrice(calculateTotalOrderPrice(updatedSelectedItems));
   };
   
-
-
-
 const calculateTotalOrderPrice = () => {
   let totalPrice = 0;
 
@@ -127,7 +153,7 @@ const calculateTotalOrderPrice = () => {
     totalPrice += item.deliveryFee;
 
     // 각 상품의 옵션을 순회하며 가격과 개수를 곱하여 합산
-    item.optionList.forEach(option => {
+    item.cartDetailViewDTOList.forEach(option => {
       totalPrice += option.price * option.amount;
     });
   });
@@ -135,7 +161,6 @@ const calculateTotalOrderPrice = () => {
   return totalPrice;
 };
 
-  
 
   return (
     <div>
@@ -145,8 +170,8 @@ const calculateTotalOrderPrice = () => {
           <CheckBoxPosition>
             <CheckBoxPosition1>
             <CustomButton  
-              state={isChecked} 
-              onChange={() => handleItemToggle(cartItems, !checkedItems.includes(cartItems.itemId))} 
+              state={isTotalChecked} // 상태를 문자열로 변환하여 전달
+              onChange={handleButtonToggle} 
               index="isChecked" 
               label=""
             />  
@@ -159,6 +184,7 @@ const calculateTotalOrderPrice = () => {
         </>
       )}
 
+
       {cartItems.map((cartItem, index) => (
         <div key={index}>
           <ProductItem
@@ -167,12 +193,12 @@ const calculateTotalOrderPrice = () => {
             sellerName={cartItem.sellerName}
             itemName={cartItem.itemName}
             itemImg={cartItem.itemImg}
-            optionList={cartItem.cartDetailViewDTOList}
+            cartDetailViewDTOList={cartItem.cartDetailViewDTOList}
             deliveryFee={cartItem.deliveryFee}
             onUpdate={handleConfirmChanges} // 모달에서 변경된 내용을 받아오는 콜백 함수 전달
             cartId={cartItem.cartId}
             
-            isChecked={checkedItems.includes(cartItem.itemId)} // 선택 여부를 상태에 따라 동적으로 설정합니다.
+            isChecked={checkedItems.includes(cartItem.cartId)} // 선택 여부를 상태에 따라 동적으로 설정합니다.
             onToggle={(item, isChecked) => handleToggleItem(item, isChecked)}
           />
         </div>

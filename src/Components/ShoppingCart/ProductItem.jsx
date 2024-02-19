@@ -59,6 +59,7 @@ const ProductItem = ({
     const isChecked = event.target.checked;
     setIsCheckedAll(isChecked);
     const selectedItem = {
+      itemId,
       sellerName,
       itemName,
       itemImg,

@@ -6,12 +6,14 @@ import loginReducer from "./redux/loginSlice";
 import selectedItemsReducer from "./Components/ShoppingCart/selectedItemsSlice";
 import orderReducer from "./redux/orderSlice";
 import preferenceSlice from "./redux/preferenceSlice";
+import purchaseReducer from './redux/purchaseSlice';
 
 const rootReducer = combineReducers({
   login: loginReducer,
   preference: preferenceSlice,
   selectedItems: selectedItemsReducer,
   orderItem: orderReducer,
+  purchaseItem : purchaseReducer,
 });
 
 const persistConfig = {

@@ -85,7 +85,7 @@ const ImageSlider = (props) => {
                         onClick={() => handleImageClick(index)}
                         style={{ border: slideIndex === index ? '3px solid yellow' : '3px solid transparent' }}
                     >
-                        <SlideItem src={image} alt={`Slide ${index}`} />
+                        <SlideItem src={image['itemImgUrl']} alt={`Slide ${index}`} />
                     </SlideItemContainer>
                 ))}
             </SlideWrapper>
@@ -98,6 +98,5 @@ const ImageSlider = (props) => {
         </SlideContainer>
     );
 };
-
 
 export default ImageSlider;

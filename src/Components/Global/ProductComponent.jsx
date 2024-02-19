@@ -96,7 +96,7 @@ const ProductCardComponent = ({ product }) => {
             <SellerInfo>
                     <CalenderContainer>
                         <SellerImage src={calender} alt="Seller Icon" />
-                        <EndDate>종료일: {formatDate(product.createdAt)}</EndDate>
+                        <EndDate>종료일: {product.endDate}</EndDate>
                     </CalenderContainer>
                     <ProfileViewerContainer>
                         <div style={{ display: 'flex', alignItems: 'center' }}>

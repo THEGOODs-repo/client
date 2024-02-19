@@ -16,6 +16,7 @@ import ProductInfoComponent from '../Product/ProductInfoComponent';
 import Pagination from '../Footer/PageNationComponent';
 import ImageSlider from './SlideComponent';
 import axios from 'axios';
+<<<<<<< HEAD
 import { useSelector, useDispatch } from 'react-redux';
 import {setPurchaseItems} from '../../redux/purchaseSlice';
 const OptionContainer = styled.div`
@@ -31,6 +32,22 @@ const SelectBox = styled.div`
     border-radius: 4px;
     display : flex;
 
+=======
+
+const OptionContainer = styled.div`
+    width: 100%;
+    position: relative;
+    display: inline-block;
+`;
+
+const SelectBox = styled.div`
+    position: relative;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display : flex;
+
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df
     padding: 10px 0px;
     background-color: #fff;
     cursor: pointer;
@@ -252,6 +269,7 @@ function ProductPageComponent() {
     const [productInfo,setProductInfo] = useState("");
     const totalPages = 5;
     const {id} = useParams();
+<<<<<<< HEAD
     const [selectedOption, setSelectedOption] = useState('인기순');
     const [showOptions, setShowOptions] = useState(false);
     const dispatch = useDispatch();
@@ -274,6 +292,11 @@ function ProductPageComponent() {
 
 
 
+=======
+
+    const [selectedOption, setSelectedOption] = useState('인기순');
+    const [showOptions, setShowOptions] = useState(false);
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -293,6 +316,7 @@ function ProductPageComponent() {
         const fetchData = async () => {
           try {
             //const response = axios.get(`/api/seller/item/${id}`);
+<<<<<<< HEAD
             const response = await axios.get(`/api/seller/item/${id}`);
             setProductInfo(response.data.result); // 응답 데이터에서 필요한 부분을 추출하여 상태로 설정
             //console.log(response.data.result);
@@ -308,6 +332,11 @@ function ProductPageComponent() {
             
             console.log(item)
             dispatch(setPurchaseItems(item))
+=======
+            const response = await axios.get(`https://dev.the-goods.store/api/seller/item/667`);
+            setProductInfo(response.data.result); // 응답 데이터에서 필요한 부분을 추출하여 상태로 설정
+            console.log(response.data.result);
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df
           } catch (error) {
             console.error("Error fetching data:", error);
           }
@@ -392,7 +421,11 @@ function ProductPageComponent() {
             <SelectBox onClick={() => setShowOptions(!showOptions)}>
                 옵션을 선택해주세요.
             </SelectBox>
+<<<<<<< HEAD
             {false && (
+=======
+            {showOptions && (
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df
     <OptionsList>
         <Option>
             <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-around", alignItems: "center" }}>

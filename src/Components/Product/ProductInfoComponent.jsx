@@ -36,4 +36,8 @@ function ProductInfoComponent({ productInfo }) {
     );
 }
 
+<<<<<<< HEAD
 export default ProductInfoComponent;
+=======
+export default ProductInfoComponent;
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df

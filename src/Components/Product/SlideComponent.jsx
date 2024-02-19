@@ -99,4 +99,8 @@ const ImageSlider = (props) => {
     );
 };
 
+<<<<<<< HEAD
 export default ImageSlider;
+=======
+export default ImageSlider;
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df

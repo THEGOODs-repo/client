@@ -62,6 +62,7 @@ function App() {
           <Routes>
             {/* 편지 버튼 ->선호도 조사 */}
             <Route path="/" element={<MainPageComponent />} />
+<<<<<<< HEAD
             <Route path="/preference/Idol" element={<Preference />} />
             <Route path="/preference/Create" element={<PreferenceCreate />} />
             <Route path="/preference/Ani" element={<PreferenceAni />} />
@@ -85,6 +86,12 @@ function App() {
               element={<PreferenceResultPage />}
             />
             <Route path="/category" element={<CategoryPage />} />
+=======
+            <Route path="/preference" element={<Preference />} />
+            <Route path="/product/:id" element={<ProductPageComponent />} />
+            <Route path="/main/:id" element={<ProductPageComponent />} />
+            
+>>>>>>> 892f209aad9ce646110b95754a6eb1363dc657df
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
             <Route path="/posting" element={<Post />} />

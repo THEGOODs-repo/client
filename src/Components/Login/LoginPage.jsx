@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import logo from "../../img/logo.svg";
+import logo from "../../img/loginlogo.svg";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "./ErrorModal";
 import { CheckBox } from "../Global/CustomBox";

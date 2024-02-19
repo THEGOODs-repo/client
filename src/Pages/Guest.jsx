@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import logo from "../img/logo.svg";
+import logo from "../img/loginlogo.svg";
 import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import OrderDetail from "../Components/myPage/ManagePurchase/OrderDetail";

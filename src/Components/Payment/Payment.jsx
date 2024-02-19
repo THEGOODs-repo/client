@@ -315,13 +315,17 @@ const HandleOptionItems = ({
         let newOrderDetailList = [];
         totalDeliveryFee += data.deliveryFee;
         SellerNameList.push(data.sellerName);
-        data.optionList.forEach((option) => {
-          totalItemPrice += option.amount * option.optionPrice;
-          newOrderDetailList.push({
-            itemOptionId: option.optionId,
-            amount: option.amount,
+        !Array.isArray(data.optionList) &&
+          (totalItemPrice += data.price * data.amount) &&
+          newOrderDetailList.push({ amount: data.amount });
+        Array.isArray(data.optionList) &&
+          data.optionList.forEach((option) => {
+            totalItemPrice += option.amount * option.optionPrice;
+            newOrderDetailList.push({
+              itemOptionId: option.optionId,
+              amount: option.amount,
+            });
           });
-        });
         newOrderList.push({
           itemId: data.itemId,
           orderDetailDTOList: newOrderDetailList,

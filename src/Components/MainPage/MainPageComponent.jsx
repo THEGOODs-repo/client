@@ -17,7 +17,7 @@ import mainBannerURL from "../../img/mainbanner.png";
 import likeBannerURL from "../../img/likepost.png";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import FixedButtons from "../Global/FixedButtons";
 const StyledLink = styled(Link)`
   color: black;
   text-decoration: none;
@@ -208,6 +208,7 @@ function MainPageComponent() {
 
   return (
     <>
+      <FixedButtons></FixedButtons>
       <HeaderComponent />
       <NavWrapContainer>
         <NavigationMenu />

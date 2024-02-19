@@ -14,7 +14,7 @@ import ArrowCircleRight from "../../img/arrow-circle-right.png";
 import BaseFooter from "../Footer/BaseFooter";
 import axios from "axios";
 import mainBannerURL from "../../img/mainbanner.png";
-import likeBannerURL from "../../img/likebanner.png";
+import likeBannerURL from "../../img/likepost.png";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -132,19 +132,6 @@ const SubInfoWrapContainer = styled.div`
   align-items: center;
 `;
 
-// const products = [
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 },
-//     { title: "상품 제목", endDate: "2024-12-31", seller: "판매자 이름", views: 1000 }
-// ];
-
 function MainPageComponent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productLists, setProductLists] = useState(Array(6).fill([]));
@@ -238,20 +225,20 @@ function MainPageComponent() {
           <BannerContainer ref={bannerRef}>
             <BannerItemContainer>
               <BannerImg
-                src={mainBannerURL}
-                alt="메인베너"
-                onClick={handleMainPage}
-              />
-            </BannerItemContainer>
-            <BannerItemContainer>
-              <BannerImg
                 src={likeBannerURL}
-                alt="선호도조사 베너"
+                alt="메인베너"
                 onClick={handleMoveLikePage}
               />
             </BannerItemContainer>
             <BannerItemContainer>
-              <BannerImg src={Banner} alt="Banner 3" />
+              <BannerImg
+                src={mainBannerURL}
+                alt="선호도조사 베너"
+                onClick={handleMainPage}
+              />
+            </BannerItemContainer>
+            <BannerItemContainer>
+              <BannerImg src={mainBannerURL} alt="Banner 3" />
             </BannerItemContainer>
           </BannerContainer>
           <ArrowContainer style={{ left: 35 }} onClick={handlePrevSlide}>

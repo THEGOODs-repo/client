@@ -392,38 +392,21 @@ function ProductPageComponent() {
             <SelectBox onClick={() => setShowOptions(!showOptions)}>
                 옵션을 선택해주세요.
             </SelectBox>
-            {false && (
+            {showOptions && (
     <OptionsList>
-        <Option>
-            <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                <p>스티커1</p>
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <button>+</button>
-                    9
-                    <button>-</button>
-                </div>
+{item['optionList'].map((option, index) => (
+    <Option key={index}>
+        <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+            <p>스티커1</p>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <button style={{ height: "100%" }}>+</button>
+                <div style={{ width: "10px", height: "18px", border: "0.5px solid black", paddingRight: "10px", paddingLeft: "9px", display: "flex", justifyContent: "center", alignItems: "center" }}>9</div>
+                <button style={{ height: "100%" }}>-</button>
             </div>
-        </Option>
-        <Option>
-            <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <p style={{ marginLeft: "5px" }}>스티커1</p>
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <button>+</button>
-                    9
-                    <button>-</button>
-                </div>
-            </div>
-        </Option>
-        <Option>
-            <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                <p>스티커1</p>
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <button>+</button>
-                    9
-                    <button>-</button>
-                </div>
-            </div>
-        </Option>
+        </div>
+    </Option>
+))}
+
     </OptionsList>
 )}
 

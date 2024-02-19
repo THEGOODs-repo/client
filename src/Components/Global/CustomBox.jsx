@@ -124,7 +124,7 @@ const RadioBoxLabel = styled.label`
     background-size: ${12 / 19.2}vw ${12 / 19.2}vw;
     background-position: 50%;
     background-repeat: no-repeat;
-    background-color: #ffffff;
+    background-color: rgba(249, 249, 249);
     /* Add the SVG checkmark as a background image */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="%239C9C9C" fill-opacity="0.5"/></svg>');
   }
@@ -140,7 +140,7 @@ const RadioBoxLabel = styled.label`
     background-size: ${12 / 19.2}vw ${12 / 19.2}vw;
     background-position: 50%;
     background-repeat: no-repeat;
-    background-color: #ffffff;
+    background-color: rgba(249, 249, 249);
     /* Add the SVG checkmark as a background image */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="%23F0C920" fill-opacity="1"/></svg>');
   }

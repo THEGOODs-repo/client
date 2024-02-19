@@ -21,7 +21,7 @@ const GuestContainer = styled.div`
 `;
 
 const NavWrapContainer = styled.div`
-  max-width: 100vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

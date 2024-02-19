@@ -146,39 +146,6 @@ const SubInfoWrapContainer = styled.div`
 // ];
 
 function MainPageComponent() {
-  const dispatch = useDispatch();
-  dispatch(emptyOrderItems());
-  dispatch(
-    setOrderItems({
-      itemId: 212,
-      sellerName: "봄겨울",
-      itemName: "봄겨울 마음대로 탑꾸 커미션 첫번째",
-      itemImg:
-        "https://thegoods-bucket.s3.ap-northeast-2.amazonaws.com/item/120d21b9-cde4-4825-8c95-c6e6f142f201",
-      deliveryFee: 2000,
-      optionList: [
-        {
-          optionId: 241,
-          optionName: "금액 A",
-          optionPrice: 10000,
-          amount: 2,
-        },
-        {
-          optionId: 241,
-          optionName: "금액 B",
-          optionPrice: 11000,
-          amount: 1,
-        },
-        {
-          optionId: 241,
-          optionName: "금액 C",
-          optionPrice: 12000,
-          amount: 3,
-        },
-      ],
-    }),
-  );
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productLists, setProductLists] = useState(Array(6).fill([]));
   const navigate = useNavigate();

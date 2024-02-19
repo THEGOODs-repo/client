@@ -14,35 +14,34 @@ const OrderDetailWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  width: 870px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
-  padding: 3px 55px 0 47px;
+  width: ${885 / 19.2}vw;
+  padding: ${3 / 19.2}vw ${55 / 19.2}vw 0 ${47 / 19.2}vw;
+  border: ${1 / 19.2}vw solid #9c9c9c;
   flex-shrink: 2;
   overflow-y: auto;
   font-family: "Noto Sans KR";
-  box-sizing: border-box;
 `;
 
 const HeaderText = styled.div`
-  font-size: 26px;
-  margin: 36px 0 10px 0;
+  font-size: ${26 / 19.2}vw;
+  margin: ${36 / 19.2}vw 0 ${10 / 19.2}vw 0;
   padding: 0;
   font-weight: bold;
 `;
 
 const ItemWrapper = styled.div`
-  width: 783px;
+  width: 100%;
   padding: 0;
-  margin: 20px 0 0 0;
+  margin: ${20 / 19.2}vw 0 0 0;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
 const ItemImg = styled.div`
-  width: 175px;
-  height: 175px;
-  border-radius: 5px;
+  width: ${175 / 19.2}vw;
+  height: ${175 / 19.2}vw;
+  border-radius: ${5 / 19.2}vw;
   background: center/cover;
 `;
 
@@ -50,8 +49,8 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   line-height: 1.6;
-  margin: 0 0 0 24px;
-  font-size: 16px;
+  margin: 0 0 0 ${24 / 19.2}vw;
+  font-size: ${16 / 19.2}vw;
 `;
 
 const ItemButtonWrapper = styled.div`
@@ -61,49 +60,48 @@ const ItemButtonWrapper = styled.div`
 `;
 
 const ItemButton = styled.div`
-  width: 83px;
-  height: 35px;
-  border: 1px solid #9c9c9c;
-  border-radius: 5px;
-  font-size: 12px;
+  width: ${83 / 19.2}vw;
+  height: ${35 / 19.2}vw;
+  border: ${1 / 19.2}vw solid #9c9c9c;
+  border-radius: ${5 / 19.2}vw;
+  font-size: ${12 / 19.2}vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5.5px 0;
+  margin: ${5.5 / 19.2}vw 0;
 `;
 
 const ProgressWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 783px;
-  margin: 20px 0 0 0;
-  padding: 34px 64px 21px 64px;
-  border: 1px solid #9c9c9c;
-  border-radius: 10px;
-  font-size: 14px;
+  width: 85.35%;
+  margin: ${20 / 19.2}vw 0 0 0;
+  padding: ${34 / 19.2}vw ${64 / 19.2}vw ${21 / 19.2}vw ${64 / 19.2}vw;
+  border: ${1 / 19.2}vw solid #9c9c9c;
+  border-radius: ${10 / 19.2}vw;
+  font-size: ${14 / 19.2}vw;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
 `;
 
 const ProgressCircle = styled.div`
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: ${40 / 19.2}vw;
+  height: ${40 / 19.2}vw;
   background: ${(props) => (props.$done ? `black` : `rgba(156,156,156,0.5)`)};
   border-radius: 50%;
   border: none;
   align-items: center;
   justify-content: center;
-  margin: 0 0 7px 0;
+  margin: 0 0 ${7 / 19.2}vw 0;
 `;
 
 const ProgressHr = styled.div`
   background: ${(props) => (props.$done ? `black` : `rgba(156,156,156,0.5)`)};
   height: 1px;
   border: 0;
-  width: 110px;
+  width: ${135 / 19.2}vw;
   margin: auto 0;
 `;
 
@@ -115,17 +113,17 @@ const ProgressTextWrapper = styled.div`
 `;
 
 const ProgressText = styled.div`
-  width: 49px;
+  width: ${49 / 19.2}vw;
   text-align: center;
   color: ${(props) => (props.$done ? `black` : `#9c9c9c`)};
 `;
 
 const Table = styled.table`
-  width: 783px;
-  border: 1px solid #9c9c9c;
-  margin: 20px 0 0 0;
-  padding: 12px 26px 12px 31px;
-  border-radius: 10px;
+  width: 100%;
+  border: ${1 / 19.2}vw solid #9c9c9c;
+  margin: ${20 / 19.2}vw 0 0 0;
+  padding: ${12 / 19.2}vw ${26 / 19.2}vw ${12 / 19.2}vw ${31 / 19.2}vw;
+  border-radius: ${10 / 19.2}vw;
 `;
 
 const TableRow = styled.tr`
@@ -149,23 +147,23 @@ const TableCell = styled.td`
 
 const TableHr = styled.tr`
   background: rgba(156, 156, 156, 0.5);
-  height: 1px;
+  height: ${1 / 19.2}vw;
   border: 0;
-  margin: 16px 0 16px 0;
-  padding: 16px 0;
+  margin: ${16 / 19.2}vw 0 ${16 / 19.2}vw 0;
+  padding: ${16 / 19.2}vw 0;
 
   td {
-    height: 1px;
+    height: ${1 / 19.2}vw;
     padding: 0;
   }
 `;
 
 const WarningText = styled.div`
   width: 97.5%;
-  padding: 20px 0 20px 22px;
-  margin: 20px 0;
+  padding: ${20 / 19.2}vw 0 ${20 / 19.2}vw ${22 / 19.2}vw;
+  margin: ${20 / 19.2}vw 0 ${20 / 19.2}vw 0;
   background: rgba(156, 156, 156, 0.15);
-  border-radius: 10px;
+  border-radius: ${10 / 19.2}vw;
 `;
 
 const CancelWrapper = styled.div`
@@ -905,7 +903,7 @@ const OrderDetail = () => {
       </Table>
       <Table>
         <TableRow $title>
-          <TableCell $width="70%">주문 정보</TableCell>
+          <TableCell $width="77.9%">주문 정보</TableCell>
           <TableCell $color="gray" $font="12" style={{ fontWeight: "bold" }}>
             폼 제출{" "}
             {OrderDateTime instanceof Date &&

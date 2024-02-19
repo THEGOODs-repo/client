@@ -268,7 +268,8 @@ function ProductPageComponent() {
                 optionPrice: 0,
                 amount: 0
             }
-        ]
+        ],
+        count : 0
     });
     
 
@@ -303,7 +304,7 @@ function ProductPageComponent() {
                 itemName: response.data.result.name,
                 itemImg: response.data.result.itemImgUrlList[0]['itemImgUrl'],
                 deliveryFee: response.data.result.deliveryFee,
-                optionList: response.data.result['itemOptionList'],
+                optionList: response.data.result['itemOptionList'].map(option => ({ ...option, 'count': 0 }))
             });
             
             console.log(item)
@@ -317,15 +318,21 @@ function ProductPageComponent() {
       }, []);
       const [quantity, setQuantity] = useState(1);
 
-      const handleIncrement = () => {
-        setQuantity(quantity + 1);
-      };
+      const handleIncrement = (index) => {
+        const updatedOptionList = [...item.optionList];
+        updatedOptionList[index].count++; // 옵션 개수를 1 증가
+        setItem({ ...item, optionList: updatedOptionList }); // 변경된 옵션 리스트로 상태 업데이트
+    };
     
-      const handleDecrement = () => {
-        if (quantity > 1) {
-          setQuantity(quantity - 1);
+    const handleDecrement = (index) => {
+        const updatedOptionList = [...item.optionList];
+        if (updatedOptionList[index].count > 0) {
+            updatedOptionList[index].count--; // 옵션 개수를 1 감소
+            setItem({ ...item, optionList: updatedOptionList }); // 변경된 옵션 리스트로 상태 업데이트
         }
-      };
+    };
+    
+
     return (
 <>
     <HeaderComponent />
@@ -394,19 +401,19 @@ function ProductPageComponent() {
             </SelectBox>
             {showOptions && (
     <OptionsList>
-{item['optionList'].map((option, index) => (
-    <Option key={index}>
-        <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-            <p>스티커1</p>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <button style={{ height: "100%" }}>+</button>
-                <div style={{ width: "10px", height: "18px", border: "0.5px solid black", paddingRight: "10px", paddingLeft: "9px", display: "flex", justifyContent: "center", alignItems: "center" }}>9</div>
-                <button style={{ height: "100%" }}>-</button>
-            </div>
-        </div>
-    </Option>
-))}
-
+        {item['optionList'].map((option, index) => (
+            <Option key={index}>
+                <div style={{ width: "98%", height: "98%", border: "1px solid black", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                    <p>{option.name} {option.price}원</p>
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <p>{option.stock}개 남음</p>
+                        <button style={{ height: "100%" }} onClick={() => handleIncrement(index)}>+</button>
+                        <div style={{ width: "10px", height: "18px", border: "0.5px solid black", paddingRight: "10px", paddingLeft: "9px", display: "flex", justifyContent: "center", alignItems: "center" }}>{option.count}</div>
+                        <button style={{ height: "100%" }} onClick={() => handleDecrement(index)}>-</button>
+                    </div>
+                </div>
+            </Option>
+        ))}
     </OptionsList>
 )}
 

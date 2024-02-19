@@ -12,19 +12,18 @@ const ShoppingCart = ({ cartItems }) => {
   const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch(); // useDispatch 훅을 사용하여 dispatch 함수를 가져옴
   const [selectedItems, setSelectedItems] = useState([]);
-
+  const navigate = useNavigate();
   const [checkedItems, setCheckedItems] = useState([]);
   const token = useSelector((state)=>state.login.token);
   const [productItemData, setProductItemData] = useState([]); // ProductItem의 데이터 상태
   const [totalPrice, setTotalPrice] = useState(0);
-  const [selectedItemsCount, setSelectedItemsCount] = useState(0);
   
   const handleOrderButtonClick = () => {
     console.log(selectedItems); // 선택된 상품들의 정보를 콘솔에 출력하거나 결제 페이지로 전달하는 로직 추가
-    // navigate('/payment');
+    navigate('/payment', { state: { selectedItems } });
   };
   
-  const navigate = useNavigate();
+  
 
   const handleContinueShopping = () => {
     // MainPageComponent로 이동
@@ -87,33 +86,47 @@ const ShoppingCart = ({ cartItems }) => {
   };
 
     
-
-  const calculateTotalOrderPrice = () => {
-    let totalPrice = 0;
-    cartItems.forEach(item => {
-      if (item.isChecked) {
-        // 상품이 선택된 경우에만 가격을 합산
-        totalPrice += item.deliveryFee; // 배송비 추가
-        item.optionList.forEach(option => {
-          totalPrice += option.price * option.amount; // 각 옵션의 가격과 개수를 곱하여 합산
-        });
-      }
-    });
-    return totalPrice;
+    
+  const handleToggleItem = (item, isChecked) => {
+    let updatedSelectedItems;
+  
+    if (isChecked) {
+      // 새 항목을 추가한 새로운 배열 생성
+      updatedSelectedItems = [...selectedItems, item];
+    } else {
+      // 선택 해제된 항목을 제외한 새로운 배열 생성
+      updatedSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+    }
+  
+    // 선택된 항목들을 업데이트
+    setSelectedItems(updatedSelectedItems);
+  
+    // 선택된 항목들의 총 가격을 업데이트
+    setTotalPrice(calculateTotalOrderPrice(updatedSelectedItems));
   };
   
-    // ProductItem에서 체크 여부가 변경될 때 호출되는 콜백 함수
-    const handleToggleItem = (item, isChecked) => {
-      if (isChecked) {
-        // 선택된 상품들에 추가
-        setSelectedItems([...selectedItems, item]);
-      } else {
-        // 선택 해제된 상품을 제외하고 선택된 상품들에 설정
-        setSelectedItems(selectedItems.filter(selectedItem => selectedItem !== item));
-       
-      }
-    };
+
+
+
+const calculateTotalOrderPrice = () => {
+  let totalPrice = 0;
+
+  // 선택된 상품들을 순회하며 각 상품의 옵션 가격과 개수를 곱하여 합산
+  selectedItems.forEach(item => {
+    // 배송비 추가
+    totalPrice += item.deliveryFee;
+
+    // 각 상품의 옵션을 순회하며 가격과 개수를 곱하여 합산
+    item.optionList.forEach(option => {
+      totalPrice += option.price * option.amount;
+    });
+  });
+
+  return totalPrice;
+};
+
   
+
   return (
     <div>
       {cartItems.length > 0 && (

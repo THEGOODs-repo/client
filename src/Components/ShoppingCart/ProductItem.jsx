@@ -67,7 +67,7 @@ const handleCheckboxChange = (event) => {
     };
     if (isCheckedAll){
     console.log('전달되는 상품 정보:', item);
-    //navigate('/payment', { state: { item } }); // 결제 페이지로 이동하면서 item 객체 전달
+    navigate('/payment', { state: { item } }); // 결제 페이지로 이동하면서 item 객체 전달
     }
   }
   

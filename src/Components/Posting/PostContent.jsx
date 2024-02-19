@@ -126,14 +126,15 @@ const followButtonStyle = {
 
 const postImageStyle = {
   marginLeft:'1.5vw',
-  maxWidth: '41vw',
+  width: '41vw',
   marginTop: '10px',
 };
 
 const postContentStyle = {
   marginTop: '10px',
   marginLeft:'1.5vw',
-  maxWidth:'41vw',
+  width:'41vw',
+  //maxWidth:'41vw',
   color:'#202123',
   fontSize:'16px',
   fontWeight:'500',

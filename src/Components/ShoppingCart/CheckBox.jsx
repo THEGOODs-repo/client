@@ -23,6 +23,7 @@ const StyledCheckbox = styled.div`
   width: 1.2vw;
   height: 1.2vw;
   background: ${props => (props.checked ? '#F0C920' : '#fff')};
+  
   border: 1px solid #9c9c9c;
   transition: background-color 0.3s ease;
   display: flex;
@@ -46,6 +47,7 @@ const Checkmark = styled.span`
 
 // 레이블 스타일
 const Label = styled.span`
+  margin-left:0.5vw;
   position:'absolute';
   font-weight: 700;
   color: #202123;

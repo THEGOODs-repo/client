@@ -4,7 +4,7 @@ import styled from "styled-components";
 import arrow from "../../img/chevron-right.png";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import CustomButton from '../Register/CustomButton';
+import CustomButton from "../Global/CustomButton";
 import { setSelectedItems } from './selectedItemsSlice'; // 선택된 항목을 Redux store에 dispatch하기 위해 추가
 import axios from 'axios';
 

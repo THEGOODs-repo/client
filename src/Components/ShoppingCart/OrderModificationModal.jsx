@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import X from "../../img/x.png";
-import CustomButton from '../Register/CustomButton';
+import {CheckBox} from '../Global/CustomBox'
 import axios from 'axios';
 import { useSelector } from "react-redux";
+import CustomButton from "../Global/CustomButton";
 
 const OrderModificationModal = ({optionList, onClose, stockInfo}) => {
   const [selectedOptions, setSelectedOptions] = useState(optionList || []);

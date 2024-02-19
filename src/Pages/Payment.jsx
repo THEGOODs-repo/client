@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Route, Routes } from "react-router-dom";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
@@ -18,7 +17,7 @@ const PaymentContainer = styled.div`
 `;
 
 const NavWrapContainer = styled.div`
-  max-width: 100vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,7 +32,7 @@ const Payment = () => {
         <NavigationMenu />
         <NavigationCategoryMenu />
       </NavWrapContainer>
-      <PaymentPage></PaymentPage>
+      <PaymentPage />
     </PaymentContainer>
   );
 };

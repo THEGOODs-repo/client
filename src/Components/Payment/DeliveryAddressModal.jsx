@@ -205,10 +205,13 @@ const DeliveryAddressModal = ({
     try {
       const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/address`;
       const requestBody = {
-        addressName: Address,
-        addressSpec: DetailAddress,
+        addressName: AddressNickName,
+        addressSpec: [Address, DetailAddress].join(" "),
         deliveryMemo: DeliveryMemo,
         zipcode: ZipCode,
+        recipientName: Name,
+        recipientPhone: Cell,
+        defaultCheck: true,
       };
 
       const response = await axios.post(endpoint, requestBody, {

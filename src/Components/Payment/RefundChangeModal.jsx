@@ -149,8 +149,9 @@ const RefundChangeModal = ({
       const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/account`;
       const requestBody = {
         owner: AccountHolder,
-        bankname: RefundBank,
+        bankName: RefundBank,
         accountNum: RefundAccount,
+        defaultCheck: true,
       };
 
       const response = await axios.post(endpoint, requestBody, {

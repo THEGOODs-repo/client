@@ -6,8 +6,9 @@ import RefundChangeModal from "./RefundChangeModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import arrow from "../../img/chevron_right.png";
+import arrow from "../../img/chevron-right.svg";
 import { emptyOrderItems } from "../../redux/orderSlice";
+import { fontWeight } from "@mui/system";
 
 const PaymentPageWrapper = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const PaymentPageWrapper = styled.div`
 const PaymentTitle = styled.div`
   display: flex;
   flex-direction: row;
-  width: 70%;
+  width: 84%;
   font-size: ${26 / 19.2}vw;
   font-weight: bold;
   padding: ${40 / 19.2}vw 0 0 0;
@@ -31,32 +32,30 @@ const PaymentTitle = styled.div`
 
 const Breadcrumb = styled.div`
   display: flex;
+  align-items: flex-end;
+  margin: auto 0 0 0;
+  self-align: flex-end;
 `;
 
-const Item = styled.p`
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: ${24 / 19.75}vh;
+const Item = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Noto Sans KR";
+  font-size: ${14 / 19.2}vw;
   color: #9c9c9c;
   text-align: center;
-  margin-top: 3vh;
+  font-weight: bold;
+  margin: 0;
 `;
 
 const BoldItem = styled(Item)`
-  font-weight: 700;
   color: #202123;
 `;
 
-const Arrow = styled.img`
-  width: ${24 / 19.2}vw;
-  height: ${24 / 19.2}vw;
-  margin-top: 0.8vh;
-`;
-
-const ArrowParent = styled.div`
-  margin-top: 1vw;
-`;
+const Arrow = {
+  width: `${24 / 19.2}vw`,
+};
 
 const PaymentWrapper = styled.div`
   display: flex;
@@ -278,6 +277,17 @@ const PaymentMethodSelectionText = styled.div`
   flex-shrink: 0;
 `;
 
+const PaymentPrivacy = styled.div`
+  display: ${(e) => (e.$display ? "flex" : "none")};
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: ${17 / 19.2}vw 0 0 0;
+  div {
+    margin-bottom: ${8 / 19.2}vw;
+  }
+`;
+
 const PaymentMethodEnum = {
   카카오페이: "kakaopay",
   토스페이: "tosspayments",
@@ -289,6 +299,7 @@ const HandleOptionItems = ({
   SetTotalItemPrice,
   SetTotalDeliveryFee,
   SetOrderFetchList,
+  SetSellerNameList,
 }) => {
   const navigate = useNavigate();
   let totalItemPrice = 0;
@@ -299,9 +310,11 @@ const HandleOptionItems = ({
   useEffect(() => {
     if (Array.isArray(OrderItemList)) {
       let newOrderList = [];
+      let SellerNameList = [];
       OrderItemList.forEach((data) => {
         let newOrderDetailList = [];
         totalDeliveryFee += data.deliveryFee;
+        SellerNameList.push(data.sellerName);
         data.optionList.forEach((option) => {
           totalItemPrice += option.amount * option.optionPrice;
           newOrderDetailList.push({
@@ -318,6 +331,7 @@ const HandleOptionItems = ({
       SetTotalDeliveryFee(totalDeliveryFee);
       SetTotalItemPrice(totalItemPrice);
       SetOrderFetchList(newOrderList);
+      SetSellerNameList(SellerNameList);
     }
   }, [OrderItemList]);
 
@@ -454,6 +468,8 @@ const Payment = () => {
   const [RefundAccountHolder, SetRefundAccoutHolder] = useState("");
   const [TotalItemPrice, SetTotalItemPrice] = useState(0);
   const [TotalDeliveryFee, SetTotalDeliveryFee] = useState(0);
+  const [SellerNameList, SetSellerNameList] = useState([]);
+  const [DisplayPrivacy, SetDisplayPrivacy] = useState(false);
   const imp_id = `imp71121635`;
 
   const readyforPayment = () => {
@@ -483,12 +499,12 @@ const Payment = () => {
       pg: PaymentMethod, // 반드시 "tosspayments"임을 명시해주세요.
       merchant_uid: new Date().getTime(), // 주문번호    name: "나이키 와플 트레이너 2 SD",
       pay_method: "card",
-      name: "더굿즈 테스트",
+      name: "TheGOODs",
       amount: TotalItemPrice + TotalDeliveryFee,
       buyer_email: "test@portone.io",
-      buyer_name: "구매자이름",
-      buyer_tel: "010-1234-5678", //필수 파라미터 입니다.
-      buyer_addr: "서울특별시 강남구 삼성동",
+      buyer_name: "TheGOODs",
+      buyer_tel: "010-8974-4831", //필수 파라미터 입니다.
+      buyer_addr: "경기도",
       buyer_postcode: "123-456",
       m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
       escrow: false, //에스크로 결제인 경우 설정
@@ -518,13 +534,23 @@ const Payment = () => {
       if (response) {
         SetOrderBy(response.data.result.name);
         SetOrderByPhone(response.data.result.phone);
-        SetDeliveryZipCode(response.data.result.zipcode);
-        SetDeliveryAddress(response.data.result.address);
-        SetDeliveryDetailAddress(response.data.result.addressDetail);
-        SetDeliveryMemo(response.data.result.deliveryMemo);
-        SetRefundAccoutHolder(response.data.result.refundOwner);
-        SetRefundAccount(response.data.result.refundAccount);
-        SetRefundBank(response.data.result.refundBank);
+        response.data.result.addressList.forEach(
+          (address) =>
+            address.defaultCheck === true &&
+            (SetDeliveryAddressNickName(address.addressName),
+            SetDeliveryAddress(address.addressSpec),
+            SetDeliveryMemo(address.deliveryMemo),
+            SetDeliveryZipCode(address.zipcode),
+            SetDeliveryName(address.recipientName),
+            SetDeliveryPhone(address.recipientPhone)),
+        );
+        response.data.result.accountList.forEach(
+          (account) =>
+            account.defaultCheck === true &&
+            (SetRefundAccoutHolder(account.owner),
+            SetRefundBank(account.bankName),
+            SetRefundAccount(account.accountNum)),
+        );
       }
     } catch (error) {
       console.error("Error during POST request:", error);
@@ -623,14 +649,10 @@ const Payment = () => {
       />
       <PaymentTitle>주문 결제</PaymentTitle>
       <Breadcrumb>
-        <BoldItem>장바구니</BoldItem>
-        <ArrowParent>
-          <Arrow src={arrow} alt="arrow" />
-        </ArrowParent>
-        <Item>주문/결제</Item>
-        <ArrowParent>
-          <Arrow src={arrow} alt="arrow" />
-        </ArrowParent>
+        <Item>장바구니</Item>
+        <img src={arrow} style={Arrow} alt="arrow" />
+        <BoldItem>주문/결제</BoldItem>
+        <img src={arrow} style={Arrow} alt="arrow" />
         <Item>완료</Item>
       </Breadcrumb>
       <PaymentWrapper>
@@ -654,7 +676,13 @@ const Payment = () => {
             </tr>
             <tr>
               <td className="title">전화번호</td>
-              <td>{OrderByPhone}</td>
+              <td>
+                {[
+                  OrderByPhone.substring(0, 3),
+                  OrderByPhone.substring(3, 7),
+                  OrderByPhone.substring(7, 11),
+                ].join("-")}
+              </td>
             </tr>
             <tr>
               <td colspan="2" className="warn">
@@ -737,6 +765,7 @@ const Payment = () => {
             SetTotalItemPrice={(e) => SetTotalItemPrice(e)}
             SetTotalDeliveryFee={(e) => SetTotalDeliveryFee(e)}
             SetOrderFetchList={(e) => SetOrderFetchList(...OrderFetchList, e)}
+            SetSellerNameList={(e) => SetSellerNameList(...SellerNameList, e)}
           />
         </PaymentTableWrapper>
         <PaymentTableWrapper>
@@ -853,7 +882,67 @@ const Payment = () => {
             <td />
           </PaymentTableBody>
         </PaymentTableWrapper>
-        결제 시 개인정보 제공에 동의합니다.
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: `${30 / 19.2}vw`,
+          }}
+        >
+          <div>결제 시 개인정보 제공에 동의합니다.</div>
+          <div style={{ marginLeft: `${100 / 19.2}vw` }}>
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ width: `${20 / 19.2}vw` }}
+              onClick={() =>
+                SetDisplayPrivacy((DisplayPrivacy) => !DisplayPrivacy)
+              }
+            >
+              {DisplayPrivacy ? (
+                <path
+                  d="M4.16927 12.5L10.0026 6.66667L15.8359 12.5"
+                  stroke="#52555B"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              ) : (
+                <path
+                  d="M15.8307 7.5L9.9974 13.3333L4.16406 7.5"
+                  stroke="#52555B"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              )}
+            </svg>
+          </div>
+        </div>
+        <PaymentPrivacy $display={DisplayPrivacy}>
+          <div>
+            ‣ 제공받는 자 :{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {SellerNameList.join(", ")}
+            </span>
+          </div>
+          <div>
+            ‣ 목적 :{" "}
+            <span style={{ fontWeight: "bold" }}>
+              판매자와 구매자 사이의 원활한 거래 진행, 상품의 배송을 위한 배송지
+              확인, 고객상담 및 불만처리 등
+            </span>
+          </div>
+          <div>
+            ‣ 정보 : 주문자 정보(성명, 연락처), 수령인 정보(성명, 연락처, 주소)
+          </div>
+          <div>
+            ‣ 보유기간 :{" "}
+            <span style={{ fontWeight: "bold" }}>발송완료 후 15일</span>
+          </div>
+        </PaymentPrivacy>
         <PayButton onClick={() => HandlePayment()}>결제하기</PayButton>
       </PaymentConfirmWrapper>
     </PaymentPageWrapper>

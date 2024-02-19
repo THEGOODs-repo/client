@@ -50,22 +50,26 @@ const ShoppingCart = ({ cartItems }) => {
       // 선택하는 경우, selectedItems에 추가
       dispatch(setSelectedItems([...selectedItems, item]));
       // 상품의 ID를 checkedItems에 추가
-      setCheckedItems([...checkedItems, item.itemId]);
+      setCheckedItems([...checkedItems, item.cartId]);
     } else {
       // 선택 해제하는 경우, selectedItems에서 해당 상품 제거
-      dispatch(setSelectedItems(selectedItems.filter(selectedItem => selectedItem.itemId !== item.itemId)));
+      dispatch(setSelectedItems(selectedItems.filter(selectedItem => selectedItem.cartId !== item.cartId)));
       // 해당 상품의 ID를 checkedItems에서 제거
-      setCheckedItems(checkedItems.filter(id => id !== item.itemId));
+      setCheckedItems(checkedItems.filter(id => id !== item.cartId));
     }
   };
   
   
 
   const handleDeleteSelectedItems = () => {
+    // 선택된 상품들의 ID 배열을 추출합니다. 널 값이 있는 항목은 필터링합니다.
+    const cartIdList = selectedItems
+      .filter(item => item !== null) // 널 값이 아닌 항목만 필터링합니다.
+      .map(item => item.cartId);
   
     // 선택된 상품들의 ID 배열을 서버로 전송하여 삭제합니다.
     axios.delete('https://dev.the-goods.store/api/cart/delete', {
-      data: { cartIdList: checkedItems }, // checkedItems를 사용하여 선택된 상품들의 ID 전달
+      data: { cartIdList }, // 선택된 상품들의 ID 전달
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}` // 토큰 추가
@@ -73,11 +77,17 @@ const ShoppingCart = ({ cartItems }) => {
     })
       .then(response => {
         console.log('선택된 상품이 삭제되었습니다.');
+        // 삭제 후 선택된 항목 목록을 초기화합니다.
+        setSelectedItems([]);
+        window.location.reload();
       })
       .catch(error => {
         console.error('상품 삭제 중 오류가 발생했습니다.', error);
       });
   };
+  
+  
+  
   
   const handleConfirmChanges = (updatedOptions) => {
     // 모달에서 변경된 내용을 받아와서 ProductItem 상태를 업데이트

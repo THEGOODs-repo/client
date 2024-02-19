@@ -47,7 +47,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
 const handleCheckboxChange = (event) => {
   const isChecked = event.target.checked;
   setIsCheckedAll(isChecked);
-  const selectedItem = { sellerName, itemName, itemImg, optionList, deliveryFee };
+  const selectedItem = { sellerName, itemName, itemImg, optionList, deliveryFee, cartId };
   // 부모 컴포넌트로 체크 여부와 상품 정보 전달
   onToggle(selectedItem, isChecked);
   

@@ -11,16 +11,25 @@ import axios from 'axios';
 const ShoppingCart = ({ cartItems }) => {
   const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch(); // useDispatch 훅을 사용하여 dispatch 함수를 가져옴
-  const selectedItems = useSelector(state => state.selectedItems);
+  const [selectedItems, setSelectedItems] = useState([]);
+
   const [checkedItems, setCheckedItems] = useState([]);
   const token = useSelector((state)=>state.login.token);
   const [productItemData, setProductItemData] = useState([]); // ProductItem의 데이터 상태
-
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedItemsCount, setSelectedItemsCount] = useState(0);
+  
   const handleOrderButtonClick = () => {
     console.log(selectedItems); // 선택된 상품들의 정보를 콘솔에 출력하거나 결제 페이지로 전달하는 로직 추가
     // navigate('/payment');
   };
+  
+  const navigate = useNavigate();
 
+  const handleContinueShopping = () => {
+    // MainPageComponent로 이동
+    navigate('/');
+  };
   // 장바구니가 비어있을 때 처리
   if (cartItems.length === 0) {
     return (
@@ -28,7 +37,7 @@ const ShoppingCart = ({ cartItems }) => {
       <Background>
       <EmptyCart>장바구니에 담긴 상품이 없습니다.</EmptyCart>
       <EmptyCart2>원하는 상품을 장바구니에 담아보세요!</EmptyCart2>
-      <ContinueShopping>
+      <ContinueShopping onClick={handleContinueShopping}>
         쇼핑 계속하기<Arrow src={arrow} alt="arrow" />
       </ContinueShopping>
       </Background>
@@ -77,25 +86,33 @@ const ShoppingCart = ({ cartItems }) => {
     setProductItemData(updatedOptions);
   };
 
-  const calculateTotalPrice = () => {
-    if (!cartItems || !Array.isArray(cartItems)) {
-      console.error('cartItems 배열이 유효하지 않습니다.');
-      return 0; // 유효하지 않은 경우 0을 반환하거나 다른 적절한 값으로 처리
-    }
-  
+    
+
+  const calculateTotalOrderPrice = () => {
     let totalPrice = 0;
-  
-    cartItems.forEach((item) => {
+    cartItems.forEach(item => {
       if (item.isChecked) {
-        totalPrice += item.totalPrice || 0; // totalPrice가 숫자인지 확인하고 0으로 설정
+        // 상품이 선택된 경우에만 가격을 합산
+        totalPrice += item.deliveryFee; // 배송비 추가
+        item.optionList.forEach(option => {
+          totalPrice += option.price * option.amount; // 각 옵션의 가격과 개수를 곱하여 합산
+        });
       }
     });
-  
-    return totalPrice.toLocaleString();
+    return totalPrice;
   };
   
-  // 선택된 상품의 개수를 반환
-  const selectedItemCount = selectedItems.length;
+    // ProductItem에서 체크 여부가 변경될 때 호출되는 콜백 함수
+    const handleToggleItem = (item, isChecked) => {
+      if (isChecked) {
+        // 선택된 상품들에 추가
+        setSelectedItems([...selectedItems, item]);
+      } else {
+        // 선택 해제된 상품을 제외하고 선택된 상품들에 설정
+        setSelectedItems(selectedItems.filter(selectedItem => selectedItem !== item));
+       
+      }
+    };
   
   return (
     <div>
@@ -131,9 +148,9 @@ const ShoppingCart = ({ cartItems }) => {
             deliveryFee={cartItem.deliveryFee}
             onUpdate={handleConfirmChanges} // 모달에서 변경된 내용을 받아오는 콜백 함수 전달
             cartId={cartItem.cartId}
-            onItemToggle={handleItemToggle} // 선택된 항목 토글 핸들러를 props로 전달
-            isChecked={checkedItems.includes(cartItem.itemId)} // 선택 여부를 상태에 따라 동적으로 설정합니다.
             
+            isChecked={checkedItems.includes(cartItem.itemId)} // 선택 여부를 상태에 따라 동적으로 설정합니다.
+            onToggle={(item, isChecked) => handleToggleItem(item, isChecked)}
           />
         </div>
       ))}
@@ -149,10 +166,10 @@ const ShoppingCart = ({ cartItems }) => {
           </BottomExplain>
           <Order>
             <TotalPrice>
-              총 주문 금액 <PriceNumber>{calculateTotalPrice()}</PriceNumber>원
+              총 주문 금액 <PriceNumber>{calculateTotalOrderPrice()}</PriceNumber>원
             </TotalPrice>
             <OrderButton onClick={handleOrderButtonClick}>
-              총 주문하기<ItemCount>{selectedItemCount}</ItemCount>
+              총 주문하기<ItemCount>{selectedItems.length}</ItemCount>
             </OrderButton>
           </Order>
         </>

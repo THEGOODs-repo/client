@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import axios from 'axios';
 
-const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, isChecked,itemId ,cartId }) => {
+const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, isChecked,itemId ,cartId , onToggle }) => {
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
 
@@ -43,11 +43,16 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
   }, [isChecked]);
 
   // 체크박스 상태 변경 핸들러
-  const handleCheckboxChange = (event) => {
-    setIsCheckedAll(event.target.checked);
-    const selectedItem = { sellerName, itemName, itemImg, optionList, deliveryFee};
-    dispatch(setSelectedItems(selectedItem)); // 선택된 항목을 Redux store에 dispatch
-  };
+// ProductItem 컴포넌트의 handleCheckboxChange 함수 수정
+const handleCheckboxChange = (event) => {
+  const isChecked = event.target.checked;
+  setIsCheckedAll(isChecked);
+  const selectedItem = { sellerName, itemName, itemImg, optionList, deliveryFee };
+  // 부모 컴포넌트로 체크 여부와 상품 정보 전달
+  onToggle(selectedItem, isChecked);
+  
+};
+
 
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
 
@@ -110,6 +115,7 @@ const ProductItem = ({ sellerName, itemName, itemImg, optionList, deliveryFee, i
   
   const totalOrderPrice = calculateOptionTotalPrice() + deliveryFee;
   const formattedTotalPrice = formattedPrice(totalOrderPrice);
+  
   
   return (
     <>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Select, { components } from "react-select";
-import CustomButton from "../../Register/CustomButton";
+import { CheckBox } from "../../Global/CustomBox";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeliveryAddressModal from "./DeliveryAddressModal";
@@ -619,7 +619,7 @@ const OrderDetail = () => {
                 <CancelTextWrapper $width="33.9vw">
                   환불계좌 정보 (제작무산 등의 경우)
                 </CancelTextWrapper>
-                <CustomButton
+                <CheckBox
                   index="CancelRefundSave"
                   state={CancelRefundSave}
                   onChange={() =>

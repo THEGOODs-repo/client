@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CustomButton from "../../Register/CustomButton";
+import { CheckBox } from "../../Global/CustomBox";
 import DaumPostCode from "react-daum-postcode";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -315,7 +315,7 @@ const DeliveryAddressModal = ({ isOpen, onClose, OrderItemId }) => {
               학교
             </SelectAddressNickName>
           </InputWrapper>
-          <CustomButton
+          <CheckBox
             index="SaveAsDefaultAddress"
             state={SaveAsDefaultAddress}
             onChange={() =>

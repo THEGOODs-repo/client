@@ -11,6 +11,7 @@ const ModalWrapper = styled.div`
   display: ${(e) => (e.$display ? "flex" : "none")};
   align-items: center;
   justify-content: center;
+  z-index: 100;
 `;
 
 const Modal = styled.div`
@@ -40,6 +41,8 @@ const ConfirmButton = styled.div`
   font-size: ${18 / 19.2}vw;
   padding: 0;
   box-shadow: 0px 0px ${5 / 19.2}vw ${1 / 19.2}vw rgba(0, 0, 0, 0.08);
+  background: #f0c920;
+  cursor: grab;
 `;
 
 const TextWrapper = styled.div`

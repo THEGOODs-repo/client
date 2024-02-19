@@ -53,7 +53,7 @@ import CategoryPage from "./Components/Category/CategoryComponent";
 import NewProductPage from "./Pages/NewProductPage";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
-
+import Payment from "./Pages/Payment";
 function App() {
   return (
     <Provider store={store}>
@@ -169,6 +169,7 @@ function App() {
             <Route path="/helpcenter" element={<HelpCenter />}>
               <Route path="write" element={<HelpCenterWrite />} />
             </Route>
+            <Route path="/payment/*" element={<Payment />} />
           </Routes>
         </div>
       </PersistGate>

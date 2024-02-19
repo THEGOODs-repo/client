@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import OrderItems from "../ManagePurchase/OrderItems";
+import OrderItems from "./ManagePurchase/OrderItems";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import OrderDetail from "../ManagePurchase/OrderDetail";
+import OrderDetail from "./ManagePurchase/OrderDetail";
 
 const OrderStatusEnum = {
   PAY_PREV: "PAY_PREV",
@@ -233,9 +233,11 @@ const MainContainer = styled.div`
   position: relative;
   flex-direction: column;
   align-items: center;
-  width: 870px;
-  height: 972px;
-  border: 3px solid rgba(0, 0, 0, 0.05);
+  width: ${885 / 19.2}vw;
+  padding: ${3 / 19.2}vw ${55 / 19.2}vw ${30 / 19.2}vw ${47 / 19.2}vw;
+  border: ${1 / 19.2}vw solid #9c9c9c;
+  overflow-y: auto;
+  font-family: "Noto Sans KR";
 
   h1 {
     align-self: flex-start;

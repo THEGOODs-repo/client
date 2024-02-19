@@ -106,7 +106,7 @@ function App() {
 
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="EditProfile" element={<EditProfile />} />
-              <Route path="ManagePurchase" element={<ManagePurchase />} />
+              <Route path="ManagePurchase/*" element={<ManagePurchase />} />
               <Route
                 path="ManageShippingRefund"
                 element={<ManageShippingRefund />}
@@ -134,7 +134,7 @@ function App() {
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route
-                path="/mypage/ManagePurchase"
+                path="/mypage/ManagePurchase/*"
                 element={<ManagePurchase />}
               />
               <Route

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import logo from "../img/loginlogo.svg";
 import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import OrderDetail from "../Components/myPage/ManagePurchase/OrderDetail";
-import { ManagePurchase } from "../Components/myPage/myPage(Customer)/ManagePurchase";
+import OrderDetail from "../Components/Guest/ManagePurchase/OrderDetail";
+import { ManagePurchase } from "../Components/Guest/ManagePurchase";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
@@ -148,6 +148,9 @@ const Guest = () => {
           SetGuest(true);
       }
     } catch (error) {
+      if (error.response.status === 404) {
+        alert("비회원 주문 내역을 찾을 수 없습니다.");
+      }
       console.error("Error during POST request:", error);
     }
   };
@@ -218,6 +221,7 @@ const Guest = () => {
         <NavigationMenu />
         <NavigationCategoryMenu />
       </NavWrapContainer>
+      <div style={{ height: `${30 / 19.2}vw` }} />
       <Routes>
         <Route
           path="/"

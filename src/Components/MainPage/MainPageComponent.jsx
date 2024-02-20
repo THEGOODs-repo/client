@@ -18,6 +18,8 @@ import likeBannerURL from "../../img/likepost.png";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FixedButtons from "../Global/FixedButtons";
+import PreferenceModal from "../Preference/Modal";
+import PreferenceBannerModal from "../Preference/BannerModal";
 const StyledLink = styled(Link)`
   color: black;
   text-decoration: none;
@@ -135,11 +137,17 @@ const SubInfoWrapContainer = styled.div`
 function MainPageComponent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productLists, setProductLists] = useState(Array(6).fill([]));
+  const [modalOpen, setModalOpen] = useState(false);
+  const choice = useSelector((state) => state.preference.choice);
   const navigate = useNavigate();
   const bannerRef = useRef(null);
 
   const handleMoveLikePage = () => {
-    navigate("/preference");
+    if (choice !== "") {
+      navigate(`/preference/${choice}`);
+    } else {
+      setModalOpen(true);
+    }
   };
   const handleMainPage = () => {
     navigate("/");
@@ -208,6 +216,8 @@ function MainPageComponent() {
 
   return (
     <>
+      {modalOpen && <PreferenceBannerModal setModalOpen={setModalOpen} />}
+      <PreferenceModal />
       <FixedButtons></FixedButtons>
       <HeaderComponent />
       <NavWrapContainer>

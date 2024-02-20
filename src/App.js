@@ -54,7 +54,7 @@ import NewProductPage from "./Pages/NewProductPage";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
-import CategorySearchPage from './Pages/CategoryPage';
+import CategorySearchPage from "./Pages/CategoryPage";
 
 function App() {
   return (
@@ -71,16 +71,31 @@ function App() {
             <Route path="/preference/Food" element={<PreferenceFood />} />
             <Route path="/preference/Mungu" element={<PreferenceMungu />} />
             <Route path="/preference" element={<PreferenceModal />} />
-            
-            <Route path="/category/create" element={<CategorySearchPage tag="create"/>} />
-            {/* <Route path="/preference" element={<PreferenceModal />} />
-            <Route path="/preference" element={<PreferenceModal />} />
-            <Route path="/preference" element={<PreferenceModal />} />
-            <Route path="/preference" element={<PreferenceModal />} />
-            <Route path="/preference" element={<PreferenceModal />} /> */}
-            
 
-
+            <Route
+              path="/category/create"
+              element={<CategorySearchPage tag="create" />}
+            />
+            <Route
+              path="/category/idol"
+              element={<CategorySearchPage tag="idol" />}
+            />
+            <Route
+              path="/category/mungu"
+              element={<CategorySearchPage tag="mungu" />}
+            />
+            <Route
+              path="/category/ani"
+              element={<CategorySearchPage tag="ani" />}
+            />
+            <Route
+              path="/category/food"
+              element={<CategorySearchPage tag="food" />}
+            />
+            <Route
+              path="/category/fashion"
+              element={<CategorySearchPage tag="fashion" />}
+            />
 
             <Route path="/newproduct" element={<NewProductPage type="new" />} />
             <Route

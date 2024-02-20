@@ -17,11 +17,14 @@ import mainBannerURL from "../../img/mainbanner.png";
 import likeBannerURL from "../../img/likepost.png";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
+import PreferenceModal from "../Preference/Modal";
+import PreferenceBannerModal from "../Preference/BannerModal";
 
 const StyledLink = styled(Link)`
   color: black;
   text-decoration: none;
 `;
+
 const PageContainer = styled.div`
   width: 100%;
   min-width: 1200px;
@@ -94,6 +97,7 @@ const RightArrowImg = styled.img`
   position: absolute;
   right: 0;
 `;
+
 const MainWrapContent = styled.div`
   display: flex;
   justify-content: center;
@@ -101,6 +105,7 @@ const MainWrapContent = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+
 const SubInfoContainer = styled.div`
   margin-top: 50px;
   padding-top: 50px;
@@ -109,6 +114,7 @@ const SubInfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const MoreContainer = styled(Link)`
   display: flex;
   align-items: center;
@@ -117,6 +123,7 @@ const MoreContainer = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+
 const TotalContainer = styled.div`
   width: 75%;
   display: flex;
@@ -124,6 +131,7 @@ const TotalContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const SubInfoWrapContainer = styled.div`
   width: 100%;
   display: flex;
@@ -135,12 +143,19 @@ const SubInfoWrapContainer = styled.div`
 function MainPageComponent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productLists, setProductLists] = useState(Array(6).fill([]));
+  const [modalOpen, setModalOpen] = useState(false);
+  const choice = useSelector((state) => state.preference.choice);
   const navigate = useNavigate();
   const bannerRef = useRef(null);
 
   const handleMoveLikePage = () => {
-    navigate("/preference");
+    if (choice !== "") {
+      navigate(`/preference/${choice}`);
+    } else {
+      setModalOpen(true);
+    }
   };
+
   const handleMainPage = () => {
     navigate("/");
   };
@@ -160,6 +175,7 @@ function MainPageComponent() {
       setCurrentIndex(currentIndex + 1);
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -208,6 +224,8 @@ function MainPageComponent() {
 
   return (
     <>
+      {modalOpen && <PreferenceBannerModal setModalOpen={setModalOpen} />}
+      <PreferenceModal />
       <HeaderComponent />
       <NavWrapContainer>
         <NavigationMenu />

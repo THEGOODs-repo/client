@@ -8,21 +8,19 @@ import Food from "../../img/Preference/chef.png";
 import Fashion from "../../img/Preference/shirt.png";
 import { useDispatch } from "react-redux";
 import { choicePreference } from "../../redux/preferenceSlice";
-import { Link, useNavigate } from "react-router-dom";
 
 export default function PreferenceModal() {
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [modalOpen, setModalOpen] = useState(true);
-  const navigate = useNavigate();
+
   const handleClick = (category) => {
+    dispatch(choicePreference(category));
     setClick(true);
-    navigate(`/preference/${category}`)
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    navigate(`/`)
   };
 
   return (

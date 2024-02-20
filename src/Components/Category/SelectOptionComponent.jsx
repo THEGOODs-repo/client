@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const OptionContainer = styled.div`
     position: relative;
@@ -45,6 +46,11 @@ const CheckIcon = styled.span`
     color: #F0C920;
 `;
 
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: black;
+`;
+
 const SelectOptionComponent = () => {
     const [selectedOption, setSelectedOption] = useState('인기순');
     const [showOptions, setShowOptions] = useState(false);
@@ -62,16 +68,32 @@ const SelectOptionComponent = () => {
             {showOptions && (
                 <OptionsList>
                     <Option onClick={() => handleOptionClick('인기순')}>
-                        인기순
+                        <StyledLink to="/popular?tag=popular">인기순</StyledLink>
                         {selectedOption === '인기순' && <CheckIcon>✔</CheckIcon>}
                     </Option>
                     <Option onClick={() => handleOptionClick('최신순')}>
-                        최신순
+                        <StyledLink to="/product?tag=new">최신순</StyledLink>
                         {selectedOption === '최신순' && <CheckIcon>✔</CheckIcon>}
                     </Option>
                     <Option onClick={() => handleOptionClick('찜많은순')}>
-                        찜많은순
+                        <StyledLink to="/product?tag=dibscount">찜많은순</StyledLink>
                         {selectedOption === '찜많은순' && <CheckIcon>✔</CheckIcon>}
+                    </Option>
+                    <Option onClick={() => handleOptionClick('구매후기 많은 순')}>
+                        <StyledLink to="/product?tag=reviewcount">구매후기 많은 순</StyledLink>
+                        {selectedOption === '구매후기 많은 순' && <CheckIcon>✔</CheckIcon>}
+                    </Option>
+                    <Option onClick={() => handleOptionClick('판매수 많은 순')}>
+                        <StyledLink to="/product?tag=salescount">판매수 많은 순</StyledLink>
+                        {selectedOption === '판매수 많은 순' && <CheckIcon>✔</CheckIcon>}
+                    </Option>
+                    <Option onClick={() => handleOptionClick('낮은 가격순')}>
+                        <StyledLink to="/product?tag=lowprice">낮은 가격순</StyledLink>
+                        {selectedOption === '낮은 가격순' && <CheckIcon>✔</CheckIcon>}
+                    </Option>
+                    <Option onClick={() => handleOptionClick('높은 가격순')}>
+                        <StyledLink to="/product?tag=highprice">높은 가격순</StyledLink>
+                        {selectedOption === '높은 가격순' && <CheckIcon>✔</CheckIcon>}
                     </Option>
                 </OptionsList>
             )}

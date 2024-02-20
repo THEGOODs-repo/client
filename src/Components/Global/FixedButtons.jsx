@@ -11,8 +11,8 @@ const FixedButtons = ({ isModalOpen, openModal }) => {
 
   // 데이터가 있으면 해당 내용의 선호도 조사로 이동, 아니면 선호도 체크
   const handleClick = () => {
-    if (choice !== "") {
-      navigate(`/preference/${choice}`);
+    if (true) {
+      navigate(`/preference/`);
     } else {
       setModalOpen(true);
     }
@@ -26,15 +26,16 @@ const FixedButtons = ({ isModalOpen, openModal }) => {
   };
 
   return (
-    <div style={{ position: 'fixed', top: '50%', right: '7vw', transform: 'translateY(-50%)', textAlign: 'center' }}>
+    <div style={{ position: 'fixed', top: '50%', right: '7vw', transform: 'translateY(-50%)', textAlign: 'center',zIndex:1}}>
+
       {!isModalOpen && (
         <>
-          <div style={{ backgroundColor: '#f0f0f0',  marginBottom: '3px',background: 'rgba(240, 201, 32, 0.25)',borderRadius: '10px',width:'4vw',height:'1.5vw', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{ backgroundColor: '#f0f0f0',  marginBottom: '3px',background: 'rgba(240, 201, 32, 0.25)',borderRadius: '10px',width:'4vw',height:'1.5vw', display: 'flex', alignItems: 'center', justifyContent: 'center'}} >
             <p style={{ margin: '0', color:'#F0C920',fontSize:"0.9vw",fontFamily:'Noto Sans', fontWeight:'700',marginTop:'0.25vw' }}>Click!</p>
           </div>
           
           <div>
-            <button style={buttonStyle} onClick={() => console.log('버튼 1 클릭')}><div style={{fontSize:'2.2vw', marginTop:'0.3vw',marginLeft:'0.1vw'}}>💌</div></button>
+            <button style={buttonStyle} onClick={() => window.location.href = "/preference"}><div style={{fontSize:'2.2vw', marginTop:'0.3vw',marginLeft:'0.1vw'}}>💌</div></button>
           </div>
 
           {/* TOP 버튼 */}

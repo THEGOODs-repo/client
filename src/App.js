@@ -54,6 +54,8 @@ import NewProductPage from "./Pages/NewProductPage";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
+import CategorySearchPage from './Pages/CategoryPage';
+
 function App() {
   return (
     <Provider store={store}>
@@ -69,6 +71,17 @@ function App() {
             <Route path="/preference/Food" element={<PreferenceFood />} />
             <Route path="/preference/Mungu" element={<PreferenceMungu />} />
             <Route path="/preference" element={<PreferenceModal />} />
+            
+            <Route path="/category/create" element={<CategorySearchPage tag="create"/>} />
+            {/* <Route path="/preference" element={<PreferenceModal />} />
+            <Route path="/preference" element={<PreferenceModal />} />
+            <Route path="/preference" element={<PreferenceModal />} />
+            <Route path="/preference" element={<PreferenceModal />} />
+            <Route path="/preference" element={<PreferenceModal />} /> */}
+            
+
+
+
             <Route path="/newproduct" element={<NewProductPage type="new" />} />
             <Route
               path="/popularproduct"

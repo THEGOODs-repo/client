@@ -647,6 +647,110 @@ const Payment = () => {
         ChangedRefundAccount={(e) => SetRefundAccount(e)}
         ChangedRefundBank={(e) => SetRefundBank(e)}
       />
+      <PaymentConfirmWrapper>
+        <PaymentTableWrapper>
+          <PaymentTableHead>
+            <th colspan="2">결제 정보</th>
+          </PaymentTableHead>
+          <PaymentTableBody $payselect>
+            <tr>
+              <td>상품 금액</td>
+              <td className="largeprice">
+                {TotalItemPrice.toString().replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ",",
+                )}
+                원
+              </td>
+            </tr>
+            <tr>
+              <td>배송비</td>
+              <td className="largeprice">
+                {TotalDeliveryFee.toString().replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ",",
+                )}
+                원
+              </td>
+            </tr>
+            <td />
+          </PaymentTableBody>
+          <PaymentTableBody $payselect style={{ border: "none" }}>
+            <tr>
+              <td style={{ fontWeight: "bold" }}>최종 결제금액</td>
+              <td className="largeprice">
+                {(TotalItemPrice + TotalDeliveryFee)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                원
+              </td>
+            </tr>
+            <td />
+          </PaymentTableBody>
+        </PaymentTableWrapper>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: `${30 / 19.2}vw`,
+          }}
+        >
+          <div>결제 시 개인정보 제공에 동의합니다.</div>
+          <div style={{ marginLeft: `${100 / 19.2}vw` }}>
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ width: `${20 / 19.2}vw` }}
+              onClick={() =>
+                SetDisplayPrivacy((DisplayPrivacy) => !DisplayPrivacy)
+              }
+            >
+              {DisplayPrivacy ? (
+                <path
+                  d="M4.16927 12.5L10.0026 6.66667L15.8359 12.5"
+                  stroke="#52555B"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              ) : (
+                <path
+                  d="M15.8307 7.5L9.9974 13.3333L4.16406 7.5"
+                  stroke="#52555B"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              )}
+            </svg>
+          </div>
+        </div>
+        <PaymentPrivacy $display={DisplayPrivacy}>
+          <div>
+            ‣ 제공받는 자 :{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {SellerNameList}
+            </span>
+          </div>
+          <div>
+            ‣ 목적 :{" "}
+            <span style={{ fontWeight: "bold" }}>
+              판매자와 구매자 사이의 원활한 거래 진행, 상품의 배송을 위한 배송지
+              확인, 고객상담 및 불만처리 등
+            </span>
+          </div>
+          <div>
+            ‣ 정보 : 주문자 정보(성명, 연락처), 수령인 정보(성명, 연락처, 주소)
+          </div>
+          <div>
+            ‣ 보유기간 :{" "}
+            <span style={{ fontWeight: "bold" }}>발송완료 후 15일</span>
+          </div>
+        </PaymentPrivacy>
+        <PayButton onClick={() => HandlePayment()}>결제하기</PayButton>
+      </PaymentConfirmWrapper>
       <PaymentTitle>주문 결제</PaymentTitle>
       <Breadcrumb>
         <Item>장바구니</Item>
@@ -841,110 +945,6 @@ const Payment = () => {
           </PaymentTableBody>
         </PaymentTableWrapper>
       </PaymentWrapper>
-      <PaymentConfirmWrapper>
-        <PaymentTableWrapper>
-          <PaymentTableHead>
-            <th colspan="2">결제 정보</th>
-          </PaymentTableHead>
-          <PaymentTableBody $payselect>
-            <tr>
-              <td>상품 금액</td>
-              <td className="largeprice">
-                {TotalItemPrice.toString().replace(
-                  /\B(?=(\d{3})+(?!\d))/g,
-                  ",",
-                )}
-                원
-              </td>
-            </tr>
-            <tr>
-              <td>배송비</td>
-              <td className="largeprice">
-                {TotalDeliveryFee.toString().replace(
-                  /\B(?=(\d{3})+(?!\d))/g,
-                  ",",
-                )}
-                원
-              </td>
-            </tr>
-            <td />
-          </PaymentTableBody>
-          <PaymentTableBody $payselect style={{ border: "none" }}>
-            <tr>
-              <td style={{ fontWeight: "bold" }}>최종 결제금액</td>
-              <td className="largeprice">
-                {(TotalItemPrice + TotalDeliveryFee)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                원
-              </td>
-            </tr>
-            <td />
-          </PaymentTableBody>
-        </PaymentTableWrapper>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: `${30 / 19.2}vw`,
-          }}
-        >
-          <div>결제 시 개인정보 제공에 동의합니다.</div>
-          <div style={{ marginLeft: `${100 / 19.2}vw` }}>
-            <svg
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: `${20 / 19.2}vw` }}
-              onClick={() =>
-                SetDisplayPrivacy((DisplayPrivacy) => !DisplayPrivacy)
-              }
-            >
-              {DisplayPrivacy ? (
-                <path
-                  d="M4.16927 12.5L10.0026 6.66667L15.8359 12.5"
-                  stroke="#52555B"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              ) : (
-                <path
-                  d="M15.8307 7.5L9.9974 13.3333L4.16406 7.5"
-                  stroke="#52555B"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              )}
-            </svg>
-          </div>
-        </div>
-        <PaymentPrivacy $display={DisplayPrivacy}>
-          <div>
-            ‣ 제공받는 자 :{" "}
-            <span style={{ fontWeight: "bold" }}>
-              {SellerNameList.join(", ")}
-            </span>
-          </div>
-          <div>
-            ‣ 목적 :{" "}
-            <span style={{ fontWeight: "bold" }}>
-              판매자와 구매자 사이의 원활한 거래 진행, 상품의 배송을 위한 배송지
-              확인, 고객상담 및 불만처리 등
-            </span>
-          </div>
-          <div>
-            ‣ 정보 : 주문자 정보(성명, 연락처), 수령인 정보(성명, 연락처, 주소)
-          </div>
-          <div>
-            ‣ 보유기간 :{" "}
-            <span style={{ fontWeight: "bold" }}>발송완료 후 15일</span>
-          </div>
-        </PaymentPrivacy>
-        <PayButton onClick={() => HandlePayment()}>결제하기</PayButton>
-      </PaymentConfirmWrapper>
     </PaymentPageWrapper>
   );
 };

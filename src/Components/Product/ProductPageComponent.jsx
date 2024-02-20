@@ -136,7 +136,7 @@ const ProductWrapContainer = styled.div`
 
 `
 const SlideMainImageContainer = styled.div`
-    width :460px;
+    width :100px;
     height : 360px;
 
 `
@@ -255,6 +255,8 @@ function ProductPageComponent() {
     const [selectedOption, setSelectedOption] = useState('인기순');
     const [showOptions, setShowOptions] = useState(false);
     const dispatch = useDispatch();
+    const jwt ="eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJtZW1iZXJJZCI6NjMxLCJtZW1iZXJOYW1lIjoi6rWs66ek7J6QIO2FjOyKpO2KuCDqs4TsoJUiLCJtZW1iZXJSb2xlIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3MDgzODM5MjMsImV4cCI6MTcwODgxNTkyM30.ZcIBlaM0Ct4YUgxKr3q8uTn1_xHu18gQdcQs9yM0M1kl7xR5FsoUfwaGTTaBXLT3TTwc9TlBqZC3Nnua0tHIBw"
+
     const [item, setItem] = useState({
         itemId: 0,
         sellerName: "",
@@ -274,7 +276,35 @@ function ProductPageComponent() {
     
 
 
+    const handleCart = () => {
+        const cartOptionAddDTOList = item.optionList.map(option => ({
+            itemOptionId: option.itemOptionId,
+            amount: 1
+        }));
+    
+        // 장바구니 DTO
+        const cartDto = {
+            itemId: item.itemId,
+            amount: cartOptionAddDTOList.length,
+            cartOptionAddDTOList: cartOptionAddDTOList
+        };
+        axios.post('/api/cart', cartDto, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        .then(response => {
+            console.log('Cart request successful', response);
+            alert("장바구니에 추가되었습니다")
+        })
+        .catch(error => {
+            console.log(cartDto)
+            console.error('Error adding to cart:', error);
+            // 장바구니 추가 중에 발생한 오류 처리
+        });
 
+
+    }
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -420,7 +450,7 @@ function ProductPageComponent() {
         </OptionContainer>
                             {/* 장바구니 및 구매하기 버튼 */}
                             <ButtonContainer>
-                                <Button border="black" background="white">장바구니</Button>
+                                <Button border="black" background="white" onClick={handleCart}>장바구니</Button>
                             </ButtonContainer>
                             <ButtonContainer>
                                 <Button background="yellow" color="white" border="transparent">구매하기</Button>

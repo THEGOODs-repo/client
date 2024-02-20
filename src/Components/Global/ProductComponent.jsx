@@ -103,7 +103,7 @@ const ProductCardComponent = ({ product }) => {
                             <SellerImage src={product.memberProfileImgUrl} alt="Seller" />
                             <SellerName>{product.memberName}</SellerName>
                         </div>
-                        <Views>{product.viewCount}</Views>
+                        <Views>조회수 : {product.viewCount}</Views>
                     </ProfileViewerContainer>
                 </SellerInfo>
             </InfoContainer>

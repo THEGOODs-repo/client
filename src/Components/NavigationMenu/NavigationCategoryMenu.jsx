@@ -35,7 +35,7 @@ const Icon = styled.img`
     cursor: pointer;
 `;
 
-const Label = styled(Link)`
+const Label = styled.a`
     font-family: NotoSans;
     font-size: 20px;
     font-weight: bold;
@@ -96,41 +96,41 @@ function NavigationCategoryMenu() {
                 <CategoryWrapContainer isOpen={isCategoryOpen}>
                     <CategoryItemContainer>
                         <IconImg src={idea} alt="" />
-                        <StyledLink to="/category/창작">창작</StyledLink>
+                        <StyledLink to="/category/create">창작</StyledLink>
                     </CategoryItemContainer>
                     <CategoryItemContainer>
                         <IconImg src={mic} alt="" />
-                        <StyledLink to="/category/아이돌">아이돌</StyledLink>
+                        <StyledLink to="/category/idol">아이돌</StyledLink>
                     </CategoryItemContainer>
                     <CategoryItemContainer>
                         <IconImg src={laptop} alt="" />
-                        <StyledLink to="/category/애니">애니</StyledLink>
+                        <StyledLink to="/category/ani">애니</StyledLink>
                     </CategoryItemContainer>
                     <CategoryItemContainer>
                     <IconImg src={pencil} alt="" />
-                        <StyledLink to="/category/문구">문구</StyledLink>
+                        <StyledLink to="/category/mungu">문구</StyledLink>
                     </CategoryItemContainer>
                     <CategoryItemContainer>
                         <IconImg src={food} alt="" />
-                        <StyledLink to="/category/식품">식품</StyledLink>
+                        <StyledLink to="/category/food">식품</StyledLink>
                     </CategoryItemContainer>
                     <CategoryItemContainer>
                         <IconImg src={shirt} alt="" />
-                        <StyledLink to="/category/패션">패션</StyledLink>
+                        <StyledLink to="/category/fashion">패션</StyledLink>
                     </CategoryItemContainer>
                 </CategoryWrapContainer>
             </NavItem>
             <NavItem>
-                <Label to="/newproduct">신상품</Label>
+                <Label href="/newproduct">신상품</Label>
             </NavItem>
             <NavItem>
-                <Label to="/popularproduct">인기상품</Label>
+                <Label href="/popularproduct">인기상품</Label>
             </NavItem>
             <NavItem>
-                <Label to="/endingproduct">마감임박</Label>
+                <Label href="/endingproduct">마감임박</Label>
             </NavItem>
             <NavItem>
-                <Label to="/posting">포스트</Label>
+                <Label href="/posting">포스트</Label>
             </NavItem>
         </NavBar>
     );

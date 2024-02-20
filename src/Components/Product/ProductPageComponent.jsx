@@ -136,7 +136,7 @@ const ProductWrapContainer = styled.div`
 
 `
 const SlideMainImageContainer = styled.div`
-    width :100px;
+    width :450px;
     height : 360px;
 
 `

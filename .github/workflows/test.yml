@@ -18,8 +18,9 @@ jobs: # Job 설정
           key: ${{ secrets.EC2_SSH_PRIVATE }} # SSH 비밀 키
           script: |
             cd client
-            git checkout dev
             git reset --hard
             git fetch
             git pull
+            node -v
+            yarn install --frozen-lockfile
             CI='false' yarn build

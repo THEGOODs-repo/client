@@ -5,7 +5,7 @@ on: # Event 감지
       - dev
 jobs: # Job 설정
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code. # Repo checkout
         uses: actions/checkout@v2
@@ -18,14 +18,6 @@ jobs: # Job 설정
 
       - name: Build # React Build
         run: CI='false' yarn build
-
-      - name: Deploy # Upload build file to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SECRET_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-          CI: ""
-        run: |
-          aws s3 cp --recursive --region ap-northeast-2 build s3://www.the-goods.store
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master

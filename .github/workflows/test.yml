@@ -31,8 +31,8 @@ jobs: # Job 설정
           host: ${{ secrets.EC2_HOST }} # EC2 인스턴스의 호스트 주소
           username: ${{ secrets.EC2_USERNAME }} # EC2 인스턴스의 사용자 이름
           key: ${{ secrets.EC2_SSH_PRIVATE }} # SSH 비밀 키
-        source: "./ec2.tar"
-        target: "/home/ubuntu"
+          source: "./ec2.tar"
+          target: "/home/ubuntu"
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master

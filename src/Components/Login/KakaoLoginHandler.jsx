@@ -16,7 +16,7 @@ const KakaoLoginHandler = () => {
 
   const fetch = async () => {
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/kakao/callback?code=${code}`;
+      const endpoint = `/api/members/kakao/callback?code=${code}`;
 
       const response = await axios.get(endpoint, {
         headers: {

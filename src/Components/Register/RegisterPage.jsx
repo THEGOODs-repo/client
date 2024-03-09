@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../img/logo.svg";
+import logo from "../../img/loginlogo.svg";
 import { useNavigate } from "react-router-dom";
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
 const N_REST_API_KEY = process.env.REACT_APP_N_REST_API_KEY;

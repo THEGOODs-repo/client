@@ -234,20 +234,20 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: ${885 / 19.2}vw;
-  padding: ${3 / 19.2}vw ${55 / 19.2}vw ${30 / 19.2}vw ${47 / 19.2}vw;
-  border: ${1 / 19.2}vw solid #9c9c9c;
+  padding: ${33 / 19.2}vw ${55 / 19.2}vw ${30 / 19.2}vw ${48 / 19.2}vw;
+  border: ${1 / 19.2}vw solid rgba(156, 156, 156, 0.5);
   overflow-y: auto;
   font-family: "Noto Sans KR";
+  background: rgba(254, 253, 253, 1);
 
   h1 {
     align-self: flex-start;
-    margin-top: 5%;
-    margin-left: 5%;
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 700;
     font-size: 26px;
     color: #202123;
+    margin: 0;
   }
 `;
 

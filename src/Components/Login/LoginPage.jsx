@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ErrorModal from "./ErrorModal";
 import { CheckBox } from "../Global/CustomBox";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken } from "../../redux/loginSlice";
+import { setRefreshToken, setToken } from "../../redux/loginSlice";
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
 const N_REST_API_KEY = process.env.REACT_APP_N_REST_API_KEY;
 const K_REDIRECT_URI = `http://localhost:3000/api/members/kakao/callback`;
@@ -198,7 +198,7 @@ const LoginPage = () => {
 
   const fetchLogin = async () => {
     try {
-      const endpoint = `https://dev.the-goods.store/api/members/login`;
+      const endpoint = `/api/members/login`;
       const requestBody = {
         email: Email,
         password: Password,
@@ -212,7 +212,8 @@ const LoginPage = () => {
 
       if (response.data.isSuccess === true) {
         console.log(response);
-        dispatch(setToken(response.data.result.jwt));
+        dispatch(setToken(response.data.result.accessToken));
+        dispatch(setRefreshToken(response.data.result.refreshToken.token));
         navigate("/", { replace: true });
       }
     } catch (error) {

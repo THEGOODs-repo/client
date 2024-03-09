@@ -151,13 +151,12 @@ const FindPassWord = () => {
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     );
     SetValidEmail(pattern.test(Email));
-  }, [Email, DeActive]);
+  }, [Email]);
 
   useEffect(() => {
     var VerificationEmailPattern = new RegExp(/^([0-9]{4})$/);
     SetValidVerifcationEmail(VerificationEmailPattern.test(VerificationEmail));
-    SetBlockEmail(VerificationEmail !== "");
-  }, [VerificationEmail, DeActive]);
+  }, [VerificationEmail]);
 
   useEffect(() => {
     var pattern = new RegExp(
@@ -208,7 +207,7 @@ const FindPassWord = () => {
   const fetchChangePassword = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/password/update`;
+      const endpoint = `/api/members/password/update`;
       const requestBody = {
         password: NewPassword,
         checkPassword: NewPasswordCheck,
@@ -239,6 +238,7 @@ const FindPassWord = () => {
   };
 
   const HandleEmailAuth = async () => {
+    SetBlockEmail(ValidEmail);
     if (!isRequesting && !VerifiedEmail) {
       SetIsRequesting(true);
       try {
@@ -264,7 +264,7 @@ const FindPassWord = () => {
   const fetchEmailAuth = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/email/auth`;
+      const endpoint = `/api/members/email/auth`;
       const requestBody = {
         email: Email,
       };
@@ -306,7 +306,7 @@ const FindPassWord = () => {
   const fetchEmailAuthVerify = async () => {
     SetDeActive((DeActive) => !DeActive);
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/email/auth/verify`;
+      const endpoint = `/api/members/email/auth/verify`;
       const requestBody = {
         email: Email,
         code: VerificationEmail,
@@ -477,8 +477,11 @@ const FindPassWord = () => {
               alignItems: "flex-start",
             }}
           >
-            {!VerifiedEmail && (
+            {!VerifiedEmail && VerificationEmail !== "" && (
               <WarningText>이메일 인증이 필요합니다.</WarningText>
+            )}
+            {!VerifiedEmail && VerificationEmail === "" && (
+              <div style={{ marginTop: `${10 / 19.2}vw` }}></div>
             )}
             <div style={{ display: "flex", flexDirection: "row" }}>
               <InputWrapper

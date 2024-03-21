@@ -26,3 +26,4 @@ jobs: # Job 설정
           CI: ""
         run: |
           aws s3 cp --recursive --region ap-northeast-2 build s3://thegoods-dev
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths "/*"

@@ -33,7 +33,7 @@ const Button2 = styled.button`
   width: ${120 / 19.2}vw;
   height: ${66 / 19.2}vw;
   left: 46%;
-  top: -6vh;
+  top: -7vh;
   background: ${(props) =>
     props.followClicked
       ? "linear-gradient(90deg, #7474BF 0%, #348AC7 100%)"

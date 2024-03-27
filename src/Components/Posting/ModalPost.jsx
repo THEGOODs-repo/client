@@ -128,6 +128,8 @@ const ModalContent = styled.div`
   height: ${835 / 19.2}vw;
   overflow: auto;
   display: flex;
+  width: ${1350 / 19.2}vw;
+  overflow-x: hidden;
 `;
 
 const LeftPanel = styled.div`
@@ -151,13 +153,14 @@ const RightPanel = styled.div`
   position: relative;
   background-color: white;
   padding: 1vw;
-  width: 40%;
+  width: ${500 / 19.2}vw;
 `;
 
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  width: ${500 / 19.2}vw;
 `;
 
 const ProfilePicture = styled.img`
@@ -196,7 +199,7 @@ const Separator = styled.hr`
 `;
 
 const PostContent = styled.div`
-  height: ${515 / 19.2}vw;
+  height: ${550 / 19.2}vw;
   overflow-y: auto;
 `;
 

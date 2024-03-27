@@ -104,6 +104,7 @@ export default Comment;
 const CommentContainer = styled.div`
   display: flex;
   margin-top: 1vw;
+  width: ${400 / 19.2}vw;
 `;
 
 const UserInfoContainer = styled.div`
@@ -120,7 +121,7 @@ const ProfilePicture = styled.img`
 const UserInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 19vw;
+  width: ${400 / 19.2}vw;
 `;
 
 const UserName = styled.span`
@@ -132,7 +133,7 @@ const UserName = styled.span`
 const CommentContent = styled.span`
   font-size: ${14 / 19.2}vw;
   line-height: 16px;
-  width: ${470 / 19.2}vw;
+  width: ${380 / 19.2}vw;
   word-wrap: break-word;
 `;
 
@@ -183,11 +184,11 @@ const LikeContainer = styled.div`
   cursor: pointer;
   width: ${23 / 19.2}vw;
   height: ${23 / 19.2}vw;
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-left: -10px;
 `;
 
 const LikeIcon = styled.img`
-  margin-left: 90px;
   &.liked {
     // 좋아요 표시에 사용되는 스타일
   }

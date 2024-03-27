@@ -42,7 +42,7 @@ const CommentInputContainer = styled.div`
   display: flex;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: ${600 / 19.2}vw;
 `;
 
 const StyledTextarea = styled.textarea`
@@ -50,7 +50,7 @@ const StyledTextarea = styled.textarea`
   font-weight: 400;
   font-family: "Noto Sans";
   font-size: ${16 / 19.2}vw;
-  width: ${530 / 19.2}vw;
+  width: ${420 / 19.2}vw;
   height: ${60 / 19.2}vw;
   text-indent: 0.5vw;
   padding-top: 0.8vw;
@@ -66,4 +66,5 @@ const StyledButton = styled.button`
   font-family: "Noto Sans";
   font-size: ${16 / 19.2}vw;
   border: none;
+  padding: 0 0.5vw;
 `;

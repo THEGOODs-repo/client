@@ -2,10 +2,6 @@
 
 import React from "react";
 import Post from "./PostContent";
-import Image from "../../img/sampleimg.png";
-import profileImage from "../../img/Hamster.png";
-import IU from "../../img/iu.png";
-import profileImage2 from "../../img/Ellipse 91.png";
 import NewjeansProfile from "../../img/IMG_7787.PNG";
 import NewjeansImage from "../../img/IMG_7792.PNG";
 import IUProfile from "../../img/IMG_7790.PNG";

@@ -337,7 +337,8 @@ const DefaultInput = styled.input`
   box-sizing: border-box;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  width: 52%;
+  width: ${901 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   margin-bottom: 0.5vw;
 `;
 const PhonetInput = styled.input`
@@ -348,20 +349,21 @@ const PhonetInput = styled.input`
   box-sizing: border-box;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  width: 42%;
+  width: ${792 / 19.2}vw;
+  height: ${48 / 19.2}vw;
 `;
 const PhoneCheckButton = styled.button`
   background: #f0c920;
   border-radius: 5px;
   margin-left: 0.5%;
-  padding: 10px;
+
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
   font-size: ${16 / 19.2}vw;
   line-height: 20px;
   color: #ffffff;
-  width: 9.5vw;
+  width: ${101 / 19.2}vw;
   height: ${48 / 19.2}vw;
   border: none;
   margin-bottom: 0.5vw;
@@ -384,21 +386,22 @@ const AddressInput = styled.input`
   box-sizing: border-box;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  width: 20vw;
+  width: ${340 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   margin-bottom: 0.5vw;
 `;
 const AddressButton = styled.button`
   background: #f0c920;
   border-radius: 5px;
   margin-left: 0.5%;
-  padding: 10px;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
   font-size: ${16 / 19.2}vw;
   line-height: 20px;
   color: #ffffff;
-  width: 9.5%;
+  width: ${120 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   border: none;
 `;
 const BankInput = styled.input`
@@ -409,7 +412,8 @@ const BankInput = styled.input`
   box-sizing: border-box;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  width: 12vw;
+  width: ${211 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   margin-bottom: 0.5vw;
 `;
 const AccountNumber = styled.input`
@@ -420,7 +424,8 @@ const AccountNumber = styled.input`
   box-sizing: border-box;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  width: 24vw;
+  width: ${444 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   margin-bottom: 0.5vw;
 `;
 const AccoutName = styled.input`
@@ -431,15 +436,17 @@ const AccoutName = styled.input`
   box-sizing: border-box;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
-  width: 15vw;
+  width: ${211 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   margin-bottom: 0.5vw;
 `;
 const BottomExplain = styled.div`
   font-family: "Noto Sans";
   box-sizing: border-box;
-  width: 52%;
+  width: ${901 / 19.2}vw;
+
   margin-left: 26%;
-  margin-top: 10px;
+
   padding: 10px;
   border: 1px solid rgba(156, 156, 156, 0.8);
   border-radius: 5px;
@@ -456,7 +463,7 @@ const ExplainText = styled.div`
 `;
 const Agree = styled.div`
   margin-top: 1vw;
-  margin-left: 72vw;
+  margin-left: 67vw;
   margin-bottom: 1vw;
   display: flex;
 `;
@@ -471,7 +478,8 @@ const SubmitButton = styled.button`
   font-size: 1.2vw;
   line-height: 20px;
   color: #ffffff;
-  width: 52%;
+  width: ${901 / 19.2}vw;
+  height: ${48 / 19.2}vw;
   border: none;
 `;
 

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
+import BaseFooter from "../Components/Footer/BaseFooter";
 
 const ShoppingList = () => {
   const token = useSelector((state) => state.login.token);
@@ -78,6 +79,7 @@ const ShoppingList = () => {
       </Header>
       <Divider />
       <ShoppingCart cartItems={cartData}></ShoppingCart>
+      <BaseFooter></BaseFooter>
     </Container>
   );
 };

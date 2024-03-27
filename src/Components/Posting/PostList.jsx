@@ -1,11 +1,16 @@
-// PostList.js
-
 import React from "react";
+import styled from "styled-components";
 import Post from "./PostContent";
 import NewjeansProfile from "../../img/IMG_7787.PNG";
 import NewjeansImage from "../../img/IMG_7792.PNG";
 import IUProfile from "../../img/IMG_7790.PNG";
 import IUImage from "../../img/IMG_7791.PNG";
+
+const PostBox = styled.div`
+  width: ${740 / 19.2}vw;
+  margin-top: -3vh;
+  margin-left: ${590 / 19.2}vw;
+`;
 
 const PostList = () => {
   // 포스트에 대한 가상의 데이터
@@ -32,18 +37,12 @@ const PostList = () => {
     // 다른 포스트들...
   ];
 
-  const postBoxStyle = {
-    width: "44vw",
-    marginTop: "0vh",
-    marginLeft: "28vw",
-  };
-
   return (
-    <div className="post-list" style={postBoxStyle}>
+    <PostBox>
       {posts.map((post, index) => (
         <Post key={index} {...post} />
       ))}
-    </div>
+    </PostBox>
   );
 };
 

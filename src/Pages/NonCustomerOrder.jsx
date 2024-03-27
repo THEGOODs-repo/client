@@ -6,6 +6,7 @@ import axios from "axios";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
+import BaseFooter from "../Components/Footer/BaseFooter";
 
 const NonCustomerOrder = () => {
   const [orderInfo, setOrderInfo] = useState({
@@ -251,6 +252,7 @@ const NonCustomerOrder = () => {
         </CustomButtonWrapper>
       </Agree>
       <SubmitButton>제출</SubmitButton>
+      <BaseFooter></BaseFooter>
     </Container>
   );
 };

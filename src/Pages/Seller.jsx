@@ -3,6 +3,11 @@ import backgroundImg from "../img/background.png";
 import profileImg from "../img/sampleimg.png";
 import PostList from "../Components/Posting/PostList";
 import FixedButtons from "../Components/Global/FixedButtons";
+import styled from "styled-components";
+import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
+import HeaderComponent from "../Components/Header/Header";
+import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
+
 const Seller = () => {
   const [profileData, setProfileData] = useState({
     //초기상태
@@ -14,7 +19,7 @@ const Seller = () => {
     profileImageUrl: profileImg,
   });
 
-  const [isFeedClicked, setIsFeedClicked] = useState(false); // 피드 버튼이 클릭되었는지 여부를 추적하는 상태
+  const [isFeedClicked, setIsFeedClicked] = useState(true); // 피드 버튼이 클릭되었는지 여부를 추적하는 상태
   const [isProductClicked, setIsProductClicked] = useState(false); // 판매 상품 버튼이 클릭되었는지 여부를 추적하는 상태
 
   const [isFollowed, setIsFollowed] = useState(false);
@@ -22,8 +27,8 @@ const Seller = () => {
     position: "absolute",
     marginTop: "1vw",
     marginLeft: "34vw",
-    width: "7vw",
-    height: "3vw",
+    width: `${110 / 19.2}vw`,
+    height: `${42 / 19.2}vw`,
     background: "#F0C920",
     borderRadius: "20px",
     color: "#fff",
@@ -31,7 +36,8 @@ const Seller = () => {
     border: "none",
     cursor: "pointer",
     marginRight: "1.5vw",
-    fontSize: "1vw",
+    fontSize: `${14 / 19.2}vw`,
+    fontWeight: "700",
   });
 
   const handleFollowButtonClick = () => {
@@ -42,8 +48,8 @@ const Seller = () => {
         position: "absolute",
         marginTop: "1vw",
         marginLeft: "34vw",
-        width: "7vw",
-        height: "3vw",
+        width: `${110 / 19.2}vw`,
+        height: `${42 / 19.2}vw`,
         background: "#eee",
         borderRadius: "20px",
         color: "#888",
@@ -51,7 +57,8 @@ const Seller = () => {
         border: "none",
         cursor: "pointer",
         marginRight: "1.5vw",
-        fontSize: "1vw",
+        fontWeight: "700",
+        fontSize: `${14 / 19.2}vw`,
       });
     } else {
       setButtonStyle({
@@ -59,8 +66,8 @@ const Seller = () => {
         position: "absolute",
         marginTop: "1vw",
         marginLeft: "34vw",
-        width: "7vw",
-        height: "3vw",
+        width: `${110 / 19.2}vw`,
+        height: `${42 / 19.2}vw`,
         background: "#F0C920",
         borderRadius: "20px",
         color: "#fff",
@@ -68,7 +75,8 @@ const Seller = () => {
         border: "none",
         cursor: "pointer",
         marginRight: "1.5vw",
-        fontSize: "1vw",
+        fontSize: `${14 / 19.2}vw`,
+        fontWeight: "700",
       });
     }
   };
@@ -82,14 +90,14 @@ const Seller = () => {
         position: "absolute",
         marginTop: "1vw",
         marginLeft: "34vw",
-        width: "7vw",
-        height: "3vw",
+        width: `${110 / 19.2}vw`,
+        height: `${42 / 19.2}vw`,
         background: "#fff",
         borderRadius: "20px",
         padding: "5px 10px",
         cursor: "pointer",
         marginRight: "1.5vw",
-        fontSize: "1vw",
+        fontSize: `${14 / 19.2}vw`,
         fontWeight: "700",
       });
     }
@@ -102,8 +110,8 @@ const Seller = () => {
         position: "absolute",
         marginTop: "1vw",
         marginLeft: "34vw",
-        width: "7vw",
-        height: "3vw",
+        width: `${110 / 19.2}vw`,
+        height: `${42 / 19.2}vw`,
         background: "#eee",
         borderRadius: "20px",
         color: "#888",
@@ -111,7 +119,7 @@ const Seller = () => {
         border: "none",
         cursor: "pointer",
         marginRight: "1.5vw",
-        fontSize: "1vw",
+        fontSize: `${14 / 19.2}vw`,
       });
     }
   };
@@ -135,100 +143,32 @@ const Seller = () => {
     });
   };
   const handleFeedButtonClick = () => {
-    setIsFeedClicked(!isFeedClicked);
+    setIsFeedClicked(true);
     setIsProductClicked(false);
   };
   const handleProductButtonClick = () => {
-    setIsProductClicked(!isProductClicked);
+    setIsProductClicked(true);
     setIsFeedClicked(false);
-  };
-
-  const sellerBoxStyle = {
-    position: "relative",
-    width: "44vw",
-    marginLeft: "28vw",
-    color: "#333",
-  };
-  const backgroundStyle = {
-    backgroundImage: `url(${profileData.backgroundImageUrl})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    width: "100%",
-    height: "15vw",
-  };
-  const imgStyle = {
-    position: "absolute",
-    marginTop: "10vw",
-    marginLeft: "2vw",
-    width: "10vw",
-    height: "10vw",
-    borderRadius: "50%",
-    border: "3px solid white",
-  };
-  const profileStyle = {
-    marginTop: "7vw",
-    marginLeft: "3vw",
-  };
-  const nameStyle = {
-    fontFamily: "Noto Sans",
-    fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: "1.5vw",
-    color: "#202123",
-    lineHeight: "1.5vw",
-  };
-  const bioStyle = {
-    fontFamily: "Noto Sans",
-    fontStyle: "normal",
-    fontSize: "1vw",
-    lineHeight: "1vw",
-    color: "#202123",
-    marginTop: "-1vw",
-  };
-  const followWish = {
-    fontFamily: "Noto Sans",
-    fontStyle: "normal",
-    fontSize: "1vw",
-    lineHeight: "0vw",
-    color: "#202123",
-  };
-  const feedButtonStyle = {
-    marginTop: "1vw",
-    marginLeft: "2vw",
-    fontFamily: "Noto Sans",
-    fontStyle: "normal",
-    fontSize: "1.2vw",
-    fontWeight: isFeedClicked ? "700" : "400",
-    width: "5vw",
-    height: "4vw",
-    backgroundColor: "transparent",
-    border: "none",
-    borderBottom: isFeedClicked ? "0.2vw solid #F0C920" : "none",
-  };
-  const productButtonStyle = {
-    marginTop: "1vw",
-    marginLeft: "2vw",
-    fontFamily: "Noto Sans",
-    fontStyle: "normal",
-    fontSize: "1.2vw",
-    fontWeight: isProductClicked ? "700" : "400",
-    width: "7vw",
-    height: "4vw",
-    backgroundColor: "transparent",
-    border: "none",
-    borderBottom: isProductClicked ? "0.2vw solid #F0C920" : "none",
   };
 
   return (
     <div>
-      <div style={sellerBoxStyle}>
-        <div style={backgroundStyle}>
-          <img
-            src={profileData.profileImageUrl}
-            alt="프로필 사진"
-            style={imgStyle}
-          />
-        </div>
+      <HeaderComponent />
+      <NavWrapContainer>
+        <NavigationMenu />
+        <div
+          style={{
+            borderBottom: "1px solid #9C9C9C",
+            width: "100%",
+            height: "3px",
+          }}
+        ></div>
+        <NavigationCategoryMenu />
+      </NavWrapContainer>
+      <SellerBox>
+        <Background>
+          <Img src={profileData.profileImageUrl} alt="프로필 사진" />
+        </Background>
         <button
           style={buttonStyle}
           onClick={handleFollowButtonClick}
@@ -237,33 +177,130 @@ const Seller = () => {
         >
           {isFollowed ? "팔로우 취소" : "팔로우"}
         </button>
-        <div style={profileStyle}>
-          <p style={nameStyle}>{profileData.name}</p>
-          <p style={bioStyle}>{profileData.bio}</p>
-          <div style={followWish}>
+        <Profile>
+          <Name>{profileData.name}</Name>
+          <Bio>{profileData.bio}</Bio>
+          <FollowWish>
             <span style={{ fontWeight: "700" }}>{profileData.followers} </span>
             <span>팔로잉</span>{" "}
             <span style={{ fontWeight: "700" }}>{profileData.wishlist} </span>
             <span>상품 찜</span>
-          </div>
+          </FollowWish>
           <div style={{ position: "absolute" }}>
-            <button style={feedButtonStyle} onClick={handleFeedButtonClick}>
+            <FeedButton
+              isClicked={isFeedClicked}
+              onClick={handleFeedButtonClick}
+            >
               피드
-            </button>
-            <button
-              style={productButtonStyle}
+            </FeedButton>
+            <ProductButton
+              isClicked={isProductClicked}
               onClick={handleProductButtonClick}
             >
               판매 상품
-            </button>
+            </ProductButton>
           </div>
-        </div>
-        <hr style={{ border: "1px solid #ddd", margin: "5vw 0" }} />
-      </div>
-      <div style={{ marginTop: "-5.5vw" }}>{isFeedClicked && <PostList />}</div>
+        </Profile>
+        <hr style={{ border: "1px solid #ddd", margin: "4vw 0" }} />
+      </SellerBox>
+      <div style={{ marginTop: "-3vw" }}>{isFeedClicked && <PostList />}</div>
       <FixedButtons />
     </div>
   );
 };
 
 export default Seller;
+const NavWrapContainer = styled.div`
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const SellerBox = styled.div`
+  position: relative;
+  width: ${830 / 19.2}vw;
+  margin-left: 28vw;
+  color: #333;
+`;
+
+const Background = styled.div`
+  background-image: url(${(props) => props.backgroundImageUrl});
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: ${260 / 19.2}vw;
+  background-color: #f6ebb8;
+`;
+
+const Img = styled.img`
+  position: absolute;
+  margin-top: 9vw;
+  margin-left: 2vw;
+  width: ${176 / 19.2}vw;
+  height: ${176 / 19.2}vw;
+  border-radius: 50%;
+  border: 3px solid white;
+`;
+
+const Profile = styled.div`
+  margin-top: 5.5vw;
+  margin-left: 2.5vw;
+`;
+
+const Name = styled.p`
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: ${26 / 19.2}vw;
+  color: #202123;
+`;
+
+const Bio = styled.p`
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: ${16 / 19.2}vw;
+  color: #202123;
+  margin-top: -1vw;
+  font-weight: 500;
+`;
+
+const FollowWish = styled.div`
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: ${12 / 19.2}vw;
+  line-height: ${0 / 19.2}vw;
+  color: #000000;
+`;
+
+const FeedButton = styled.button`
+  margin-top: 1vw;
+  margin-left: 2vw;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: ${16 / 19.2}vw;
+  font-weight: ${(props) => (props.isClicked ? "700" : "400")};
+  width: ${55 / 19.2}vw;
+  height: 3vw;
+  background-color: transparent;
+  border: none;
+  border-bottom: ${(props) =>
+    props.isClicked ? "0.2vw solid #F0C920" : "none"};
+`;
+
+const ProductButton = styled.button`
+  margin-top: 1vw;
+  margin-left: 2vw;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: ${16 / 19.2}vw;
+  font-weight: ${(props) => (props.isClicked ? "700" : "400")};
+  width: ${80 / 19.2}vw;
+  height: 3vw;
+  background-color: transparent;
+  border: none;
+  border-bottom: ${(props) =>
+    props.isClicked ? "0.2vw solid #F0C920" : "none"};
+`;

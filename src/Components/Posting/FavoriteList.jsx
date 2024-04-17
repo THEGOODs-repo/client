@@ -1,106 +1,97 @@
-import React from 'react';
-import profileImage from '../../img/sampleimg.png';
+import React from "react";
+import styled from "styled-components";
+import profileImage from "../../img/sampleimg.png";
 
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+`;
+
+const ModalContent = styled.div`
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  max-height: 40vw;
+  overflow-y: auto;
+`;
+
+const Title = styled.p`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2vw;
+  line-height: 1vw;
+  color: #202123;
+`;
+
+const AuthorList = styled.div`
+  margin-top: 4.5vw;
+`;
+
+const AuthorBox = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-radius: 5px;
+  height: 5vh;
+  font-weight: 700;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: 1.5vw;
+  color: #202123;
+  margin-top: 10px;
+`;
+
+const AuthorImage = styled.img`
+  width: 3vw;
+  height: 3vw;
+  margin-right: 10px;
+  border-radius: 50%;
+`;
 
 const FavoriteList = ({ isOpen, closeModal }) => {
-    const favoriteAuthors = [
-      { id: 1, name: '작가 1', profileImage: profileImage },
-      { id: 2, name: '작가 2', profileImage: profileImage },
-      { id: 3, name: '작가 3', profileImage: profileImage },
-      
+  const favoriteAuthors = [
+    { id: 1, name: "작가 1", profileImage: profileImage },
+    { id: 2, name: "작가 2", profileImage: profileImage },
+    { id: 3, name: "작가 3", profileImage: profileImage },
+    // 나머지 작가들 추가
+  ];
 
-      // 나머지 작가들 추가
-    ];
-  
-    
-  
-    const handleCloseModal = () => {
-      closeModal();
-    };
-  
-
-  
-    if (!isOpen) return null;
-  
-    return (
-      <div style={modalStyle} onClick={handleCloseModal}>
-        <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-          <p style={fontstyle}>즐겨찾기</p>
-          <div style={authorList}>
-            {favoriteAuthors.map(author => (
-              <div key={author.id} style={authorBoxStyle}>
-                <img src={author.profileImage} alt={author.name} style={authorImageStyle} />
-                <span>{author.name}</span>
-                
-            </div>
-            ))}
-            </div>
-          
-        </div>
-      </div>
-    );
-  };
-  
-  export default FavoriteList;
-  
-
-const modalStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-  
-  const modalContentStyle = {
-    backgroundColor: '#fefefe',
-    margin: '15% auto',
-    padding: '20px',
-    border: '1px solid #888',
-    width: '30%',
-    maxHeight:'40vw',
-    overflowY: 'auto',
-  };
-  
-  const fontstyle={
-    position: 'absolute',
-    
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    fontFamily: 'Noto Sans',
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: '2vw',
-    lineHeight: '1vw',
-    color: '#202123',
-  }
-
-  const authorList ={
-    marginTop:'4.5vw',
+  const handleCloseModal = () => {
+    closeModal();
   };
 
-  const authorBoxStyle = {
-    display: 'flex',
-    alignItems: 'center', 
-    padding: '10px',
-    borderTop: '1px solid #ccc',
-    borderRadius: '5px',
-    height:'5vh',
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
-    fontStyle: 'normal',
-    fontSize: '1.5vw',
-    color: '#202123',
-    marginTop:'10px',
-  };
+  if (!isOpen) return null;
 
-  const authorImageStyle = {
-    width: '3vw', // 이미지 너비 조정
-    height: '3vw', // 이미지 높이 조정
-    marginRight: '10px', // 이미지와 텍스트 간격 조정
-    borderRadius: '50%',
-  };
+  return (
+    <Modal onClick={handleCloseModal}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <Title>즐겨찾기</Title>
+        <AuthorList>
+          {favoriteAuthors.map((author) => (
+            <AuthorBox key={author.id}>
+              <AuthorImage src={author.profileImage} alt={author.name} />
+              <span>{author.name}</span>
+            </AuthorBox>
+          ))}
+        </AuthorList>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+export default FavoriteList;

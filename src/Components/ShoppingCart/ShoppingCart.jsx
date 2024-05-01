@@ -8,6 +8,7 @@ import CustomButton from "../Global/CustomButton";
 import axios from "axios";
 import { updateSelectedItems } from "./selectedItemsSlice";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
+import x from "../../img/x.png";
 
 const ShoppingCart = ({ cartItems }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -19,6 +20,7 @@ const ShoppingCart = ({ cartItems }) => {
   const token = useSelector((state) => state.login.token);
   const [productItemData, setProductItemData] = useState([]); // ProductItem의 데이터 상태
   const [totalPrice, setTotalPrice] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     console.log("dispatch실행");
@@ -26,26 +28,35 @@ const ShoppingCart = ({ cartItems }) => {
   }, [selectedItems]);
 
   const handleOrderButtonClick = () => {
-    console.log(selectedItems); // 선택된 상품들의 정보를 콘솔에 출력하거나 결제 페이지로 전달하는 로직 추가
-    dispatch(emptyOrderItems());
-    selectedItems.map((selectedItem) =>
-      dispatch(
-        setOrderItems({
-          itemId: selectedItem.itemId,
-          sellerName: selectedItem.sellerName,
-          itemName: selectedItem.itemName,
-          itemImg: selectedItem.itemImg,
-          deliveryFee: selectedItem.deliveryFee,
-          optionList: selectedItem.cartDetailViewDTOList.map((detail) => ({
-            optionId: detail.optionId,
-            optionName: detail.optionName,
-            optionPrice: detail.price,
-            amount: detail.amount,
-          })),
-        }),
-      ),
-    );
-    navigate("/payment", { replace: true });
+    if (selectedItems.length === 0) {
+      // 선택된 상품이 없는 경우 모달을 표시
+      setShowModal(true);
+    } else {
+      console.log(selectedItems); // 선택된 상품들의 정보를 콘솔에 출력하거나 결제 페이지로 전달하는 로직 추가
+      dispatch(emptyOrderItems());
+      selectedItems.map((selectedItem) =>
+        dispatch(
+          setOrderItems({
+            itemId: selectedItem.itemId,
+            sellerName: selectedItem.sellerName,
+            itemName: selectedItem.itemName,
+            itemImg: selectedItem.itemImg,
+            deliveryFee: selectedItem.deliveryFee,
+            optionList: selectedItem.cartDetailViewDTOList.map((detail) => ({
+              optionId: detail.optionId,
+              optionName: detail.optionName,
+              optionPrice: detail.price,
+              amount: detail.amount,
+            })),
+          }),
+        ),
+      );
+      navigate("/payment", { replace: true });
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const handleButtonToggle = () => {
@@ -62,12 +73,14 @@ const ShoppingCart = ({ cartItems }) => {
     return (
       <>
         <Background>
-          <EmptyCart>장바구니에 담긴 상품이 없습니다.</EmptyCart>
-          <EmptyCart2>원하는 상품을 장바구니에 담아보세요!</EmptyCart2>
-          <ContinueShopping onClick={handleContinueShopping}>
-            쇼핑 계속하기
-            <Arrow src={arrow} alt="arrow" />
-          </ContinueShopping>
+          <EmptySection>
+            <EmptyCart>장바구니에 담긴 상품이 없습니다.</EmptyCart>
+            <EmptyCart2>원하는 상품을 장바구니에 담아보세요!</EmptyCart2>
+            <ContinueShopping onClick={handleContinueShopping}>
+              쇼핑 계속하기
+              <Arrow src={arrow} alt="arrow" />
+            </ContinueShopping>
+          </EmptySection>
         </Background>
       </>
     );
@@ -234,6 +247,18 @@ const ShoppingCart = ({ cartItems }) => {
               총 주문하기<ItemCount>{selectedItems.length}</ItemCount>
             </OrderButton>
           </Order>
+          {showModal && (
+            <Modal onClick={handleCloseModal}>
+              <ModalContent onClick={(e) => e.stopPropagation()}>
+                <ModalHeader>
+                  <OrderTitle>주문하기</OrderTitle>
+                  <X src={x} onClick={handleCloseModal} />
+                </ModalHeader>
+                <Content>주문하실 상품을 선택해주세요.</Content>
+                <ModalButton onClick={handleCloseModal}>확인</ModalButton>
+              </ModalContent>
+            </Modal>
+          )}
         </>
       )}
     </div>
@@ -243,13 +268,18 @@ const ShoppingCart = ({ cartItems }) => {
 export default ShoppingCart;
 
 const Background = styled.div`
-  position: absolute;
+  position: relative;
   background-color: #f9f9f9;
-  height: 100%;
+  height: 80vh;
   width: 100%;
 `;
+const EmptySection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 const EmptyCart = styled.p`
-  margin-left: 40vw;
   margin-top: 25vh;
   font-family: "Noto Sans";
   font-style: normal;
@@ -258,7 +288,6 @@ const EmptyCart = styled.p`
   color: #202123;
 `;
 const EmptyCart2 = styled.p`
-  margin-left: 41.5vw;
   margin-top: -1vh;
   font-family: "Noto Sans";
   font-style: normal;
@@ -270,7 +299,6 @@ const EmptyCart2 = styled.p`
   color: #52555b;
 `;
 const ContinueShopping = styled.button`
-  margin-left: 45vw;
   width: 11vw;
   height: 3vw;
   font-family: "Noto Sans";
@@ -404,4 +432,69 @@ const ItemCount = styled.button`
   height: 1.5vw;
   margin-bottom: 10px;
   margin-left: 0.5vw;
+`;
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+`;
+
+const ModalContent = styled.div`
+  box-sizing: border-box;
+  background-color: #fefefe;
+  padding: 25px 30px;
+  border: 1px solid #888;
+  width: 495px;
+  height: 300px;
+`;
+const ModalHeader = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #202123;
+`;
+
+const X = styled.img`
+  margin: 0 0 0 auto;
+`;
+const OrderTitle = styled.p`
+  margin: 0 auto 0 0;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  color: #202123;
+`;
+const Content = styled.p`
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  color: #202123;
+  margin: 60px 0;
+`;
+const ModalButton = styled.button`
+  width: 130px;
+  height: 45px;
+  background: #f0c920;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  border: none;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  color: #ffffff;
+  margin: 0 150px;
 `;

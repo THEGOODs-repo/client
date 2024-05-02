@@ -21,17 +21,17 @@ const ProductItem = ({
   cartId,
   onToggle,
 }) => {
-  const dispatch = useDispatch();
   const [isCheckedAll, setIsCheckedAll] = useState(isChecked);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 추가
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = useSelector((state) => state.login.token);
   const [stockInfo, setStockInfo] = useState([]); // 재고 정보 상태 추가
 
   const fetchStockInfo = async () => {
     try {
       const response = await axios.get(
-        `https://dev.the-goods.store/api/cart/${cartId}/stock`,
+        `https://dev.the-goods.store/api/cart/{itemId}/stock`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -70,8 +70,6 @@ const ProductItem = ({
     // 부모 컴포넌트로 체크 여부와 상품 정보 전달
     onToggle(selectedItem, isChecked);
   };
-
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
 
   const handleOrderClick = () => {
     const item = {
@@ -138,6 +136,11 @@ const ProductItem = ({
     // 변경된 옵션 정보를 받아와서 상태 업데이트
     setOptionsList(selectedOptions);
   };
+
+  if (!cartDetailViewDTOList) {
+    // cartDetailViewDTOList가 없으면 빈 배열로 설정
+    cartDetailViewDTOList = [];
+  }
   // 옵션이 있는지 여부 확인
   const hasOptions = cartDetailViewDTOList.some(
     (option) => option.optionName !== null,

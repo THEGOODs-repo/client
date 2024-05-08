@@ -62,7 +62,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <Routes>
-            {/* 편지 버튼 ->선호도 조사 */}
+            {/* 편지 버튼 ->선호도 조사
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/preference/Idol" element={<Preference />} />
             <Route path="/preference/Create" element={<PreferenceCreate />} />
@@ -75,17 +75,17 @@ function App() {
             <Route
               path="/popularproduct"
               element={<NewProductPage type="popular" />}
-            />
-            <Route
+            /> */}
+            {/* <Route
               path="/endingproduct"
               element={<NewProductPage type="last" />}
-            />
+            /> */}
             <Route path="/search" element={<SearchResultComponent />} />
             <Route path="/product" element={<MorePage />} />
-            <Route
+            {/* <Route
               path="/preference/result"
               element={<PreferenceResultPage />}
-            />
+            /> */}
             <Route path="/category" element={<CategoryPage />} />
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
@@ -172,7 +172,7 @@ function App() {
               <Route path="write" element={<HelpCenterWrite />} />
             </Route>
             <Route path="/payment/*" element={<Payment />} />
-            <Route path="/mine" element={<Like />} />
+            {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>
         </div>
       </PersistGate>

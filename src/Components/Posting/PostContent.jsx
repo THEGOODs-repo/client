@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import heartImage from '../../img/Group_277.png'
-import heartFullImage from '../../img/Group_278.png'
-import commentImage from '../../img/Group_277_1.png'
-import ModalPost from './ModalPost';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import heartImage from "../../img/Group_277.png";
+import heartFullImage from "../../img/Group_278.png";
+import commentImage from "../../img/Group_277_1.png";
+import ModalPost from "./ModalPost";
+import styled from "styled-components";
 
-const PostContent = ({ userProfile, userName, postDate, content, imageUrl, likeCount, commentCount }) => {
-
+const PostContent = ({
+  userProfile,
+  userName,
+  postDate,
+  content,
+  imageUrl,
+  likeCount,
+  commentCount,
+}) => {
   const [liked, setLiked] = useState(false);
   const [likeCountState, setLikeCount] = useState(likeCount);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleLike = () => {
     setLiked(!liked);
     setLikeCount(liked ? likeCountState - 1 : likeCountState + 1);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
-    console.log("Opening modal"); 
+    console.log("Opening modal");
   };
 
   const closeModal = () => {
@@ -26,135 +34,176 @@ const PostContent = ({ userProfile, userName, postDate, content, imageUrl, likeC
   };
 
   return (
-     <div style={postStyle}>
-      <div style={postHeaderStyle}>
-       <Link to="../pages/Seller">
-        <img src={userProfile} alt="프로필 사진" style={profilePictureStyle} />
+    <PostContainer>
+      <PostHeader>
+        <Link to="/Seller">
+          <ProfilePicture src={userProfile} alt="프로필 사진" />
         </Link>
-        <div style={userInfoStyle}>
-          <p style={userNameStyle}>{userName}</p>
-          <p style={postDateStyle}> &nbsp;ㆍ {postDate} 전</p>
-        </div>
-        <button style={followButtonStyle}>팔로우</button>
-      </div>
-      {imageUrl && <img src={imageUrl} alt="포스트 이미지" style={postImageStyle} onClick={openModal} />}
-      <p style={postContentStyle} onClick={openModal}>{content}</p>
-      <div style={postFooterStyle}>
-          <div className="like-container" onClick={toggleLike}>
-          <img
-              src={liked ? heartFullImage : heartImage}
-              alt="하트"
-              className={`like-icon ${liked ? 'liked' : ''}`}
-            /><span className={`like-count ${liked ? 'liked' : ''}`} style={likeCommentCount}>{likeCountState}</span>
-          </div>
-          <div className="comment-container">
-            <img src={commentImage} alt="댓글" className="comment-icon" />
-            <span className="comment-count" style={likeCommentCount}>{commentCount}</span>
-          </div>
-      </div>
-      <div>
-      
-      
-
-      {/* 모달 컴포넌트 */}
-      <ModalPost isOpen={isModalOpen} closeModal={closeModal} post={{ imageUrl, userName, content, commentCount,userProfile,postDate,likeCountState }} />
-    </div>
-    </div>
+        <UserInfo>
+          <UserName>{userName}</UserName>
+          <PostDate> &nbsp;ㆍ {postDate} 전</PostDate>
+        </UserInfo>
+        <FollowButton>팔로우</FollowButton>
+      </PostHeader>
+      {imageUrl && (
+        <PostImage src={imageUrl} alt="포스트 이미지" onClick={openModal} />
+      )}
+      <PostContentText onClick={openModal}>{content}</PostContentText>
+      <PostFooter>
+        <LikeContainer onClick={toggleLike}>
+          <LikeIcon
+            src={liked ? heartFullImage : heartImage}
+            alt="하트"
+            className={liked ? "liked" : ""}
+          />
+          <LikeCount className={liked ? "liked" : ""}>
+            {likeCountState}
+          </LikeCount>
+        </LikeContainer>
+        <CommentContainer>
+          <CommentIcon src={commentImage} alt="댓글" />
+          <CommentCount>{commentCount}</CommentCount>
+        </CommentContainer>
+      </PostFooter>
+      <ModalPost
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        post={{
+          imageUrl,
+          userName,
+          content,
+          commentCount,
+          userProfile,
+          postDate,
+          likeCountState,
+        }}
+      />
+    </PostContainer>
   );
 };
 
 export default PostContent;
 
-const postStyle = {
-  border: '1px solid #ddd',
-};
+const PostContainer = styled.div`
+  border: 1px solid #ddd;
+`;
 
-const postHeaderStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent:'space-between',
-  marginTop:'1.5vw',
-};
+const PostHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: ${20 / 19.2}vw;
+`;
 
-const profilePictureStyle = {
-  width: '3vw',
-  height: '3vw',
-  borderRadius: '50%',
-  marginLeft: '1.5vw',
-  marginRight:'10px',
-};
+const ProfilePicture = styled.img`
+  width: ${50 / 19.2}vw;
+  height: ${50 / 19.2}vw;
+  border-radius: 50%;
+  margin-left: ${37 / 19.2}vw;
+  margin-right: 10px;
+`;
 
-const userInfoStyle = {
-  flexGrow: 1,
-  display: 'flex',
-  flexDirection:'row',
-};
+const UserInfo = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+`;
 
-const userNameStyle = {
-  fontWeight: '700',
-  marginBottom: '5px',
-  fontFamily: 'Noto Sans',
-  fontStyle: 'normal',
-  fontSize: '16px',
-  lineHeight: '22px',
-  color: '#202123',
-  marginTop:'10px',
-};
+const UserName = styled.p`
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: ${16 / 19.2}vw;
+  line-height: 22px;
+  color: #202123;
+  margin-top: 5px;
+`;
 
-const postDateStyle = {
-  color: '#52555B',
-  marginTop: '13px',
-  fontWeight: '500',
-  fontFamily: 'Noto Sans',
-  fontStyle: 'normal',
-  fontSize: '12px',
-  lineHeight: '16px',
-};
+const PostDate = styled.p`
+  color: #52555b;
+  margin-top: 8px;
+  font-weight: 500;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-size: ${12 / 19.2}vw;
+  line-height: 16px;
+`;
 
-const followButtonStyle = {
-  width:'5vw',
-  height:'2vw',
-  background: '#F0C920',
-  borderRadius: '20px',
-  color: '#fff',
-  padding: '5px 10px',
-  border: 'none',
-  cursor: 'pointer',
-  marginRight:'1.5vw',
-  fontSize:'1vw',
-};
+const FollowButton = styled.button`
+  width: ${79 / 19.2}vw;
+  height: ${33 / 19.2}vw;
+  background: #f0c920;
+  border-radius: 20px;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 1.5vw;
+  font-size: ${14 / 19.2}vw;
+`;
 
-const postImageStyle = {
-  marginLeft:'1.5vw',
-  width: '41vw',
-  marginTop: '10px',
-};
+const PostImage = styled.img`
+  margin-left: ${37 / 19.2}vw;
+  width: ${672 / 19.2}vw;
+  margin-top: 10px;
+`;
 
-const postContentStyle = {
-  marginTop: '10px',
-  marginLeft:'1.5vw',
-  width:'41vw',
-  //maxWidth:'41vw',
-  color:'#202123',
-  fontSize:'16px',
-  fontWeight:'500',
-  fontFamily: 'Noto Sans',
-};
+const PostContentText = styled.p`
+  margin-top: 10px;
+  margin-left: ${37 / 19.2}vw;
+  width: ${672 / 19.2}vw;
+  color: #202123;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Noto Sans";
+`;
 
-const postFooterStyle = {
-  marginLeft:'1.5vw',
-  marginTop: '10px',
-  color: '#888',
-  display:'flex',
-  marginBottom:'1vw',
-};
+const PostFooter = styled.div`
+  margin-left: ${37 / 19.2}vw;
 
-const likeCommentCount={
-  position:'relative',
-  top:'-6px',
-  marginBottom:'10px',
-  padding:'5px',
-  fontSize:'16px',
-  fontWeight:'500',
-  fontFamily: 'Noto Sans',
-};
+  color: #888;
+  display: flex;
+  margin-bottom: 1vw;
+`;
+
+const LikeContainer = styled.div`
+  position: relative;
+`;
+
+const LikeIcon = styled.img`
+  width: ${26 / 19.2}vw;
+  height: ${26 / 19.2}vw;
+  &.liked {
+    content: url(${heartFullImage});
+  }
+`;
+
+const LikeCount = styled.span`
+  position: relative;
+  top: -6px;
+  margin-bottom: 10px;
+  padding: 3px;
+  font-size: ${12 / 19.2}vw;
+  font-weight: 500;
+  font-family: "Noto Sans";
+`;
+
+const CommentContainer = styled.div`
+  margin-left: 10px;
+`;
+
+const CommentIcon = styled.img`
+  width: ${26 / 19.2}vw;
+  height: ${26 / 19.2}vw;
+`;
+
+const CommentCount = styled.span`
+  position: relative;
+  top: -6px;
+  margin-bottom: 10px;
+  padding: 3px;
+  font-size: ${12 / 19.2}vw;
+  font-weight: 500;
+  font-family: "Noto Sans";
+`;

@@ -20,15 +20,6 @@ import PasswordChangeSeller from "./Components/myPage/myPage(Seller)/PasswordCha
 import MemberWithdrawalSeller from "./Components/myPage/myPage(Seller)/MemberWithdrawalSeller";
 import MyReviewSeller from "./Components/myPage/myPage(Seller)/MyReviewSeller";
 import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
-// 선호도 조사
-import Preference from "./Pages/Preference";
-import PreferenceResultPage from "./Pages/PreferenceResult";
-import PreferenceCreate from "./Components/Preference/Pages/Create";
-import PreferenceAni from "./Components/Preference/Pages/Ani";
-import PreferenceFashion from "./Components/Preference/Pages/Fashion";
-import PreferenceFood from "./Components/Preference/Pages/Food";
-import PreferenceMungu from "./Components/Preference/Pages/Mungu";
-import PreferenceModal from "./Components/Preference/Modal";
 
 // 포스트
 import Post from "./Pages/Post";
@@ -50,11 +41,12 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
 import NonCustomerOrder from "./Pages/NonCustomerOrder";
 import CategoryPage from "./Components/Category/CategoryComponent";
-import NewProductPage from "./Pages/NewProductPage";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
-import Like from "./Pages/Like";
+import NewProductPage from './Pages/NewProductPage';
+import CategorySearchPage from "./Pages/CategoryPage";
+
 
 function App() {
   return (
@@ -62,30 +54,23 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <Routes>
-            {/* 편지 버튼 ->선호도 조사
             <Route path="/" element={<MainPageComponent />} />
-            <Route path="/preference/Idol" element={<Preference />} />
-            <Route path="/preference/Create" element={<PreferenceCreate />} />
-            <Route path="/preference/Ani" element={<PreferenceAni />} />
-            <Route path="/preference/Fashion" element={<PreferenceFashion />} />
-            <Route path="/preference/Food" element={<PreferenceFood />} />
-            <Route path="/preference/Mungu" element={<PreferenceMungu />} />
-            <Route path="/preference" element={<PreferenceModal />} />
             <Route path="/newproduct" element={<NewProductPage type="new" />} />
+            
             <Route
               path="/popularproduct"
               element={<NewProductPage type="popular" />}
-            /> */}
-            {/* <Route
+            /> 
+            <Route
               path="/endingproduct"
               element={<NewProductPage type="last" />}
-            /> */}
+            />
             <Route path="/search" element={<SearchResultComponent />} />
             <Route path="/product" element={<MorePage />} />
             {/* <Route
               path="/preference/result"
               element={<PreferenceResultPage />}
-            /> */}
+             /> */}
             <Route path="/category" element={<CategoryPage />} />
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
@@ -105,6 +90,31 @@ function App() {
               <Route path="MyReview" element={<MyReviewSeller />} />
               <Route path="ProfitSeller" element={<ProfitSeller />} />
             </Route>
+            
+            <Route
+              path="/category/create"
+              element={<CategorySearchPage tag="create" />}
+            />
+            <Route
+              path="/category/idol"
+              element={<CategorySearchPage tag="idol" />}
+            />
+            <Route
+              path="/category/mungu"
+              element={<CategorySearchPage tag="mungu" />}
+            />
+            <Route
+              path="/category/ani"
+              element={<CategorySearchPage tag="ani" />}
+            />
+            <Route
+              path="/category/food"
+              element={<CategorySearchPage tag="food" />}
+            />
+            <Route
+              path="/category/fashion"
+              element={<CategorySearchPage tag="fashion" />}
+            />
 
             <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="EditProfile" element={<EditProfile />} />

@@ -55,12 +55,14 @@ import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
 import Like from "./Pages/Like";
+import TokenTrigger from "./Components/Login/TokenTrigger";
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
+          <TokenTrigger />
           <Routes>
             {/* 편지 버튼 ->선호도 조사 */}
             <Route path="/" element={<MainPageComponent />} />

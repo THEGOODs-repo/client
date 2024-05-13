@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   token: null,
-  refreshToken: null,
+  expire: null,
 };
 
 const loginSlice = createSlice({
@@ -12,11 +12,11 @@ const loginSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    setRefreshToken: (state, action) => {
-      state.refreshToken = action.payload;
+    setExpire: (state, action) => {
+      state.expire = action.payload;
     },
   },
 });
 
-export const { setToken, setRefreshToken } = loginSlice.actions;
+export const { setToken, setExpire } = loginSlice.actions;
 export default loginSlice.reducer;

@@ -605,13 +605,13 @@ const RegisterPage = () => {
       const endpoint = `/api/members/join`;
       const requestBody = {
         nickname: Nickname,
+        name: Name,
         password: Password,
         email: Email,
         birthday: fetchBirthDay,
         phone: Cell,
         gender: Gender,
         memberTerm: [AgreeAge, AgreeTermsOfUse, AgreePrivacy, AgreeNewsLetter],
-        memberCategory: [Category],
       };
 
       const response = await axios.post(endpoint, requestBody, {

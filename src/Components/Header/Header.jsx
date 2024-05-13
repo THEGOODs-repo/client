@@ -1,46 +1,56 @@
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { setExpire, setToken } from "../../redux/loginSlice";
 
 const StyledLink = styled(Link)`
-    text-decoration: none; /* underline 제거 */
-    color: gray; /* 글씨 색상 설정 */
-    margin: 0 10px; /* 좌우 여백 추가 */
+  text-decoration: none; /* underline 제거 */
+  color: gray; /* 글씨 색상 설정 */
+  margin: 0 10px; /* 좌우 여백 추가 */
 `;
 
-
 function HeaderComponent() {
-
-    return (
-        <>
-            <SubHeaderContainer>
-                <SubHeaderItemContainer>
-                        {/* <img src="../img/" alt="bell" />
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.login.token);
+  return (
+    <>
+      <SubHeaderContainer>
+        <SubHeaderItemContainer>
+          {/* <img src="../img/" alt="bell" />
                         알림 */}
-                        <StyledLink to="/register">회원가입</StyledLink>
-                        <StyledLink to="/login">로그인</StyledLink>
-                        <StyledLink>비회원 주문조회</StyledLink>
-                </SubHeaderItemContainer>
-            </SubHeaderContainer>
-        </>
-    )
-
+          <StyledLink to="/register">회원가입</StyledLink>
+          {token == null ? (
+            <StyledLink to="/login">로그인</StyledLink>
+          ) : (
+            <StyledLink
+              onClick={() => {
+                dispatch(setToken(null));
+                dispatch(setExpire(null));
+              }}
+            >
+              로그아웃
+            </StyledLink>
+          )}
+          <StyledLink>비회원 주문조회</StyledLink>
+        </SubHeaderItemContainer>
+      </SubHeaderContainer>
+    </>
+  );
 }
 
-export default HeaderComponent
+export default HeaderComponent;
 
 const SubHeaderContainer = styled.div`
-   width : 100%;
-   height : 47px;
-   background: rgba(156, 156, 156, 0.20);
-   display : flex;
-   justify-content : flex-end;
-   align-items : center;
-   
-   `
+  width: 100%;
+  height: 47px;
+  background: rgba(156, 156, 156, 0.2);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
 const SubHeaderItemContainer = styled.div`
-   display : flex; 
-   width : 300px;
-   height : 23px;  
-   margin-right : 310px;
-`
+  display: flex;
+  width: 300px;
+  height: 23px;
+  margin-right: 310px;
+`;

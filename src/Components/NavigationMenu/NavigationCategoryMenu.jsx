@@ -10,6 +10,23 @@ import food from "../../img/food.png";
 import idea from "../../img/idea.png";
 import shirt from "../../img/shirt.png";
 
+const NavWrapContainer = styled.div`
+  display:flex;
+  width : 100%;
+  justify-content : flex-end;
+  
+`
+const NavInnerContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  height: 60px;
+  font-family: NotoSans;
+  width: 100%;
+
+
+`
 const NavBar = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -36,7 +53,6 @@ const Icon = styled.img`
 const Label = styled.a`
   font-family: NotoSans;
   font-size: 20px;
-  font-weight: bold;
   text-decoration: none;
   color: black;
   cursor: pointer;
@@ -91,10 +107,10 @@ function NavigationCategoryMenu() {
 
   return (
     <NavBar>
-      <NavItem>
+      {/* <NavItem>
         <Icon src={categoryIcon} alt="Category" onClick={toggleCategory} />
         <Label onClick={toggleCategory}>카테고리</Label>
-        <CategoryWrapContainer isOpen={isCategoryOpen}>
+        {/* <CategoryWrapContainer isOpen={isCategoryOpen}>
           <CategoryItemContainer>
             <IconImg src={idea} alt="" />
             <StyledA href="/category/create">창작</StyledA>
@@ -119,20 +135,37 @@ function NavigationCategoryMenu() {
             <IconImg src={shirt} alt="" />
             <StyledA href="/category/fashion">패션</StyledA>
           </CategoryItemContainer>
-        </CategoryWrapContainer>
+        </CategoryWrapContainer> 
+      </NavItem> */}
+      <NavWrapContainer>
+      <NavInnerContainer style={{marginRight :"50px"}}>
+      <NavItem> 
+
+        <Label href="/newproduct" style={{fontWeight:"bold"}}>전체보기</Label>
       </NavItem>
       <NavItem>
-        <Label href="/newproduct">신상품</Label>
+        <Label href="/popularproduct">아이돌</Label>
       </NavItem>
       <NavItem>
-        <Label href="/popularproduct">인기상품</Label>
+        <Label href="/endingproduct">애니메이션</Label>
       </NavItem>
       <NavItem>
-        <Label href="/endingproduct">마감임박</Label>
+        <Label href="/posting">웹툰</Label>
       </NavItem>
       <NavItem>
-        <Label href="/posting">포스트</Label>
+        <Label href="/posting">게임</Label>
       </NavItem>
+      </NavInnerContainer>
+      </NavWrapContainer>
+      |
+      <NavWrapContainer>
+      <NavInnerContainer style={{marginLeft :"50px"}}>
+      <NavItem>
+        <Label href="/posting">포스팅</Label>
+      </NavItem>
+
+      </NavInnerContainer>
+      </NavWrapContainer>
     </NavBar>
   );
 }

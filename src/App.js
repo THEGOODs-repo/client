@@ -46,13 +46,15 @@ import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
 import NewProductPage from './Pages/NewProductPage';
 import CategorySearchPage from "./Pages/CategoryPage";
-
+import Like from "./Pages/Like";
+import TokenTrigger from "./Components/Login/TokenTrigger";
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
+          <TokenTrigger />
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/newproduct" element={<NewProductPage type="new" />} />

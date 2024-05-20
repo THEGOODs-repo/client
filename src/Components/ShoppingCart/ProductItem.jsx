@@ -3,7 +3,6 @@ import styled from "styled-components";
 import homeimg from "../../img/home.png";
 import plusimg from "../../img/Plus.png";
 import OrderModificationModal from "./OrderModificationModal";
-import { setSelectedItems } from "./selectedItemsSlice";
 import CustomButton from "../Global/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

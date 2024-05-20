@@ -30,7 +30,7 @@ const ProductItem = ({
   const fetchStockInfo = async () => {
     try {
       const response = await axios.get(
-        `https://dev.the-goods.store/api/cart/${cartId}/stock`,
+        `https://dev.the-goods.store/api/cart/${itemId}/stock`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

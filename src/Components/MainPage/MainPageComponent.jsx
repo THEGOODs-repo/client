@@ -18,6 +18,8 @@ import likeBannerURL from "../../img/likepost.png";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FixedButtons from "../Global/FixedButtons";
+import MainPost from './MainPost';
+
 const StyledLink = styled(Link)`
   color: black;
   text-decoration: none;
@@ -132,14 +134,47 @@ const SubInfoWrapContainer = styled.div`
   align-items: center;
 `;
 
-function MainPageComponent() {
+const PostContainer = styled.div`
+        
+    width : 100%;
+    margin-top : 50px;
+    height : 859px;
+    background-color : #ffeab8;
+    
+`
+const PostInnerContainer = styled.div`
+  display : flex;
+  flex-direction : column;
+
+
+`
+
+
+
+function    MainPageComponent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productLists, setProductLists] = useState(Array(6).fill([]));
   const navigate = useNavigate();
   const bannerRef = useRef(null);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 가상의 API 호출
+        const response = await fetch("/api/posts");
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleMoveLikePage = () => {
-    navigate("/preference");
+    navigate("/");
   };
   const handleMainPage = () => {
     navigate("/");
@@ -190,26 +225,19 @@ function MainPageComponent() {
   }, [currentIndex]);
 
   const subInfoTitles = [
-    "오늘의 추천상품",
-    "방금 전 본 상품과 비슷한 상품",
-    "가장 많이 판매된 상품은 어때요?",
-    "구매자들에게 꾸준히 사랑받는 상품",
-    "라스트 찬스!",
-    "아직도 고민이라면 이런 상품은 어때요?",
+    "추천 상품",
+    "인기 상품",
+    "신상품",
   ];
   const navigateURL = [
-    "/product?tag=new",
-    "/product?tag=similar",
-    "/product?tag=popular",
-    "/product?tag=steady",
-    "/product?tag=last",
     "/product?tag=recommend",
+    "/product?tag=popular",
+    "/product?tag=new",
   ];
 
   return (
     <>
       <FixedButtons></FixedButtons>
-      <HeaderComponent />
       <NavWrapContainer>
         <NavigationMenu />
         <div
@@ -289,8 +317,27 @@ function MainPageComponent() {
               </MainContent>
             </TotalContainer>
           ))}
+          <TotalContainer>
+          <SubInfoWrapContainer>
+
+              <SubInfoContainer >
+
+                  <h2>인기 포스트</h2>
+                  <MoreContainer to={"/posting"}>
+                    <p>더보기</p>
+                    <img
+                      src={ArrowCircleRight}
+                      alt=""
+                      width="30px"
+                      height="30px"
+                    />
+                  </MoreContainer>
+                </SubInfoContainer>
+               </SubInfoWrapContainer> 
+               <MainPost post={posts}></MainPost> 
+               </TotalContainer>
         </MainWrapContent>
-      </PageContainer>
+        </PageContainer>
       <BaseFooter />
     </>
   );

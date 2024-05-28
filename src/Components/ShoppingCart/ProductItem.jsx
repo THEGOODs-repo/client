@@ -3,7 +3,6 @@ import styled from "styled-components";
 import homeimg from "../../img/home.png";
 import plusimg from "../../img/Plus.png";
 import OrderModificationModal from "./OrderModificationModal";
-import { setSelectedItems } from "./selectedItemsSlice";
 import CustomButton from "../Global/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +13,7 @@ const ProductItem = ({
   sellerName,
   itemName,
   itemImg,
-  cartDetailViewDTOList,
+  cartOptionViewDTOList = [], // 기본값을 빈 배열로 설정
   deliveryFee,
   isChecked,
   itemId,
@@ -31,7 +30,7 @@ const ProductItem = ({
   const fetchStockInfo = async () => {
     try {
       const response = await axios.get(
-        `https://dev.the-goods.store/api/cart/${cartId}/stock`,
+        `https://dev.the-goods.store/api/cart/${itemId}/stock`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +62,7 @@ const ProductItem = ({
       sellerName,
       itemName,
       itemImg,
-      cartDetailViewDTOList,
+      cartOptionViewDTOList,
       deliveryFee,
       cartId,
     };
@@ -80,7 +79,7 @@ const ProductItem = ({
       itemName,
       itemImg,
       deliveryFee,
-      cartDetailViewDTOList,
+      cartOptionViewDTOList,
     };
     if (isCheckedAll) {
       dispatch(emptyOrderItems());
@@ -91,7 +90,7 @@ const ProductItem = ({
           itemName: itemName,
           itemImg: itemImg,
           deliveryFee: deliveryFee,
-          optionList: cartDetailViewDTOList.map((detail) => ({
+          optionList: cartOptionViewDTOList.map((detail) => ({
             optionId: detail.optionId,
             optionName: detail.optionName,
             optionPrice: detail.price,
@@ -110,23 +109,24 @@ const ProductItem = ({
   const calculateOptionTotalPrice = () => {
     let totalPrice = 0;
 
-    if (!cartDetailViewDTOList || !Array.isArray(cartDetailViewDTOList)) {
-      console.error("options 배열이 올바르지 않습니다.");
-      return null;
+    if (!Array.isArray(cartOptionViewDTOList)) {
+      console.error("cartOptionViewDTOList가 배열이 아닙니다.");
+      return 0;
     }
 
-    cartDetailViewDTOList.forEach((option) => {
+    cartOptionViewDTOList.forEach((option) => {
       if (
-        typeof option.price !== "number" ||
-        typeof option.amount !== "number"
+        option &&
+        typeof option.price === "number" &&
+        typeof option.amount === "number"
       ) {
+        totalPrice += option.price * option.amount; // 각 옵션의 가격과 수량을 곱한 값을 totalPrice에 더합니다.
+      } else {
         console.error(
           "옵션의 price 또는 amount 속성이 올바르지 않습니다:",
           option,
         );
-        return null;
       }
-      totalPrice += option.price * option.amount; // 각 옵션의 가격과 수량을 곱한 값을 totalPrice에 더합니다.
     });
 
     return totalPrice;
@@ -138,13 +138,16 @@ const ProductItem = ({
     // 변경된 옵션 정보를 받아와서 상태 업데이트
     setOptionsList(selectedOptions);
   };
+
   // 옵션이 있는지 여부 확인
-  const hasOptions = cartDetailViewDTOList.some(
-    (option) => option.optionName !== null,
-  );
-  const firstItem = cartDetailViewDTOList[0];
-  const firstItemPrice = firstItem.price;
-  const firstItemAmount = firstItem.amount;
+  const hasOptions =
+    Array.isArray(cartOptionViewDTOList) &&
+    cartOptionViewDTOList.some(
+      (option) => option && option.optionName !== null,
+    );
+  const firstItem = cartOptionViewDTOList[0] || {};
+  const firstItemPrice = firstItem.price || 0;
+  const firstItemAmount = firstItem.amount || 0;
 
   const formattedPrice = (price) => {
     return price.toLocaleString();
@@ -187,7 +190,7 @@ const ProductItem = ({
             <ModifyOrder onClick={handleModifyOrderClick}>주문수정</ModifyOrder>
             {isModalOpen && (
               <OrderModificationModal
-                cartDetailViewDTOList={cartDetailViewDTOList}
+                cartOptionViewDTOList={cartOptionViewDTOList}
                 onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
                 onUpdate={handleUpdateOptions} // 변경된 내용을 부모 컴포넌트로 전달하는 콜백 함수 전달
                 stockInfo={stockInfo}
@@ -223,7 +226,7 @@ const ProductItem = ({
               </ModifyOrder2>
               {isModalOpen && (
                 <OrderModificationModal
-                  cartDetailViewDTOList={cartDetailViewDTOList}
+                  cartOptionViewDTOList={cartOptionViewDTOList}
                   onClose={() => setIsModalOpen(false)} // 모달 닫기 핸들러
                   stockInfo={stockInfo}
                 />
@@ -234,9 +237,10 @@ const ProductItem = ({
         )}
 
         {hasOptions &&
-          cartDetailViewDTOList.map(
+          cartOptionViewDTOList.map(
             (option, idx) =>
               // 옵션 이름이 null이 아닌 경우에만 렌더링
+              option &&
               option.optionName !== null && (
                 <OptionForm key={idx}>
                   <OptionText>

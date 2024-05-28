@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import banner from "../../img/Untitled.svg";
 import btnimg1 from "../../img/switch-horizontal.svg";
 import btnimg2 from "../../img/switch-horizontal1.svg";
-
 import FavoriteList from "./FavoriteList";
+import { color } from "@mui/system";
 
 const Button1 = styled.button`
   box-sizing: border-box;
@@ -72,17 +71,19 @@ const PostBanner = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const [isFollowed, setIsFollowed] = useState(false);
 
+  const handleClick = () => {
+    setIsFollowed(!isFollowed);
+  };
   return (
-    <div>
-      <img
-        src={banner}
-        alt="Banner"
-        style={{
-          maxWidth: "100%",
-          height: "auto",
-        }}
-      />
+    <>
+      <Line />
+      <ToggleWrapper onClick={handleClick}>
+        <ToggleOption isFollowed={!isFollowed}>인기</ToggleOption>
+        <ToggleOption isFollowed={isFollowed}>팔로우</ToggleOption>
+        <ToggleSlider isFollowed={isFollowed} />
+      </ToggleWrapper>
       <div>
         <Link to="...">
           <Button1
@@ -120,8 +121,61 @@ const PostBanner = () => {
 
         <FavoriteList isOpen={isModalOpen} closeModal={closeModal} />
       </div>
-    </div>
+    </>
   );
 };
 
 export default PostBanner;
+
+const Line = styled.div`
+  width: 100%;
+  opacity: 0.8;
+  border: 0.5px solid #9c9c9c;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+`;
+
+const ToggleWrapper = styled.div`
+  position: relative;
+  width: 200px;
+  height: 50px;
+  background: #ccc;
+  border-radius: 25px;
+  display: flex;
+  cursor: pointer;
+  overflow: hidden;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  width: ${1150 / 19.2}vw;
+  height: ${85 / 19.2}vw;
+  margin: 25px auto;
+  background: #ffffff;
+  border: 1.5px solid rgba(156, 156, 156, 0.5);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+`;
+
+const ToggleOption = styled.div`
+  flex: 1;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: ${(props) => (props.isFollowed ? "#202123" : "#888")};
+  transition: color 0.3s;
+`;
+
+const ToggleSlider = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  transition: transform 0.3s;
+  transform: ${(props) =>
+    props.isFollowed ? "translateX(100%)" : "translateX(0)"};
+  width: ${560 / 19.2}vw;
+  height: ${68 / 19.2}vw;
+  background: rgba(240, 201, 32, 0.2);
+  border-radius: 50px;
+`;

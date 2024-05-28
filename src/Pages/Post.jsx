@@ -39,13 +39,20 @@ const Post = () => {
         ></div>
         <NavigationCategoryMenu />
       </NavWrapContainer>
-      <PostBanner />
-      <PostList posts={posts} />
-      <FixedButtons />
+
+      <Background>
+        <PostBanner />
+        <PostList posts={posts} />
+        <FixedButtons />
+      </Background>
     </div>
   );
 };
 export default Post;
+const Background = styled.div`
+  background-color: #f9f9f9;
+  height: 100%;
+`;
 const NavWrapContainer = styled.div`
   max-width: 100vw;
   display: flex;

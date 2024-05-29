@@ -6,6 +6,7 @@ import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
 import BaseFooter from "../Components/Footer/BaseFooter";
+import pencil from "../img/pencil-button.svg";
 
 const Post = () => {
   const [posts, setPosts] = useState([]);
@@ -53,6 +54,13 @@ const Post = () => {
           <ToggleSlider isFollowed={isFollowed} />
         </ToggleWrapper>
         <PostList posts={posts} />
+        <WriteButton>
+          <img
+            src={pencil}
+            alt="포스트 글쓰기"
+            style={{ width: "2.5vw", height: "2.5vw" }}
+          />
+        </WriteButton>
         <FixedButtons />
         <BaseFooter />
       </Background>
@@ -124,4 +132,18 @@ const ToggleSlider = styled.div`
   height: ${68 / 19.2}vw;
   background: rgba(240, 201, 32, 0.2);
   border-radius: 50px;
+`;
+const WriteButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4vw;
+  height: 4vw;
+  border-radius: 50%;
+  background-color: rgba(240, 201, 32, 0.7);
+  cursor: pointer;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  top: 45%;
+  right: 7vw;
 `;

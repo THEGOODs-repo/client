@@ -7,10 +7,17 @@ import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
 import BaseFooter from "../Components/Footer/BaseFooter";
 import pencil from "../img/pencil-button.svg";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Post = () => {
   const [posts, setPosts] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const token = useSelector((state) => state.login.token);
 
   const handleClick = () => {
     setIsFollowed(!isFollowed);
@@ -19,17 +26,44 @@ const Post = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 가상의 API 호출
-        const response = await fetch("/api/posts");
-        const data = await response.json();
-        setPosts(data);
+        const response = await axios.get(
+          "https://dev.the-goods.store/api/posts/popular",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              like: true,
+            },
+          },
+        );
+        setPosts(response.data.result.posts);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    if (token) {
+      fetchData();
+    } else {
+      setError("No token provided");
+      setLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    console.log("post.jsx에서", posts);
+  }, [posts]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    console.log(error);
+  }
 
   return (
     <div>
@@ -54,19 +88,22 @@ const Post = () => {
           <ToggleSlider isFollowed={isFollowed} />
         </ToggleWrapper>
         <PostList posts={posts} />
-        <WriteButton>
-          <img
-            src={pencil}
-            alt="포스트 글쓰기"
-            style={{ width: "2.5vw", height: "2.5vw" }}
-          />
-        </WriteButton>
+        <Link to="/CreatePost">
+          <WriteButton>
+            <img
+              src={pencil}
+              alt="포스트 글쓰기"
+              style={{ width: "2.5vw", height: "2.5vw" }}
+            />
+          </WriteButton>
+        </Link>
         <FixedButtons />
         <BaseFooter />
       </Background>
     </div>
   );
 };
+
 export default Post;
 const Background = styled.div`
   background-color: #f9f9f9;

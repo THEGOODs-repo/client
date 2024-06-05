@@ -7,9 +7,11 @@ import IUProfile from "../../img/IMG_7790.PNG";
 import IUImage from "../../img/IMG_7791.PNG";
 
 const PostBox = styled.div`
-  width: ${740 / 19.2}vw;
-  margin-top: -3vh;
-  margin-left: ${590 / 19.2}vw;
+  width: ${1150 / 19.2}vw;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // 2열로 반복
+  gap: 10px; // 그리드 아이템 사이의 간격
 `;
 
 const PostList = () => {
@@ -31,6 +33,15 @@ const PostList = () => {
       postDate: "2일",
       content: "아이유 도무송 스티커 판매 시작되었습니다!",
       imageUrl: IUImage,
+      likeCount: 40,
+      commentCount: 27,
+    },
+    {
+      userProfile: IUProfile,
+      userName: "아이유애나",
+      postDate: "2일",
+      content: "아이유 도무송 스티커 판매 시작되었습니다!",
+      imageUrl: null,
       likeCount: 40,
       commentCount: 27,
     },

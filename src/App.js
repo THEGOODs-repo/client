@@ -24,6 +24,7 @@ import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 // 포스트
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
+import CreatePost from "./Pages/CreatePost";
 
 // 로그인
 import Login from "./Pages/Login";
@@ -44,7 +45,7 @@ import CategoryPage from "./Components/Category/CategoryComponent";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
-import NewProductPage from './Pages/NewProductPage';
+import NewProductPage from "./Pages/NewProductPage";
 import CategorySearchPage from "./Pages/CategoryPage";
 import Like from "./Pages/Like";
 import TokenTrigger from "./Components/Login/TokenTrigger";
@@ -58,11 +59,11 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/newproduct" element={<NewProductPage type="new" />} />
-            
+
             <Route
               path="/popularproduct"
               element={<NewProductPage type="popular" />}
-            /> 
+            />
             <Route
               path="/endingproduct"
               element={<NewProductPage type="last" />}
@@ -77,6 +78,7 @@ function App() {
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
             <Route path="/posting" element={<Post />} />
+            <Route path="/CreatePost" element={<CreatePost />} />
 
             {/* Seller 부분 */}
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
@@ -92,7 +94,7 @@ function App() {
               <Route path="MyReview" element={<MyReviewSeller />} />
               <Route path="ProfitSeller" element={<ProfitSeller />} />
             </Route>
-            
+
             <Route
               path="/category/create"
               element={<CategorySearchPage tag="create" />}

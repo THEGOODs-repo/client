@@ -21,7 +21,7 @@ const ShoppingCart = ({ cartItems }) => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    console.log("dispatch실행");
+    //console.log("dispatch실행");
     dispatch(updateSelectedItems(selectedItems));
   }, [selectedItems]);
 

@@ -34,6 +34,9 @@ const ShoppingList = () => {
       console.error("Error fetching data:", error);
     }
   };
+  useEffect(() => {
+    console.log("cart: ", cartData);
+  }, [cartData]);
 
   useEffect(() => {
     fetchData();

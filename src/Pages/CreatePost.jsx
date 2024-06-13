@@ -10,11 +10,13 @@ import fileInput from "./../img/download.svg";
 import plus from "./../img/Plus.png";
 import NewjeansProfile from "./../img/IMG_7787.PNG";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [text, setText] = useState("");
   const token = useSelector((state) => state.login.token);
+  const navigate = useNavigate(); // useNavigate 훅 사용
   const [postSuccess, setPostSuccess] = useState(false); // 포스트 성공 여부 상태값
 
   const onDrop = (acceptedFiles) => {
@@ -71,7 +73,7 @@ const CreatePost = () => {
   };
 
   if (postSuccess) {
-    return <Redirect to="/posting" />;
+    navigate("/posting"); // 포스트 성공 시 navigate를 사용하여 페이지 이동
   }
 
   return (
@@ -317,4 +319,3 @@ const LetterNumber = styled.div`
   width: ${100 / 19.2}vw;
   text-align: left;
 `;
-const Redirect = styled.link``;

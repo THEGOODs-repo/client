@@ -10,14 +10,14 @@ import fileInput from "./../img/download.svg";
 import plus from "./../img/Plus.png";
 import NewjeansProfile from "./../img/IMG_7787.PNG";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [text, setText] = useState("");
   const token = useSelector((state) => state.login.token);
-  const navigate = useNavigate(); // useNavigate 훅 사용
-  const [postSuccess, setPostSuccess] = useState(false); // 포스트 성공 여부 상태값
+  const navigate = useNavigate();
+  const [postSuccess, setPostSuccess] = useState(false);
 
   const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length + selectedFiles.length <= 4) {
@@ -34,7 +34,7 @@ const CreatePost = () => {
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
     accept: "image/*",
-    noClick: true, // Prevent the default click behavior
+    noClick: true,
   });
 
   const handleTextChange = (e) => {
@@ -73,8 +73,13 @@ const CreatePost = () => {
   };
 
   if (postSuccess) {
-    navigate("/posting"); // 포스트 성공 시 navigate를 사용하여 페이지 이동
+    navigate("/posting");
   }
+
+  // 제출 버튼이 활성화되는 조건
+  const isSubmitEnabled = () => {
+    return text.trim().length > 0 || selectedFiles.length > 0;
+  };
 
   return (
     <>
@@ -99,9 +104,15 @@ const CreatePost = () => {
             <UserInfo>
               <UserName>판매자</UserName>
             </UserInfo>
-            <SubmitButton onClick={handleSubmit}>작성하기</SubmitButton>
+            <SubmitButton
+              onClick={handleSubmit}
+              disabled={!isSubmitEnabled()}
+              className={!isSubmitEnabled() ? "disabled" : ""}
+            >
+              작성하기
+            </SubmitButton>
           </PostHeader>
-          <FileInputSection {...getRootProps()}>
+          <FileInputSection {...getRootProps()} onClick={open}>
             <input {...getInputProps()} />
             <FileInputImg src={fileInput} alt="file input image" />
             클릭하여 파일을 선택하거나 여기로 드래그 하세요
@@ -224,6 +235,10 @@ const SubmitButton = styled.button`
   font-weight: 700;
   text-align: center;
   color: #ffffff;
+  &.disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
 `;
 
 const FileInputSection = styled.div`

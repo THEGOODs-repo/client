@@ -14,9 +14,6 @@ import axios from "axios";
 const Post = () => {
   const [posts, setPosts] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const token = useSelector((state) => state.login.token);
 
   const handleClick = () => {
@@ -24,7 +21,7 @@ const Post = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPopularPosts = async () => {
       try {
         const response = await axios.get(
           "https://dev.the-goods.store/api/posts/popular",
@@ -37,33 +34,27 @@ const Post = () => {
             },
           },
         );
-        setPosts(response.data.result.posts);
+        console.log("Full API response:", response);
+        console.log("API response:", response.data); // 전체 응답 데이터 확인
+        console.log("API response result:", response.data.result);
+        if (response.data.isSuccess) {
+          setPosts(response.data.result.posts); // 데이터 위치에 맞게 수정
+        } else {
+          console.error("API response error:", response.data.message);
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch posts:", error);
       }
     };
 
     if (token) {
-      fetchData();
-    } else {
-      setError("No token provided");
-      setLoading(false);
+      fetchPopularPosts();
     }
   }, [token]);
 
   useEffect(() => {
-    console.log("post.jsx에서", posts);
+    console.log("posts:", posts);
   }, [posts]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    console.log(error);
-  }
 
   return (
     <div>
@@ -87,7 +78,7 @@ const Post = () => {
           <ToggleOption isFollowed={isFollowed}>팔로우</ToggleOption>
           <ToggleSlider isFollowed={isFollowed} />
         </ToggleWrapper>
-        <PostList posts={posts} />
+        <PostList posts={posts} /> {/* PostList 컴포넌트에 데이터 전달 */}
         <Link to="/CreatePost">
           <WriteButton>
             <img
@@ -105,6 +96,7 @@ const Post = () => {
 };
 
 export default Post;
+
 const Background = styled.div`
   background-color: #f9f9f9;
   height: 100%;

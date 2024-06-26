@@ -18,6 +18,8 @@ import ImageSlider from './SlideComponent';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import {setPurchaseItems} from '../../redux/purchaseSlice';
+import CustomHorizontalLine from "../MainPage/HorizontalLineComponent";
+
 const OptionContainer = styled.div`
     width: 100%;
     position: relative;
@@ -294,7 +296,8 @@ function ProductPageComponent() {
         const fetchData = async () => {
           try {
             //const response = axios.get(`/api/seller/item/${id}`);
-            const response = await axios.get(`/api/seller/item/${id}`);
+            console.log(id)
+            const response = await axios.get(`/api/item/${id}`);
             setProductInfo(response.data.result); // 응답 데이터에서 필요한 부분을 추출하여 상태로 설정
             //console.log(response.data.result);
             console.log(response.data.result.itemId);
@@ -335,10 +338,13 @@ function ProductPageComponent() {
 
     return (
 <>
-    <HeaderComponent />
     <NavWrapContainer>
         <NavigationMenu />
+      <CustomHorizontalLine/>
+  
         <NavigationCategoryMenu />
+    <CustomHorizontalLine/>
+  
     </NavWrapContainer>
     <WrapContainer>
         <ProductWrapContainer>

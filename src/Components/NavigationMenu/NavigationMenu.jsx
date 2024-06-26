@@ -186,15 +186,7 @@ const NavigationMenu = () => {
         <LogoWrapper src={logo} alt="THEGOODs" width="11vw"/>
       </StyledA>
       <SearchWrapper>
-          <Select
-        options={options}
-        components={{ DropdownIndicator: CustomDropdownIndicator , IndicatorSeparator:() => null}}
-        styles={customStyles}
-        isSearchable={false}
-        placeholder="상품"
-        onChange={(selectedOption) => handleKeyWordTag(selectedOption)}
-        />
-        <VerticalLine />
+          
         <SearchInput
           type="text"
           placeholder="검색어를 입력해주세요."
@@ -232,7 +224,6 @@ const NavigationMenu = () => {
       </IconWrapper>
       </StyledLink>
       </IconWrapContainer>
-      
     </NavigationWrapper>
   );
 };

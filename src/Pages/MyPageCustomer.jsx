@@ -4,16 +4,20 @@ import { Outlet } from "react-router-dom";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
-
+import CustomHorizontalLine from '../Components/MainPage/HorizontalLineComponent';
 function MyPageCustomerComponent() {
   return (
     <PageContainer>
       <NavWrapContainer>
         <HeaderComponent />
+       
         <NavigationMenu />
+        <CustomHorizontalLine/>
         <NavigationCategoryMenu />
+        <CustomHorizontalLine/>
       </NavWrapContainer>
-
+      <br />
+      <br />
       <MyPageContainer>
         <MyPageNavbar />
         <Outlet />
@@ -38,7 +42,7 @@ const PageContainer = styled.div`
 const MyPageContainer = styled.div`
   display: flex;
   width: 1200px;
-  height: 1300px;
+  height: 950px;
   margin-left: 25%;
   background: #fefdfd;
   border-radius: 1px;

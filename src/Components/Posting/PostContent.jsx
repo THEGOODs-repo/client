@@ -8,10 +8,10 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 const PostContent = ({
   userProfile,
-  userName,
+  nickname,
   postDate,
   content,
-  imageUrl,
+  images,
   likeCount,
   commentCount,
 }) => {
@@ -42,13 +42,13 @@ const PostContent = ({
             <ProfilePicture src={userProfile} alt="프로필 사진" />
           </Link>
           <UserInfo>
-            <UserName>{userName}</UserName>
+            <UserName>{nickname}</UserName>
             <PostDate> &nbsp;ㆍ {postDate} 전</PostDate>
           </UserInfo>
           <FollowButton>팔로우</FollowButton>
         </PostHeader>
-        {imageUrl && (
-          <PostImage src={imageUrl} alt="포스트 이미지" onClick={openModal} />
+        {images && (
+          <PostImage src={images} alt="포스트 이미지" onClick={openModal} />
         )}
         <PostContentText onClick={openModal}>{content}</PostContentText>
         <Divider />
@@ -72,8 +72,8 @@ const PostContent = ({
           isOpen={isModalOpen}
           closeModal={closeModal}
           post={{
-            imageUrl,
-            userName,
+            images,
+            nickname,
             content,
             commentCount,
             userProfile,

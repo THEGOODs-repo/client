@@ -17,6 +17,7 @@ const FixedButtons = ({ isModalOpen, openModal }) => {
         right: "7vw",
         transform: "translateY(-50%)",
         textAlign: "center",
+        zIndex : 1
       }}
     >
       {!isModalOpen && (

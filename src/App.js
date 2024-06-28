@@ -25,6 +25,7 @@ import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
 import CreatePost from "./Pages/CreatePost";
+import PostDetail from "./Pages/PostDetail";
 
 // 로그인
 import Login from "./Pages/Login";
@@ -78,6 +79,8 @@ function App() {
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
             <Route path="/posting" element={<Post />} />
+            <Route path="/posting/:id" element={<PostDetail />} />
+
             <Route path="/CreatePost" element={<CreatePost />} />
 
             {/* Seller 부분 */}

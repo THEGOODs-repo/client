@@ -78,7 +78,6 @@ function SearchResultComponent() {
                             <h1>'{q}'에 대한 검색결과</h1>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 {`${searchResult.length}개의 판매상품`}
-                                <SelectOptionComponent />
                             </div>
                         </div>
                         <div style={{ width: "66%", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", justifyContent: "center" }}>

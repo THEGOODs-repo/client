@@ -161,7 +161,7 @@ function NavigationCategoryMenu() {
       <NavWrapContainer>
       <NavInnerContainer style={{marginLeft :"50px"}}>
       <NavItem>
-        <Label href="/posting">포스팅</Label>
+        <Label href="/posting">포스트</Label>
       </NavItem>
 
       </NavInnerContainer>

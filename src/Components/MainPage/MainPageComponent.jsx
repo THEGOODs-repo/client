@@ -200,12 +200,9 @@ function    MainPageComponent() {
       try {
         const responses = await Promise.all([
           axios.get("/api/item/today?page=1"),
-          axios.get("/api/item/today?page=1"),
           // axios.get('/api/similar/item?page=1'), /?이거 왜 안됨
-          axios.get("/api/item/topsale?page=1"),
-          axios.get("/api/item/steady?page=1"),
-          axios.get("/api/item/main?type=last&page=1"),
           axios.get("/api/item/main?type=popular&page=1"),
+          axios.get("/api/item/main?type=new&page=1"),
         ]);
 
         const dataLists = responses.map(

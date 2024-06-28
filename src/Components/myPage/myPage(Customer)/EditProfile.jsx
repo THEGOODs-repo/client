@@ -137,7 +137,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 717.75px;
-  height: 801.75px;
+  height: 950px;
   border: 2.475px solid rgba(0, 0, 0, 0.05);
 
   h1 {

@@ -14,26 +14,7 @@ function HeaderComponent() {
   const token = useSelector((state) => state.login.token);
   return (
     <>
-      <SubHeaderContainer>
-        <SubHeaderItemContainer>
-          {/* <img src="../img/" alt="bell" />
-                        알림 */}
-          <StyledLink to="/register">회원가입</StyledLink>
-          {token == null ? (
-            <StyledLink to="/login">로그인</StyledLink>
-          ) : (
-            <StyledLink
-              onClick={() => {
-                dispatch(setToken(null));
-                dispatch(setExpire(null));
-              }}
-            >
-              로그아웃
-            </StyledLink>
-          )}
-          <StyledLink>비회원 주문조회</StyledLink>
-        </SubHeaderItemContainer>
-      </SubHeaderContainer>
+
     </>
   );
 }

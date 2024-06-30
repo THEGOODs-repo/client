@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const HorizontalLine = styled.div`
     position : relative;
-    width : 88%;
-    height: 2px;
+    width : 100%;
+    height: 1px;
     background-color: #9C9C9C;
     margin-bottom : 6px;
 `;

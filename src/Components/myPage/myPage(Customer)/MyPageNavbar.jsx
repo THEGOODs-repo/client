@@ -33,7 +33,7 @@ export default function MyPageNavbar() {
         <LinkPage to="/mypage/ManageShippingRefund">
           <h2>배송 환불관리</h2>
         </LinkPage>
-        <LinkPage>
+        <LinkPage to="MyReview">
           <h2>내가 쓴 후기</h2>
         </LinkPage>
         <hr />
@@ -57,8 +57,11 @@ export default function MyPageNavbar() {
           <LinkPage>
           <h2>회사 인증</h2>
         </LinkPage>
-        <LinkPage>
+        <LinkPage to="sellerReview">
           <h2>내가 받은 후기</h2>
+        </LinkPage>
+          <LinkPage to="profitSeller">
+          <h2>수익 관리</h2>
         </LinkPage>
         <hr />
 
@@ -79,7 +82,7 @@ export default function MyPageNavbar() {
 
         <h1>도움 센터</h1>
 
-        <LinkPage>
+        <LinkPage to="/helpcenter">
           <h2>공지사항</h2>
         </LinkPage>
         <LinkPage>

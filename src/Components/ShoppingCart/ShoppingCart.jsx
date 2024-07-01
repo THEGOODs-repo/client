@@ -22,6 +22,7 @@ const ShoppingCart = ({ cartItems }) => {
 
   useEffect(() => {
     console.log("dispatch실행");
+    console.log(cartItems)
     dispatch(updateSelectedItems(selectedItems));
   }, [selectedItems]);
 

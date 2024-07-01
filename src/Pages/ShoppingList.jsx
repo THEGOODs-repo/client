@@ -10,6 +10,7 @@ import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCateg
 import BaseFooter from "../Components/Footer/BaseFooter";
 
 const ShoppingList = () => {
+  //var token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwibWVtYmVyUm9sZSI6IkJVWUVSIiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3MTk4NjE2NzR9.bvpCEZpSCZocVBTqN51IpVAY2t810M6RhaUJthSspvDxpB3azQ2ua7FS5zJRO29CmjG7RK2zwhwDbGpJrPCXXw";
   const token = useSelector((state) => state.login.token);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedItemCount, setSelectedItemCount] = useState(0);
@@ -17,6 +18,7 @@ const ShoppingList = () => {
   const selectedItems = useSelector((state) => state.selectedItems); // Redux store에서 selectedItems 가져오기
 
   const fetchData = async () => {
+    console.log("token : ",token)
     try {
       const header = {
         headers: {
@@ -28,8 +30,10 @@ const ShoppingList = () => {
         "https://dev.the-goods.store/api/cart",
         header,
       );
-      console.log(response);
-      setCartData(response.data.result.cartViewDTOList);
+      var datas = response.data.result.cartViewDTOList
+      console.log(datas);
+      setCartData(datas);
+      console.log(cartData)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -37,6 +41,8 @@ const ShoppingList = () => {
 
   useEffect(() => {
     fetchData();
+          console.log(cartData)
+
   }, []);
 
   const handleTotalPriceChange = (price, isChecked) => {

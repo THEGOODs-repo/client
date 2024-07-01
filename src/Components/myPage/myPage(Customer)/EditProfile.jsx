@@ -6,6 +6,7 @@ export default function EditProfile() {
   const fileInputBackground = useRef(null);
   const fileInputProfile = useRef(null);
   const [inputNickName, setInputNickName] = useState(0);
+  const [inputIntroduce,setInputIntroduce] = useState(0);
   const [uploadBackground, setUploadBackground] = useState("");
   const [uploadProfile, setUploadProfile] = useState("");
   const [editBtn, setEditBtn] = useState(false);
@@ -119,6 +120,17 @@ export default function EditProfile() {
         onChange={onInputNickNameHandler}
         maxLength="14"
         placeholder="닉네임을 입력해주세요."
+      />
+      <InputContainer>
+        <h2>자기소개</h2>
+        <h3>{inputIntroduce}/160</h3>
+      </InputContainer>
+      <InputName style={{height:"150px"}}
+        disabled={!editBtn}
+        type="text"
+        onChange={onInputNickNameHandler}
+        maxLength="14"
+        placeholder="자기소개를 작성해주세요."
       />
 
       {/* Btn */}

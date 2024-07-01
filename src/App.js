@@ -10,6 +10,9 @@ import NotificationSettings from "./Components/myPage/myPage(Customer)/Notificat
 import PasswordChange from "./Components/myPage/myPage(Customer)/PasswordChange";
 import MemberWithdrawal from "./Components/myPage/myPage(Customer)/MemberWithdrawal";
 import MyReview from "./Components/myPage/myPage(Customer)/MyReview";
+import ManagePurchaseOrderDetail from "./Components/myPage/myPage(Customer)/ManagePurchaseOrderDetail";
+import ProductTable from './Components/myPage/myPage(Customer)/ManageProduct';
+
 // 마이페이지(사장님)
 import MyPageSellerComponent from "./Pages/MyPageSeller";
 import SellerProfile from "./Components/myPage/myPage(Seller)/SellerProfile";
@@ -78,7 +81,7 @@ function App() {
             <Route path="/product/:id" element={<ProductPageComponent />} />
             <Route path="/posting" element={<Post />} />
 
-            {/* Seller 부분 */}
+            {/* Seller 부분
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
               <Route path="EditProfile" element={<EditProfileSeller />} />
               <Route path="SellerProfile" element={<SellerProfile />} />
@@ -89,10 +92,8 @@ function App() {
                 path="MemberWithdrawal"
                 element={<MemberWithdrawalSeller />}
               />
-              <Route path="MyReview" element={<MyReviewSeller />} />
-              <Route path="ProfitSeller" element={<ProfitSeller />} />
             </Route>
-            
+             */}
             <Route
               path="/category/create"
               element={<CategorySearchPage tag="create" />}
@@ -136,6 +137,11 @@ function App() {
               <Route path="PasswordChange" element={<PasswordChange />} />
               <Route path="MemberWithdrawal" element={<MemberWithdrawal />} />
               <Route path="MyReview" element={<MyReview />} />
+              <Route path="sellerReview" element={<MyReviewSeller />} />
+              <Route path="profitSeller" element={<ProfitSeller />} />
+              <Route path="orderDetail" element={<ManagePurchaseOrderDetail/>}/>
+              <Route path="manageProduct" element={<ProductTable/>}/>
+              
             </Route>
 
             <Route path="/seller" element={<Seller />} />
@@ -145,7 +151,7 @@ function App() {
               element={<NonCustomerOrder />}
             ></Route>
             {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
-            <Route path="/mypage" element={<MyPageCustomerComponent />}>
+            {/* <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route
                 path="/mypage/ManagePurchase/*"
@@ -167,7 +173,10 @@ function App() {
                 path="/mypage/MemberWithdrawal"
                 element={<MemberWithdrawal />}
               />
-            </Route>
+            </Route> */}
+
+
+
             <Route path="/login/*" element={<Login />} />
             <Route
               path="/api/members/kakao/callback"

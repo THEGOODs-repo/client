@@ -12,7 +12,6 @@ const PaymentContainer = styled.div`
   flex-direction: column;
   width: 100vw;
   min-height: 100vh;
-  background: rgba(249, 249, 249);
   overflow-y: auto;
 `;
 

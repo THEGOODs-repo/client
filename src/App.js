@@ -31,8 +31,6 @@ import Login from "./Pages/Login";
 import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
 import NaverLoginHandler from "./Components/Login/NaverLoginHandler";
 import Register from "./Pages/Register";
-import HelpCenter from "./Components/HelpCenter/HelpCenter";
-import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
 import ShoppingList from "./Pages/ShoppingList";
 //상품상세페이지
 import ProductPageComponent from "./Components/Product/ProductPageComponent";
@@ -49,6 +47,7 @@ import NewProductPage from "./Pages/NewProductPage";
 import CategorySearchPage from "./Pages/CategoryPage";
 import Like from "./Pages/Like";
 import TokenTrigger from "./Components/Login/TokenTrigger";
+import NoticeHelp from "./Pages/NoticeHelp";
 
 function App() {
   return (
@@ -182,9 +181,7 @@ function App() {
             <Route path="/register/*" element={<Register />} />
             <Route path="/shoppingList" element={<ShoppingList />} />
             <Route path="/guest/*" element={<Guest />} />
-            <Route path="/helpcenter" element={<HelpCenter />}>
-              <Route path="write" element={<HelpCenterWrite />} />
-            </Route>
+            <Route path="/help/*" element={<NoticeHelp />} />
             <Route path="/payment/*" element={<Payment />} />
             {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>

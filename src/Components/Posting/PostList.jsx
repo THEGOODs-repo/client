@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Post from "./PostContent";
+import PostContent from "./PostContent";
 import NewjeansProfile from "../../img/IMG_7787.PNG";
 import NewjeansImage from "../../img/IMG_7792.PNG";
 import IUProfile from "../../img/IMG_7790.PNG";
 import IUImage from "../../img/IMG_7791.PNG";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const PostBox = styled.div`
-  width: ${740 / 19.2}vw;
-  margin-top: -3vh;
-  margin-left: ${590 / 19.2}vw;
+  width: ${1150 / 19.2}vw;
+  margin: 0 auto;
+  column-count: 2; // 2열로 배치
+  column-gap: 10px; // 열 사이의 간격
 `;
 
-const PostList = () => {
-  // 포스트에 대한 가상의 데이터
-  const posts = [
+const PostItem = styled.div`
+  break-inside: avoid; // 아이템이 열 사이에서 분리되지 않도록 함
+  margin-bottom: 10px; // 아이템 사이의 간격
+  box-sizing: border-box; // 패딩과 보더를 포함하여 크기를 계산
+  width: 100%;
+`;
+
+const PostList = ({ posts = [] }) => {
+  /*const posts = [
     {
       userProfile: NewjeansProfile,
       userName: "뉴진스",
@@ -34,14 +43,28 @@ const PostList = () => {
       likeCount: 40,
       commentCount: 27,
     },
+    {
+      userProfile: IUProfile,
+      userName: "아이유애나",
+      postDate: "2일",
+      content: "아이유 도무송 스티커 판매 시작되었습니다!",
+      imageUrl: null,
+      likeCount: 40,
+      commentCount: 27,
+    },
     // 다른 포스트들...
-  ];
-
+  ];*/
   return (
     <PostBox>
-      {posts.map((post, index) => (
-        <Post key={index} {...post} />
-      ))}
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <PostItem key={post.id}>
+            <PostContent post={post} />
+          </PostItem>
+        ))
+      ) : (
+        <div>포스트가 없습니다.</div>
+      )}
     </PostBox>
   );
 };

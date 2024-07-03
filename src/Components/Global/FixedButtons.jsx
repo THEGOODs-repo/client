@@ -13,7 +13,7 @@ const FixedButtons = ({ isModalOpen, openModal }) => {
     <div
       style={{
         position: "fixed",
-        top: "50%",
+        top: "58.5%",
         right: "7vw",
         transform: "translateY(-50%)",
         textAlign: "center",

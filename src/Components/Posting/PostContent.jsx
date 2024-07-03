@@ -5,13 +5,13 @@ import heartFullImage from "../../img/Group_278.png";
 import commentImage from "../../img/Group_277_1.png";
 import ModalPost from "./ModalPost";
 import styled from "styled-components";
-
+import { createGlobalStyle } from "styled-components";
 const PostContent = ({
   userProfile,
-  userName,
+  nickname,
   postDate,
   content,
-  imageUrl,
+  images,
   likeCount,
   commentCount,
 }) => {
@@ -34,72 +34,85 @@ const PostContent = ({
   };
 
   return (
-    <PostContainer>
-      <PostHeader>
-        <Link to="/Seller">
-          <ProfilePicture src={userProfile} alt="프로필 사진" />
-        </Link>
-        <UserInfo>
-          <UserName>{userName}</UserName>
-          <PostDate> &nbsp;ㆍ {postDate} 전</PostDate>
-        </UserInfo>
-        <FollowButton>팔로우</FollowButton>
-      </PostHeader>
-      {imageUrl && (
-        <PostImage src={imageUrl} alt="포스트 이미지" onClick={openModal} />
-      )}
-      <PostContentText onClick={openModal}>{content}</PostContentText>
-      <PostFooter>
-        <LikeContainer onClick={toggleLike}>
-          <LikeIcon
-            src={liked ? heartFullImage : heartImage}
-            alt="하트"
-            className={liked ? "liked" : ""}
-          />
-          <LikeCount className={liked ? "liked" : ""}>
-            {likeCountState}
-          </LikeCount>
-        </LikeContainer>
-        <CommentContainer>
-          <CommentIcon src={commentImage} alt="댓글" />
-          <CommentCount>{commentCount}</CommentCount>
-        </CommentContainer>
-      </PostFooter>
-      <ModalPost
-        isOpen={isModalOpen}
-        closeModal={closeModal}
-        post={{
-          imageUrl,
-          userName,
-          content,
-          commentCount,
-          userProfile,
-          postDate,
-          likeCountState,
-        }}
-      />
-    </PostContainer>
+    <>
+      <GlobalStyle />
+      <PostContainer>
+        <PostHeader>
+          <Link to="/Seller">
+            <ProfilePicture src={userProfile} alt="프로필 사진" />
+          </Link>
+          <UserInfo>
+            <UserName>{nickname}</UserName>
+            <PostDate> &nbsp;ㆍ {postDate} 전</PostDate>
+          </UserInfo>
+          <FollowButton>팔로우</FollowButton>
+        </PostHeader>
+        {images && (
+          <PostImage src={images} alt="포스트 이미지" onClick={openModal} />
+        )}
+        <PostContentText onClick={openModal}>{content}</PostContentText>
+        <Divider />
+        <PostFooter>
+          <LikeContainer onClick={toggleLike}>
+            <LikeIcon
+              src={liked ? heartFullImage : heartImage}
+              alt="하트"
+              className={liked ? "liked" : ""}
+            />
+            <LikeCount className={liked ? "liked" : ""}>
+              {likeCountState}
+            </LikeCount>
+          </LikeContainer>
+          <CommentContainer>
+            <CommentIcon src={commentImage} alt="댓글" />
+            <CommentCount>{commentCount}</CommentCount>
+          </CommentContainer>
+        </PostFooter>
+        <ModalPost
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          post={{
+            images,
+            nickname,
+            content,
+            commentCount,
+            userProfile,
+            postDate,
+            likeCountState,
+          }}
+        />
+      </PostContainer>
+    </>
   );
 };
 
 export default PostContent;
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
 
+`;
 const PostContainer = styled.div`
-  border: 1px solid #ddd;
+  box-sizing: border-box;
+  width: ${569 / 19.2}vw;
+  background: #ffffff;
+  border: 1px solid rgba(156, 156, 156, 0.5);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: ${20 / 19.2}vw ${27 / 19.2}vw;
 `;
 
 const PostHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: ${20 / 19.2}vw;
 `;
 
 const ProfilePicture = styled.img`
   width: ${50 / 19.2}vw;
   height: ${50 / 19.2}vw;
   border-radius: 50%;
-  margin-left: ${37 / 19.2}vw;
   margin-right: 10px;
 `;
 
@@ -131,40 +144,50 @@ const PostDate = styled.p`
 `;
 
 const FollowButton = styled.button`
-  width: ${79 / 19.2}vw;
-  height: ${33 / 19.2}vw;
+  width: ${90 / 19.2}vw;
+  height: ${36 / 19.2}vw;
   background: #f0c920;
   border-radius: 20px;
   color: #fff;
   padding: 5px 10px;
   border: none;
   cursor: pointer;
-  margin-right: 1.5vw;
   font-size: ${14 / 19.2}vw;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
 `;
 
 const PostImage = styled.img`
-  margin-left: ${37 / 19.2}vw;
-  width: ${672 / 19.2}vw;
-  margin-top: 10px;
+  width: ${517 / 19.2}vw;
+  height: ${517 / 19.2}vw;
+  margin-top: 5px;
+  object-fit: cover;
 `;
 
 const PostContentText = styled.p`
-  margin-top: 10px;
-  margin-left: ${37 / 19.2}vw;
+  margin-top: 5px;
   width: ${672 / 19.2}vw;
   color: #202123;
   font-size: 16px;
   font-weight: 500;
   font-family: "Noto Sans";
+  width: ${517 / 19.2}vw;
+  font-style: normal;
+  font-size: ${16 / 19.2}vw;
+  color: #202123;
 `;
-
+const Divider = styled.div`
+  opacity: 0.8;
+  border: 0.5px solid #9c9c9c;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+  margin: 10px 0;
+`;
 const PostFooter = styled.div`
-  margin-left: ${37 / 19.2}vw;
-
   color: #888;
   display: flex;
-  margin-bottom: 1vw;
 `;
 
 const LikeContainer = styled.div`
@@ -182,7 +205,6 @@ const LikeIcon = styled.img`
 const LikeCount = styled.span`
   position: relative;
   top: -6px;
-  margin-bottom: 10px;
   padding: 3px;
   font-size: ${12 / 19.2}vw;
   font-weight: 500;
@@ -201,7 +223,6 @@ const CommentIcon = styled.img`
 const CommentCount = styled.span`
   position: relative;
   top: -6px;
-  margin-bottom: 10px;
   padding: 3px;
   font-size: ${12 / 19.2}vw;
   font-weight: 500;

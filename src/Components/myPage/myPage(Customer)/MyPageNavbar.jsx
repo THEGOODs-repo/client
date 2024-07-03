@@ -27,7 +27,7 @@ export default function MyPageNavbar() {
         </LinkPage>
         <hr />
         <h1>구매 관리</h1>
-        <LinkPage>
+        <LinkPage to="/mypage/ManagePurchase">
           <h2>주문 내역</h2>
         </LinkPage>
         <LinkPage to="/mypage/ManageShippingRefund">

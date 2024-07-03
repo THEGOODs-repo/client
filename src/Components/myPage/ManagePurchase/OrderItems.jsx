@@ -27,6 +27,9 @@ export default function OrderItems(data) {
   const handleButtonClick = (e) => {
     fileInput.current.click();
   };
+  const handleDetailButtonClick = (e) => {
+    fileInput.current.click();
+  };
 
   useEffect(() => {
     SetOrderDateTime(new Date(data.orderDateTime));
@@ -96,7 +99,11 @@ export default function OrderItems(data) {
           <ButtonEnquiry onClick={() => handleButtonClick}>
             문의하기
           </ButtonEnquiry>
+          <ButtonEnquiry onClick={() => handleDetailButtonClick}>
+            상세보기
+          </ButtonEnquiry>
         </PriceContainer>
+        
         {data.orderStatus === OrderStatusEnum.DEL_START && (
           <DeliveryContainer>
             <DeliveryButton>배송조회</DeliveryButton>

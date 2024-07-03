@@ -265,7 +265,7 @@ const handleLogout = async () => {
       </SearchWrapper>
       
       <IconWrapContainer>
-      <StyledLink to="/mine">
+      <StyledLink to="/mypage/EditProfile">
       <IconWrapper>
                         <img src={shop} alt="" style={IconStyle}/>
         <div>판매하기</div>

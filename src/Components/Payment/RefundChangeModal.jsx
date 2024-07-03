@@ -146,7 +146,7 @@ const RefundChangeModal = ({
 
   const fetchRefund = async () => {
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/account`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/mypage/account`;
       const requestBody = {
         owner: AccountHolder,
         bankName: RefundBank,

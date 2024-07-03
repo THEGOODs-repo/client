@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@emotion/styled": "^11.11.0",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^5.15.9",
     "@mui/material": "^5.15.10",
     "@mui/system": "^5.15.9",

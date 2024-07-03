@@ -10,6 +10,9 @@ import NotificationSettings from "./Components/myPage/myPage(Customer)/Notificat
 import PasswordChange from "./Components/myPage/myPage(Customer)/PasswordChange";
 import MemberWithdrawal from "./Components/myPage/myPage(Customer)/MemberWithdrawal";
 import MyReview from "./Components/myPage/myPage(Customer)/MyReview";
+import ManagePurchaseOrderDetail from "./Components/myPage/myPage(Customer)/ManagePurchaseOrderDetail";
+import ProductTable from './Components/myPage/myPage(Customer)/ManageProduct';
+
 // 마이페이지(사장님)
 import MyPageSellerComponent from "./Pages/MyPageSeller";
 import SellerProfile from "./Components/myPage/myPage(Seller)/SellerProfile";
@@ -24,7 +27,6 @@ import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 // 포스트
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
-import CreatePost from "./Pages/CreatePost";
 
 // 로그인
 import Login from "./Pages/Login";
@@ -45,7 +47,7 @@ import CategoryPage from "./Components/Category/CategoryComponent";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
-import NewProductPage from "./Pages/NewProductPage";
+import NewProductPage from './Pages/NewProductPage';
 import CategorySearchPage from "./Pages/CategoryPage";
 import Like from "./Pages/Like";
 import TokenTrigger from "./Components/Login/TokenTrigger";
@@ -59,11 +61,11 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
             <Route path="/newproduct" element={<NewProductPage type="new" />} />
-
+            
             <Route
               path="/popularproduct"
               element={<NewProductPage type="popular" />}
-            />
+            /> 
             <Route
               path="/endingproduct"
               element={<NewProductPage type="last" />}
@@ -78,9 +80,8 @@ function App() {
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
             <Route path="/posting" element={<Post />} />
-            <Route path="/CreatePost" element={<CreatePost />} />
 
-            {/* Seller 부분 */}
+            {/* Seller 부분
             <Route path="/mypageSeller" element={<MyPageSellerComponent />}>
               <Route path="EditProfile" element={<EditProfileSeller />} />
               <Route path="SellerProfile" element={<SellerProfile />} />
@@ -91,10 +92,8 @@ function App() {
                 path="MemberWithdrawal"
                 element={<MemberWithdrawalSeller />}
               />
-              <Route path="MyReview" element={<MyReviewSeller />} />
-              <Route path="ProfitSeller" element={<ProfitSeller />} />
             </Route>
-
+             */}
             <Route
               path="/category/create"
               element={<CategorySearchPage tag="create" />}
@@ -138,6 +137,11 @@ function App() {
               <Route path="PasswordChange" element={<PasswordChange />} />
               <Route path="MemberWithdrawal" element={<MemberWithdrawal />} />
               <Route path="MyReview" element={<MyReview />} />
+              <Route path="sellerReview" element={<MyReviewSeller />} />
+              <Route path="profitSeller" element={<ProfitSeller />} />
+              <Route path="orderDetail" element={<ManagePurchaseOrderDetail/>}/>
+              <Route path="manageProduct" element={<ProductTable/>}/>
+              
             </Route>
 
             <Route path="/seller" element={<Seller />} />
@@ -147,7 +151,7 @@ function App() {
               element={<NonCustomerOrder />}
             ></Route>
             {/* <Route path="/mypage" element={<MyPageComponent />}/> */}
-            <Route path="/mypage" element={<MyPageCustomerComponent />}>
+            {/* <Route path="/mypage" element={<MyPageCustomerComponent />}>
               <Route path="/mypage/EditProfile" element={<EditProfile />} />
               <Route
                 path="/mypage/ManagePurchase/*"
@@ -169,7 +173,10 @@ function App() {
                 path="/mypage/MemberWithdrawal"
                 element={<MemberWithdrawal />}
               />
-            </Route>
+            </Route> */}
+
+
+
             <Route path="/login/*" element={<Login />} />
             <Route
               path="/api/members/kakao/callback"

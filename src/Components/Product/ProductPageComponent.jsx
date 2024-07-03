@@ -292,6 +292,50 @@ function ProductPageComponent() {
         setSelectedOption(option);
         setShowOptions(false);
     };
+ const handleCart = () => {
+                // 로컬 스토리지에서 'persist:login' 키의 값을 가져옵니다.
+        const persistLogin = localStorage.getItem('persist:login');
+        
+        if (!persistLogin) {
+        console.error('No persist:login data found in local storage.');
+        return;
+        }
+
+        // JSON 파싱하여 token 값을 추출합니다.
+        const parsedData = JSON.parse(persistLogin);
+        const jwt = JSON.parse(parsedData.token);
+        
+        console.log(jwt)
+        const cartOptionAddDTOList = item.optionList.map(option => ({
+            itemOptionId: option.itemOptionId,
+            amount: 1
+        }));
+    
+        // 장바구니 DTO
+        const cartDto = {
+            itemId: item.itemId,
+            amount: cartOptionAddDTOList.length,
+            cartOptionAddDTOList: cartOptionAddDTOList
+        };
+        axios.post('/api/cart', cartDto, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        .then(response => {
+            console.log('Cart request successful', response);
+            alert("장바구니에 추가되었습니다")
+        })
+        .catch(error => {
+            console.log(cartDto)
+            console.error('Error adding to cart:', error);
+            // 장바구니 추가 중에 발생한 오류 처리
+        });
+
+
+    }   
+
+
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -426,7 +470,7 @@ function ProductPageComponent() {
         </OptionContainer>
                             {/* 장바구니 및 구매하기 버튼 */}
                             <ButtonContainer>
-                                <Button border="black" background="white">장바구니</Button>
+                                <Button border="black" background="white" onClick={handleCart}>장바구니</Button>
                             </ButtonContainer>
                             <ButtonContainer>
                                 <Button background="yellow" color="white" border="transparent">구매하기</Button>

@@ -27,6 +27,10 @@ import Seller from "./Pages/Seller";
 import CreatePost from "./Pages/CreatePost";
 import PostDetail from "./Pages/PostDetail";
 
+//운영자
+import SystemPage from "./Pages/SystemPage";
+import SystemNickname from "./Components/SystemPage/SystemNickname";
+
 // 로그인
 import Login from "./Pages/Login";
 import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
@@ -189,6 +193,13 @@ function App() {
               <Route path="write" element={<HelpCenterWrite />} />
             </Route>
             <Route path="/payment/*" element={<Payment />} />
+
+            <Route path="/systemPage" element={<SystemPage />}>
+              <Route
+                path="/systemPage/editNickname"
+                element={<SystemNickname />}
+              />
+            </Route>
             {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>
         </div>

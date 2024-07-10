@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Comment from "../Components/Posting/Comment";
 import CommentInput from "../Components/Posting/CommentInput";
+import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
+import HeaderComponent from "../Components/Header/Header";
+import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
+import BaseFooter from "../Components/Footer/BaseFooter";
+
 import heartImage from "../img/heart.svg";
 import heartFullImage from "../img/Group_278.png";
 import commentImage from "../img/chat.svg";
@@ -45,46 +50,72 @@ const PostDetail = () => {
   };
 
   return (
-    <PageContainer>
-      <UserInfo>
-        <ProfilePicture src={IUImage} alt="프로필 사진" />
-        <UserInfoContent>
-          <UserName>안녕&nbsp;ㆍ</UserName>
-          <PostDate>6개월 전</PostDate>
-          <FollowButton>팔로우</FollowButton>
-        </UserInfoContent>
-      </UserInfo>
-      <PostImage src={IUProfile} alt="포스트 이미지" />
+    <>
+      <HeaderComponent />
+      <NavWrapContainer>
+        <NavigationMenu />
+        <div
+          style={{
+            borderBottom: "1px solid #9C9C9C",
+            width: "100%",
+            height: "3px",
+          }}
+        ></div>
+        <NavigationCategoryMenu />
+        <div
+          style={{
+            borderBottom: "1px solid #9C9C9C",
+            width: "100%",
+            height: "3px",
+          }}
+        ></div>
+      </NavWrapContainer>
+      <PageContainer>
+        <UserInfo>
+          <ProfilePicture src={IUImage} alt="프로필 사진" />
+          <UserInfoContent>
+            <UserName>안녕&nbsp;ㆍ</UserName>
+            <PostDate>6개월 전</PostDate>
+            <FollowButton>팔로우</FollowButton>
+          </UserInfoContent>
+        </UserInfo>
+        <PostImage src={IUProfile} alt="포스트 이미지" />
 
-      <PostContentText>
-        아이유 도무송 스티커 판매 시작되었습니다!
-      </PostContentText>
-      <Actions>
-        <LikeContainer onClick={toggleLike}>
-          <ImgSize
-            src={liked ? heartFullImage : heartImage}
-            alt="하트"
-            className={liked ? "liked" : ""}
-          />
-          <CountText>99</CountText>
-        </LikeContainer>
-        <CommentContainer>
-          <ImgSize src={commentImage} alt="댓글" />
-          <CountText>99</CountText>
-        </CommentContainer>
-      </Actions>
-      <Separator />
+        <PostContentText>
+          아이유 도무송 스티커 판매 시작되었습니다!
+        </PostContentText>
+        <Actions>
+          <LikeContainer onClick={toggleLike}>
+            <ImgSize
+              src={liked ? heartFullImage : heartImage}
+              alt="하트"
+              className={liked ? "liked" : ""}
+            />
+            <CountText>99</CountText>
+          </LikeContainer>
+          <CommentContainer>
+            <ImgSize src={commentImage} alt="댓글" />
+            <CountText>99</CountText>
+          </CommentContainer>
+        </Actions>
+        <Separator />
 
-      <CommentList>
-        {comments.map((comment, index) => (
-          <Comment key={index} comment={comment} style={{ marginTop: "1vw" }} />
-        ))}
-      </CommentList>
+        <CommentList>
+          {comments.map((comment, index) => (
+            <Comment
+              key={index}
+              comment={comment}
+              style={{ marginTop: "1vw" }}
+            />
+          ))}
+        </CommentList>
 
-      <CommentInputContainer>
-        <CommentInput onSubmit={addComment} />
-      </CommentInputContainer>
-    </PageContainer>
+        <CommentInputContainer>
+          <CommentInput onSubmit={addComment} />
+        </CommentInputContainer>
+      </PageContainer>
+      <BaseFooter />
+    </>
   );
 };
 
@@ -92,7 +123,7 @@ export default PostDetail;
 
 const PageContainer = styled.div`
   box-sizing: border-box;
-  margin: 5px auto;
+  margin: 30px auto;
   width: ${740 / 19.2}vw;
   padding: ${30 / 19.2}vw;
   background: #ffffff;
@@ -178,7 +209,6 @@ const CommentList = styled.div`
 
 const CommentInputContainer = styled.div`
   position: relative;
-  left: 1vw;
 `;
 
 const Actions = styled.div`
@@ -216,4 +246,16 @@ const CountText = styled.div`
   text-align: center;
 
   color: #52555b;
+`;
+const NavWrapContainer = styled.div`
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+const Background = styled.div`
+  background-color: #f9f9f9;
+  height: 100%;
 `;

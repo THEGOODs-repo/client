@@ -31,6 +31,7 @@ import PostDetail from "./Pages/PostDetail";
 import SystemPage from "./Pages/SystemPage";
 import SystemNickname from "./Components/SystemPage/SystemNickname";
 import PostManage from "./Components/SystemPage/PostManage";
+import PostRegister from "./Components/SystemPage/PostRegister";
 
 // 로그인
 import Login from "./Pages/Login";
@@ -201,6 +202,10 @@ function App() {
                 element={<SystemNickname />}
               />
               <Route path="/systemPage/postManage/*" element={<PostManage />} />
+              <Route
+                path="/systemPage/postRegister/*"
+                element={<PostRegister />}
+              />
             </Route>
             {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>

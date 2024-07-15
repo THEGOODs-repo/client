@@ -32,6 +32,7 @@ export default function SystemNavbar() {
         <LinkPage to="/systemPage/postRegister">
           <h2>게시물 등록</h2>
         </LinkPage>
+        <hr />
       </ListContainer>
     </NavbarContainer>
   );

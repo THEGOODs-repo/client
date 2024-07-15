@@ -45,22 +45,23 @@ const MainContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  align-items: center;
-  width: 870px;
+  padding: 10px 30px;
+  width: ${870 / 19.2}vw;
   height: 950px;
   border: 2.475px solid rgba(0, 0, 0, 0.05);
 `;
 const InputContainer = styled.div`
   display: flex;
-  width: 655.05px;
+  width: ${655 / 19.2}vw;
   justify-content: space-between;
 
   h2 {
-    height: 18.975px;
-    color: #52555b;
-    font-size: 13.2px;
-    font-weight: medium;
-    margin-top: 3.4vh;
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: ${26 / 19.2}vw;
+    line-height: ${35 / 19.2}vw;
+    color: #202123;
   }
 
   h3 {
@@ -78,7 +79,7 @@ const InputContainer = styled.div`
 `;
 
 const InputName = styled.input`
-  width: 643.5px;
+  width: ${640 / 19.2}vw;
   height: 49.5px;
   padding-left: 12.375px;
   border: 1px solid rgba(156, 156, 156, 0.8);

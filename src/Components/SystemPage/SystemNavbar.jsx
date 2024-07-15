@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import HamsterImage from "../../img/Hamster.png";
 
-export default function MyPageNavbar() {
+export default function SystemNavbar() {
   return (
     <NavbarContainer>
       <ProfileContainer>
@@ -11,7 +11,7 @@ export default function MyPageNavbar() {
             background: `url(${HamsterImage}) center/cover`,
           }}
         />
-        <h1>햄스터</h1>
+        <h1>운영자</h1>
       </ProfileContainer>
 
       <ListContainer>
@@ -26,10 +26,10 @@ export default function MyPageNavbar() {
         </LinkPage>
         <hr />
         <h1>게시판</h1>
-        <LinkPage to="/mypage/ManageShippingRefund">
+        <LinkPage to="/systemPage/postManage">
           <h2>게시판 관리</h2>
         </LinkPage>
-        <LinkPage to="/mypage/ManageShippingRefund">
+        <LinkPage to="/systemPage/postRegister">
           <h2>게시물 등록</h2>
         </LinkPage>
       </ListContainer>
@@ -101,26 +101,6 @@ export const Img2 = styled.div`
   width: 14.85px;
   height: 12.375px;
   margin: 0;
-`;
-
-export const SwitchBtn = styled(NavLink)`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 148.5px;
-  height: 33px;
-  text-decoration: none;
-  background-color: #ffffff;
-  border: 1px solid rgba(156, 156, 156, 0.5);
-  border-radius: 16.5px;
-
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11.55px;
-  line-height: 13.2px;
-  color: #202123;
 `;
 
 export const ListContainer = styled.div`

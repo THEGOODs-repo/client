@@ -30,6 +30,7 @@ import PostDetail from "./Pages/PostDetail";
 //운영자
 import SystemPage from "./Pages/SystemPage";
 import SystemNickname from "./Components/SystemPage/SystemNickname";
+import PostManage from "./Components/SystemPage/PostManage";
 
 // 로그인
 import Login from "./Pages/Login";
@@ -196,9 +197,10 @@ function App() {
 
             <Route path="/systemPage" element={<SystemPage />}>
               <Route
-                path="/systemPage/editNickname"
+                path="/systemPage/editNickname/*"
                 element={<SystemNickname />}
               />
+              <Route path="/systemPage/postManage/*" element={<PostManage />} />
             </Route>
             {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>

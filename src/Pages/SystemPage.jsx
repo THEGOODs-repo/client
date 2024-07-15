@@ -60,7 +60,7 @@ const PageContainer = styled.div`
 
 const MyPageContainer = styled.div`
   display: flex;
-  width: 1200px;
+  width: ${1200 / 19.2}vw;
   height: 950px;
   margin: 30px auto;
   background: #fefdfd;

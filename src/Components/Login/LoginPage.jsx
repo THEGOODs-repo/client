@@ -165,7 +165,9 @@ const LoginPage = () => {
   }, [Password, DeActive]);
 
   useEffect(() => {
-    alreadyUser !== null && navigate("/", { replace: true });
+    if (alreadyUser !== null) {
+  document.location.href = "/";
+}
     if (localStorage.getItem("KeepEmail") !== null) {
       SetEmailSave(true);
       SetEmail(localStorage.getItem("KeepEmail"));

@@ -203,7 +203,7 @@ const DeliveryAddressModal = ({
 
   const fetchAddress = async () => {
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/address`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/mypage/address`;
       const requestBody = {
         addressName: AddressNickName,
         addressSpec: [Address, DetailAddress].join(" "),

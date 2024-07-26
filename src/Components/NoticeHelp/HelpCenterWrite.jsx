@@ -39,7 +39,7 @@ const TableWrapper = styled.table`
   margin: ${14 / 19.2}vw 0 ${30 / 19.2}vw 0;
 `;
 
-const TableHead = styled.thead`
+/* const TableHead = styled.thead`
   background: rgba(243, 243, 243);
   text-align: center;
   color: rgba(32, 33, 35);
@@ -80,7 +80,7 @@ const TableBody = styled.tbody`
 
   & > tr + tr {
   }
-`;
+`; */
 
 const ContentHead = styled.thead`
   background: rgba(243, 243, 243);

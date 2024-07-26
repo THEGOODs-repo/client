@@ -440,7 +440,7 @@ const HandleOptionItems = ({
         </>
       );
   } catch (error) {
-    navigate("/", { replace: true });
+    // navigate("/", { replace: true });
   }
 };
 
@@ -500,7 +500,8 @@ const Payment = () => {
       merchant_uid: new Date().getTime(), // 주문번호    name: "나이키 와플 트레이너 2 SD",
       pay_method: "card",
       name: "TheGOODs",
-      amount: TotalItemPrice + TotalDeliveryFee,
+      //amount: TotalItemPrice + TotalDeliveryFee,
+      amount: 1000,
       buyer_email: "test@portone.io",
       buyer_name: "TheGOODs",
       buyer_tel: "010-8974-4831", //필수 파라미터 입니다.
@@ -523,7 +524,7 @@ const Payment = () => {
 
   const getProfileData = async () => {
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/profile`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/mypage/profile`;
 
       const response = await axios.get(endpoint, {
         headers: {

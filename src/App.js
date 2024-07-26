@@ -25,6 +25,16 @@ import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
 import Post from "./Pages/Post";
 import Seller from "./Pages/Seller";
 import CreatePost from "./Pages/CreatePost";
+import PostDetail from "./Pages/PostDetail";
+
+//기본 배너
+import BannerPage from "./Pages/BannerPage";
+
+//운영자
+import SystemPage from "./Pages/SystemPage";
+import SystemNickname from "./Components/SystemPage/SystemNickname";
+import PostManage from "./Components/SystemPage/PostManage";
+import PostRegister from "./Components/SystemPage/PostRegister";
 
 // 로그인
 import Login from "./Pages/Login";
@@ -78,6 +88,8 @@ function App() {
             {/* <Route path="/*" element={<Post />} /> */}
             <Route path="/product/:id" element={<ProductPageComponent />} />
             <Route path="/posting" element={<Post />} />
+            <Route path="/posting/:id" element={<PostDetail />} />
+
             <Route path="/CreatePost" element={<CreatePost />} />
 
             {/* Seller 부분 */}
@@ -186,6 +198,20 @@ function App() {
               <Route path="write" element={<HelpCenterWrite />} />
             </Route>
             <Route path="/payment/*" element={<Payment />} />
+
+            <Route path="/systemPage" element={<SystemPage />}>
+              <Route
+                path="/systemPage/editNickname/*"
+                element={<SystemNickname />}
+              />
+              <Route path="/systemPage/postManage/*" element={<PostManage />} />
+              <Route
+                path="/systemPage/postRegister/*"
+                element={<PostRegister />}
+              />
+            </Route>
+
+            <Route path="BannerPage" element={<BannerPage />} />
             {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>
         </div>

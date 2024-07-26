@@ -6,31 +6,13 @@ import commentImage from "../../img/Group_277_1.png";
 import ModalPost from "./ModalPost";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
-const PostContent = ({
-  userProfile,
-  nickname,
-  postDate,
-  content,
-  images,
-  likeCount,
-  commentCount,
-}) => {
+const PostContent = ({ post }) => {
   const [liked, setLiked] = useState(false);
-  const [likeCountState, setLikeCount] = useState(likeCount);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [likeCountState, setLikeCount] = useState(post.likeCount);
 
   const toggleLike = () => {
     setLiked(!liked);
     setLikeCount(liked ? likeCountState - 1 : likeCountState + 1);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-    console.log("Opening modal");
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -38,19 +20,19 @@ const PostContent = ({
       <GlobalStyle />
       <PostContainer>
         <PostHeader>
-          <Link to="/Seller">
-            <ProfilePicture src={userProfile} alt="프로필 사진" />
-          </Link>
+          <StyledLink to="/Seller">
+            <ProfilePicture src={post.userProfile} alt="프로필 사진" />
+          </StyledLink>
           <UserInfo>
-            <UserName>{nickname}</UserName>
-            <PostDate> &nbsp;ㆍ {postDate} 전</PostDate>
+            <UserName>{post.nickname}</UserName>
+            <PostDate> &nbsp;ㆍ {post.postDate} 전</PostDate>
           </UserInfo>
           <FollowButton>팔로우</FollowButton>
         </PostHeader>
-        {images && (
-          <PostImage src={images} alt="포스트 이미지" onClick={openModal} />
-        )}
-        <PostContentText onClick={openModal}>{content}</PostContentText>
+        <StyledLink to={`/posting/${post.id}`}>
+          {post.images && <PostImage src={post.images} alt="포스트 이미지" />}
+          <PostContentText>{post.content}</PostContentText>
+        </StyledLink>
         <Divider />
         <PostFooter>
           <LikeContainer onClick={toggleLike}>
@@ -65,22 +47,9 @@ const PostContent = ({
           </LikeContainer>
           <CommentContainer>
             <CommentIcon src={commentImage} alt="댓글" />
-            <CommentCount>{commentCount}</CommentCount>
+            <CommentCount>{post.commentCount}</CommentCount>
           </CommentContainer>
         </PostFooter>
-        <ModalPost
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          post={{
-            images,
-            nickname,
-            content,
-            commentCount,
-            userProfile,
-            postDate,
-            likeCountState,
-          }}
-        />
       </PostContainer>
     </>
   );
@@ -227,4 +196,8 @@ const CommentCount = styled.span`
   font-size: ${12 / 19.2}vw;
   font-weight: 500;
   font-family: "Noto Sans";
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none; // Remove underline
+  color: inherit; // Inherit color from parent
 `;

@@ -28,7 +28,7 @@ const CommentInput = ({ onSubmit }) => {
         value={inputValue}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
-        placeholder=" 댓글 달기..."
+        placeholder=" 댓글을 입력해주세요."
       />
       <StyledButton onClick={handleSubmit}>게시</StyledButton>
     </CommentInputContainer>
@@ -39,32 +39,55 @@ export default CommentInput;
 
 const CommentInputContainer = styled.div`
   position: relative;
+  box-sizing: border-box;
+  margin: 20px 0 0 0;
+  width: ${680 / 19.2}vw;
+  min-height: ${46 / 19.2}vw;
+  text-indent: 0.5vw;
+  border: none;
+  padding: 0.5px;
+
+  background: rgba(217, 217, 217, 0.4);
+  opacity: 0.8;
+  border-radius: 30px;
   display: flex;
-  bottom: 0;
-  left: 0;
-  width: ${600 / 19.2}vw;
+  align-items: center;
 `;
 
-const StyledTextarea = styled.textarea`
+const StyledTextarea = styled.input`
+  width: ${550 / 19.2}vw;
+  height: 100%;
+  margin: 0 ${20 / 19.2}vw;
+  background-color: transparent;
+  border: none;
+  outline: none;
+
   color: #52555b;
   font-weight: 400;
   font-family: "Noto Sans";
-  font-size: ${16 / 19.2}vw;
-  width: ${420 / 19.2}vw;
-  height: ${60 / 19.2}vw;
-  text-indent: 0.5vw;
-  padding-top: 0.8vw;
-  border: none;
+  font-size: ${14 / 19.2}vw;
+  font-style: normal;
+  line-height: ${19 / 19.2}vw;
 `;
 
 const StyledButton = styled.button`
+  position: absolute;
   width: ${80 / 19.2}vw;
-  height: ${80 / 19.2}vw;
-  background: transparent;
-  color: #307cf7;
-  font-weight: 700;
-  font-family: "Noto Sans";
-  font-size: ${16 / 19.2}vw;
+  height: ${38 / 19.2}vw;
+  right: ${10 / 19.2}vw;
   border: none;
   padding: 0 0.5vw;
+
+  background: #d9d9d9;
+  opacity: 0.8;
+  box-shadow: 0px 0px 1.5px 0.5px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #52555b;
 `;

@@ -27,6 +27,9 @@ import Seller from "./Pages/Seller";
 import CreatePost from "./Pages/CreatePost";
 import PostDetail from "./Pages/PostDetail";
 
+//기본 배너
+import BannerPage from "./Pages/BannerPage";
+
 //운영자
 import SystemPage from "./Pages/SystemPage";
 import SystemNickname from "./Components/SystemPage/SystemNickname";
@@ -207,6 +210,8 @@ function App() {
                 element={<PostRegister />}
               />
             </Route>
+
+            <Route path="BannerPage" element={<BannerPage />} />
             {/* <Route path="/mine" element={<Like />} /> */}
           </Routes>
         </div>

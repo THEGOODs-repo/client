@@ -6,6 +6,7 @@ import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
 import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
 import BaseFooter from "../Components/Footer/BaseFooter";
+import { Link } from "react-router-dom";
 
 import heartImage from "../img/heart.svg";
 import heartFullImage from "../img/Group_278.png";
@@ -72,7 +73,9 @@ const PostDetail = () => {
       </NavWrapContainer>
       <PageContainer>
         <UserInfo>
-          <ProfilePicture src={IUImage} alt="프로필 사진" />
+          <StyledLink to="/Seller">
+            <ProfilePicture src={IUImage} alt="프로필 사진" />
+          </StyledLink>
           <UserInfoContent>
             <UserName>안녕&nbsp;ㆍ</UserName>
             <PostDate>6개월 전</PostDate>
@@ -258,4 +261,8 @@ const NavWrapContainer = styled.div`
 const Background = styled.div`
   background-color: #f9f9f9;
   height: 100%;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none; // Remove underline
+  color: inherit; // Inherit color from parent
 `;

@@ -51,9 +51,20 @@ const MainContainer = styled.div`
     line-height: ${35 / 19.2}vw;
     color: #202123;
   }
+  h3 {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: ${20 / 19.2}vw;
+    line-height: ${30 / 19.2}vw;
+    color: #202123;
+  }
 `;
 const Select = styled.select`
   padding: 0 5px;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
   font-size: 16px;
   border: 2.475px solid rgba(0, 0, 0, 0.05);
   border-radius: 5px;
@@ -62,18 +73,23 @@ const Select = styled.select`
 
 const Option = styled.option``;
 const Title = styled.input`
-  padding: 0 5px;
+  font-family: "Noto Sans";
+  font-style: normal;
+  padding: 0 10px;
   font-size: 16px;
   border: 2.475px solid rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   height: ${50 / 19.2}vw;
 `;
 const Content = styled.textarea`
+  font-family: "Noto Sans";
+  font-style: normal;
   padding: 0 5px;
   font-size: 16px;
   border: 2.475px solid rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   height: ${300 / 19.2}vw;
+  padding: 10px;
 `;
 const RegisterButton = styled.button`
   margin-top: 30px;

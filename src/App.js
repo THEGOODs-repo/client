@@ -12,6 +12,11 @@ import MemberWithdrawal from "./Components/myPage/myPage(Customer)/MemberWithdra
 import MyReview from "./Components/myPage/myPage(Customer)/MyReview";
 import ManagePurchaseOrderDetail from "./Components/myPage/myPage(Customer)/ManagePurchaseOrderDetail";
 import ProductTable from './Components/myPage/myPage(Customer)/ManageProduct';
+import ManageSeller from "./Components/myPage/myPage(Customer)/ManageSeller";
+import ManageOrderUser from './Components/myPage/myPage(Customer)/ManageOrderUser';
+import SellerProductDetailPage from './Components/myPage/myPage(Customer)/SellerProductDetailPage';
+import EnrollCorperationPage from './Components/myPage/myPage(Customer)/EnrollCorperationPage';
+import ProductEnroll from './Components/myPage/myPage(Customer)/ProductEnrollPage';
 
 // 마이페이지(사장님)
 import MyPageSellerComponent from "./Pages/MyPageSeller";
@@ -23,6 +28,7 @@ import PasswordChangeSeller from "./Components/myPage/myPage(Seller)/PasswordCha
 import MemberWithdrawalSeller from "./Components/myPage/myPage(Seller)/MemberWithdrawalSeller";
 import MyReviewSeller from "./Components/myPage/myPage(Seller)/MyReviewSeller";
 import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
+
 
 // 포스트
 import Post from "./Pages/Post";
@@ -156,7 +162,11 @@ function App() {
               <Route path="profitSeller" element={<ProfitSeller />} />
               <Route path="orderDetail" element={<ManagePurchaseOrderDetail/>}/>
               <Route path="manageProduct" element={<ProductTable/>}/>
-              
+              <Route path="ManageSeller" element={<ManageSeller/>}/>
+              <Route path="manageOrderUser" element={<ManageOrderUser/>}/>
+              <Route path="sellerProductDetail" element={<SellerProductDetailPage/>}/>
+              <Route path="enrollcorporate" element={<EnrollCorperationPage/>}/>
+              <Route path="productEnroll" element={<ProductEnroll/>}/>
             </Route>
 
             <Route path="/seller" element={<Seller />} />

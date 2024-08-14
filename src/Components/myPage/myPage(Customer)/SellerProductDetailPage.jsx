@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ManagePurchase/ConfirmModal";
 import CancelModal from "./CancelModal";
 
-
+import './SellerProductDetailPage.css';
 const OrderDetailsContainer = styled.div`
   padding: 20px;
   width: 870px;
@@ -333,45 +333,75 @@ const StepCounter = styled.div`
   background: black;
   margin-bottom: 6px;
   color: white;
-`;
+`; 
 
-const StepName = styled.div``;
+const PageMoveContainer = styled.div`
+  display : flex;
+  justify-content : space-between;
+  width : 380px;
 
-const ManagePurchaseOrderDetail = () => {
+    h2 {
+    position: relative; /* Necessary to position the pseudo-element */
+  }
+    h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #F0C920;
+ 
+  }
+
+  h2:hover::after {
+    width: 100%;
+  }
+`
+
+const SellerProductDetailPage = () => {
   const [showModal,setShowModal] = useState(false);
 
   const handleOpenCancelModal = () =>{
     setShowModal(true);
   }
   
-  const handleCloseCancelModal = () =>{
-    setShowModal(false);
+  const handleButtonClick = () =>{
+
   }
-  const handleConfirmCancelModal = ()=> {
-    alert("주문이 취소되었습니다.");
-    setShowModal(false);
-  }
+  const product = {
+    name: "케이스 종이 스티커",
+    price: 40000,
+    shipping: 3000,
+    status: "상시판매",
+    imageUrl: "/path-to-your-image.png" // Replace with the actual path
+  };
+
+  const salesData = [
+    {
+      id: 1,
+      title: "케이스",
+      option: "-",
+      price: 40000,
+      totalSales: "999개",
+      totalRevenue: 40000000,
+      stock: 999,
+    },
+    {
+      id: 2,
+      title: "케이스",
+      option: "옵션명",
+      price: 40000,
+      totalSales: "999개",
+      totalRevenue: 40000000,
+      stock: 999,
+    },
+  ];
   
 
-    const handleButtonClick = (e) => {
-  };
-
-  const handleDetailButtonClick = () => {
-  };
-
   return (
-    <OrderDetailsContainer>
-      <SectionTitle>주문 내역 상세</SectionTitle>
-      <SummaryContainer>
-        <SummaryItem>
-          <span>입금처 농협은행 12345678910 더*즈</span>
-        </SummaryItem>
-        <SummaryItem>
-          <span>입금 금액 43,000원</span>
-        </SummaryItem>
-      </SummaryContainer>
-      
-      <SubContainer>
+    <div className="product-page">
+<SubContainer>
         <ImgContainer
           style={{
             background: `url('https://thegoods-dev.s3.ap-northeast-2.amazonaws.com/item/e1a0b038-1227-4b4c-8293-4013faf5f59b') center/cover`,
@@ -391,164 +421,44 @@ const ManagePurchaseOrderDetail = () => {
         </PriceContainer>
         
       </SubContainer>
-
-    <StepperWrapper>
-      <StepperItem className="completed" >
-        <StepCounter>
-✓
-
-        </StepCounter>
-        <StepName>결제전</StepName>
-      </StepperItem>
-      <StepperItem className="completed">
-        <StepCounter>
-
-✓
-        </StepCounter>
-        <StepName>결제완료</StepName>
-      </StepperItem>
-      <StepperItem className="completed">
-        <StepCounter>
-
-✓
-        </StepCounter>
-        <StepName>배송준비</StepName>
-      </StepperItem>
-      <StepperItem className="active">
-        <StepCounter>
-            ✓
-        </StepCounter>
-        <StepName>배송시작</StepName>
-      </StepperItem>
-      <StepperItem>
-        <StepCounter>✓
-        </StepCounter>
-        <StepName>배송완료</StepName>
-      </StepperItem>
-    </StepperWrapper>
-
-      <Section>
-        <h2>주문자 정보</h2>
-        <SectionItem>
-          <span>주문자명</span>
-          <span>홍길동</span>
-        </SectionItem>
-        <SectionItem>
-          <span>전화번호</span>
-          <span>010-1234-5678</span>
-        </SectionItem>
-        <SectionItem>
-          <span>주문자 이메일</span>
-          <span>thegoods@gmail.com</span>
-        </SectionItem>
-      </Section>
-
-      <Section>
-        <h2>주문 정보</h2>
-        <SectionItem>
-          <span>상품명</span>
-          <span>케이스 스티커 (10,000원)</span>
-        </SectionItem>
-        <SectionItem>
-          <span>수량</span>
-          <span>1개</span>
-        </SectionItem>
-        <SectionItem>
-          <span>상품 가격</span>
-          <span>10,000원</span>
-        </SectionItem>
-        <SectionItem>
-          <span>배송비</span>
-          <span>3,000원</span>
-        </SectionItem>
-        <SectionItem>
-          <span>쿠폰 할인</span>
-          <span>0원</span>
-        </SectionItem>
-        <SectionItem>
-          <span>총 주문 금액</span>
-          <span>13,000원</span>
-        </SectionItem>
-      </Section>
-
-      <Section>
-        <h2>나의 입금 정보</h2>
-        <SectionItem>
-          <span>입금자명</span>
-          <span>홍길동</span>
-        </SectionItem>
-        <SectionItem>
-          <span>입금액</span>
-          <span>13,000원</span>
-        </SectionItem>
-        <SectionItem>
-          <span>입금 날짜</span>
-          <span>2024-01-01</span>
-        </SectionItem>
-      </Section>
-
-      <Section>
-        <h2>배송 정보</h2>
-        <SectionItem>
-          <span>배송지</span>
-          <span>대조국</span>
-        </SectionItem>
-        <SectionItem>
-          <span>배송 상태</span>
-          <span>배송 완료</span>
-        </SectionItem>
-        <SectionItem>
-          <span>수취인</span>
-          <span>홍길동</span>
-        </SectionItem>
-        <SectionItem>
-          <span>연락처</span>
-          <span>010-1234-5678</span>
-        </SectionItem>
-        <SectionItem>
-          <span>주소</span>
-          <span>서울특별시 강남구 역삼동 123-45</span>
-        </SectionItem>
-      </Section>
-
-      <Section>
-        <h2>송장 정보</h2>
-        <SectionItem>
-          <span>송장번호</span>
-          <span>1234567890123</span>
-        </SectionItem>
-        <SectionItem>
-          <span>배송사</span>
-          <span>대조국 택배</span>
-        </SectionItem>
-      </Section>
-
-      <Section>
-        <h2>환불 계좌 정보</h2>
-        <SectionItem>
-          <span>환불 계좌</span>
-          <span>국민은행</span>
-        </SectionItem>
-        <SectionItem>
-          <span>은행명</span>
-          <span>홍길동</span>
-        </SectionItem>
-        <SectionItem>
-          <span>계좌번호</span>
-          <span>1234567890123</span>
-        </SectionItem>
-      </Section>
-
-      <Note>
-        <p>
-          * 환불이 필요할 경우, 환불 계좌 정보를 정확히 입력해 주세요. 잘못된 정보로 인한
-          불이익은 책임지지 않습니다.
-        </p>
-      </Note>
-        <CancelModal show={showModal} handleClose={handleCloseCancelModal} handleConfirm={handleConfirmCancelModal} />
-        
-    </OrderDetailsContainer>
+      <div className="sales-info">
+        <PageMoveContainer>
+            <h2>판매 및 재고 현황</h2>
+            <h2>입금 응답 결과</h2>
+        </PageMoveContainer>
+        <b>현재 상품별 재고현황</b>
+        <p>목록 (등록상품 : 2건)</p>
+        <table>
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>옵션</th>
+              <th>상품가격</th>
+              <th>총 판매량</th>
+              <th>총 상품 매출</th>
+              <th>잔여 재고</th>
+              <th>상세</th>
+            </tr>
+          </thead>
+          <tbody>
+            {salesData.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.title}</td>
+                <td>{item.option}</td>
+                <td>{item.price.toLocaleString()}원</td>
+                <td>{item.totalSales}</td>
+                <td>{item.totalRevenue.toLocaleString()}원</td>
+                <td>{item.stock}</td>
+                <td><button>재고수정</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 
-export default ManagePurchaseOrderDetail;
+export default SellerProductDetailPage;

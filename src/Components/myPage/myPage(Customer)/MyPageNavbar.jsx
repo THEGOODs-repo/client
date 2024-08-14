@@ -39,22 +39,22 @@ export default function MyPageNavbar() {
         <hr />
 
         <h1>판매 관리</h1>
-        <LinkPage to="/mypageSeller/ManagePurchase">
-          <h2>전체 (0)</h2>
+        <LinkPage to="/mypage/ManageSeller">
+          <h2>전체</h2>
         </LinkPage>
         <LinkPage>
-          <h2>판매 중 (0)</h2>
+          <h2>판매 중</h2>
         </LinkPage>
         <LinkPage>
-          <h2>판매 중지 (0)</h2>
+          <h2>판매 중지</h2>
         </LinkPage>
         <LinkPage>
-          <h2>반품 신청 (0)</h2>
+          <h2>반품 신청</h2>
         </LinkPage>
-        <LinkPage>
+        <LinkPage to="/mypage/productEnroll">
           <h2>상품 등록</h2>
         </LinkPage>
-          <LinkPage>
+          <LinkPage to="/mypage/enrollcorporate">
           <h2>회사 인증</h2>
         </LinkPage>
         <LinkPage to="sellerReview">

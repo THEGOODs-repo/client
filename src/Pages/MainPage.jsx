@@ -7,7 +7,7 @@ import IUProfile from "../../img/IMG_7790.PNG";
 import IUImage from "../../img/IMG_7791.PNG";
 
 const PostBox = styled.div`
-  width: ${740 / 19.2}vw;
+  width : 100%;
   margin-top: -3vh;
   margin-left: ${590 / 19.2}vw;
 `;
@@ -34,6 +34,27 @@ const PostList = () => {
       likeCount: 40,
       commentCount: 27,
     },
+    {
+      userProfile: NewjeansProfile,
+      userName: "뉴진스",
+      postDate: "1일",
+      content:
+        "NewJeans ID Card 판매 조사합니다. 구매 의향이 있으시면 좋아요 눌러주세요!!",
+      imageUrl: NewjeansImage,
+      likeCount: 102,
+      commentCount: 0,
+    },
+    {
+      userProfile: NewjeansProfile,
+      userName: "뉴진스",
+      postDate: "1일",
+      content:
+        "NewJeans ID Card 판매 조사합니다. 구매 의향이 있으시면 좋아요 눌러주세요!!",
+      imageUrl: NewjeansImage,
+      likeCount: 102,
+      commentCount: 0,
+    },
+    
     // 다른 포스트들...
   ];
 

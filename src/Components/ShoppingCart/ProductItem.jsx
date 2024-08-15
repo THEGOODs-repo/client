@@ -37,7 +37,7 @@ const ProductItem = ({
           },
         },
       );
-      setStockInfo(response.data);
+      setStockInfo(response.data.result.cartOptionStockDTOList);
     } catch (error) {
       console.error("Error fetching stock info:", error);
     }
@@ -46,6 +46,10 @@ const ProductItem = ({
   useEffect(() => {
     fetchStockInfo();
   }, [itemId, cartId, token]);
+
+  useEffect(() => {
+    console.log("Updated stock:", stockInfo);
+  }, [stockInfo]);
 
   // 전체 선택 상태가 변경될 때 isCheckedAll 상태 업데이트
   useEffect(() => {

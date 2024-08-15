@@ -32,8 +32,6 @@ const ShoppingCart = ({ cartItems }) => {
     items.forEach((item) => {
       if (item && typeof item === "object") {
         totalPrice += item.deliveryFee || 0;
-        console.log("item", item);
-        console.log("cartDTO", item.cartOptionViewDTOList);
         if (Array.isArray(item.cartOptionViewDTOList)) {
           item.cartOptionViewDTOList.forEach((option) => {
             if (option && typeof option === "object") {

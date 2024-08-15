@@ -10,7 +10,6 @@ import { updateSelectedItems } from "./selectedItemsSlice";
 import { setOrderItems, emptyOrderItems } from "../../redux/orderSlice";
 
 const ShoppingCart = ({ cartItems }) => {
-  const [isChecked, setIsChecked] = useState(false);
   const [isTotalChecked, setIsTotalChecked] = useState(false);
   const dispatch = useDispatch();
   const [selectedItems, setSelectedItems] = useState([]);
@@ -23,27 +22,32 @@ const ShoppingCart = ({ cartItems }) => {
   useEffect(() => {
     //console.log("dispatch실행");
     dispatch(updateSelectedItems(selectedItems));
-  }, [selectedItems]);
-
-  useEffect(() => {
     setTotalPrice(calculateTotalOrderPrice(selectedItems));
   }, [selectedItems]);
 
   const calculateTotalOrderPrice = (items) => {
-    if (!items) return 0;
+    if (!items || !Array.isArray(items)) return 0;
 
     let totalPrice = 0;
     items.forEach((item) => {
-      totalPrice += item.deliveryFee;
-      item.cartDetailViewDTOList.forEach((option) => {
-        totalPrice += option.price * option.amount;
-      });
+      if (item && typeof item === "object") {
+        totalPrice += item.deliveryFee || 0;
+        console.log("item", item);
+        console.log("cartDTO", item.cartOptionViewDTOList);
+        if (Array.isArray(item.cartOptionViewDTOList)) {
+          item.cartOptionViewDTOList.forEach((option) => {
+            if (option && typeof option === "object") {
+              totalPrice += (option.price || 0) * (option.amount || 0);
+            }
+          });
+        }
+      }
     });
     return totalPrice;
   };
 
   const handleOrderButtonClick = () => {
-    console.log(selectedItems);
+    console.log("selectedItems", selectedItems);
     dispatch(emptyOrderItems());
     selectedItems.forEach((selectedItem) =>
       dispatch(
@@ -53,7 +57,7 @@ const ShoppingCart = ({ cartItems }) => {
           itemName: selectedItem.itemName,
           itemImg: selectedItem.itemImg,
           deliveryFee: selectedItem.deliveryFee,
-          optionList: selectedItem.cartDetailViewDTOList.map((detail) => ({
+          optionList: selectedItem.cartOptionViewDTOList.map((detail) => ({
             optionId: detail.optionId,
             optionName: detail.optionName,
             optionPrice: detail.price,
@@ -97,14 +101,6 @@ const ShoppingCart = ({ cartItems }) => {
     } else {
       setCheckedItems([]);
       setSelectedItems([]);
-    }
-  };
-
-  const handleItemToggle = (item, isChecked) => {
-    if (isChecked) {
-      setCheckedItems([...checkedItems, item.cartId]);
-    } else {
-      setCheckedItems(checkedItems.filter((id) => id !== item.cartId));
     }
   };
 
@@ -181,10 +177,9 @@ const ShoppingCart = ({ cartItems }) => {
             sellerName={cartItem.sellerName}
             itemName={cartItem.itemName}
             itemImg={cartItem.itemImg}
-            cartOptionViewDTOList={cartItem.cartOptionViewDTOList}
+            cartOptionViewDTOList={cartItem.cartOptionViewDTOList || []}
             deliveryFee={cartItem.deliveryFee}
             onUpdate={handleConfirmChanges}
-            cartId={cartItem.cartId}
             isChecked={checkedItems.includes(cartItem.cartId)}
             onToggle={(item, isChecked) => handleToggleItem(item, isChecked)}
           />

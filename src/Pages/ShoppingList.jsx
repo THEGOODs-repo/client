@@ -28,7 +28,6 @@ const ShoppingList = () => {
         "https://dev.the-goods.store/api/cart",
         header,
       );
-      console.log(response);
       setCartData(response.data.result.cartViewDTOList);
     } catch (error) {
       console.error("Error fetching data:", error);

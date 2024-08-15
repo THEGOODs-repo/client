@@ -17,7 +17,6 @@ const ProductItem = ({
   deliveryFee,
   isChecked,
   itemId,
-  cartId,
   onToggle,
 }) => {
   const dispatch = useDispatch();
@@ -26,6 +25,7 @@ const ProductItem = ({
 
   const token = useSelector((state) => state.login.token);
   const [stockInfo, setStockInfo] = useState([]); // 재고 정보 상태 추가
+  const cartId = cartOptionViewDTOList.cartId;
 
   const fetchStockInfo = async () => {
     try {
@@ -37,7 +37,7 @@ const ProductItem = ({
           },
         },
       );
-      setStockInfo(response.data);
+      setStockInfo(response.data.result.cartOptionStockDTOList);
     } catch (error) {
       console.error("Error fetching stock info:", error);
     }
@@ -46,6 +46,10 @@ const ProductItem = ({
   useEffect(() => {
     fetchStockInfo();
   }, [itemId, cartId, token]);
+
+  useEffect(() => {
+    console.log("Updated stock:", stockInfo);
+  }, [stockInfo]);
 
   // 전체 선택 상태가 변경될 때 isCheckedAll 상태 업데이트
   useEffect(() => {
@@ -73,14 +77,6 @@ const ProductItem = ({
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
 
   const handleOrderClick = () => {
-    const item = {
-      itemId,
-      sellerName,
-      itemName,
-      itemImg,
-      deliveryFee,
-      cartOptionViewDTOList,
-    };
     if (isCheckedAll) {
       dispatch(emptyOrderItems());
       dispatch(
@@ -105,15 +101,13 @@ const ProductItem = ({
   const handleModifyOrderClick = () => {
     setIsModalOpen(true);
   };
-  // 각 옵션의 가격과 개수를 곱하여 합산하는 함수
+
   const calculateOptionTotalPrice = () => {
     let totalPrice = 0;
-
-    if (!Array.isArray(cartOptionViewDTOList)) {
-      console.error("cartOptionViewDTOList가 배열이 아닙니다.");
+    if (!cartOptionViewDTOList || !Array.isArray(cartOptionViewDTOList)) {
+      console.error("cartOptionViewDTOList가 유효하지 않거나 배열이 아닙니다.");
       return 0;
     }
-
     cartOptionViewDTOList.forEach((option) => {
       if (
         option &&
@@ -311,7 +305,7 @@ const SellerBox = styled.div`
 `;
 
 const SellerName = styled.p`
-  margin-top: 0vw;
+  margin-top: -0.5vw;
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
@@ -486,7 +480,6 @@ const OptionOrder = styled.button`
   height: ${43 / 19.2}vw;
   margin-left: 2vw;
   margin-top: ${20 / 19.2}vw;
-  background:;
   background-color: ${(props) =>
     props.isActive ? "#F0C920" : "rgba(156, 156, 156, 0.8)"};
   border: 1px solid rgba(156, 156, 156, 0.5);

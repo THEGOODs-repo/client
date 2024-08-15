@@ -22,51 +22,51 @@ const PostItem = styled.div`
   width: 100%;
 `;
 //{ posts = [] } 추가하기 api 완성되면!
-const PostList = () => {
-  const posts = [
-    {
-      id: 1,
-      userProfile: NewjeansProfile,
-      nickname: "뉴진스",
-      postDate: "1일",
-      content:
-        "NewJeans ID Card 판매 조사합니다. 구매 의향이 있으시면 좋아요 눌러주세요!!",
-      images: NewjeansImage,
-      likeCount: 102,
-      commentCount: 0,
-    },
-    {
-      id: 2,
-      userProfile: IUProfile,
-      nickname: "아이유애나",
-      postDate: "2일",
-      content: "아이유 도무송 스티커 판매 시작되었습니다!",
-      images: IUImage,
-      likeCount: 40,
-      commentCount: 27,
-    },
-    {
-      id: 3,
-      userProfile: IUProfile,
-      nickname: "아이유애나",
-      postDate: "2일",
-      content: "아이유 도무송 스티커 판매 시작되었습니다!3",
-      images: null,
-      likeCount: 40,
-      commentCount: 27,
-    },
-    {
-      id: 4,
-      userProfile: IUProfile,
-      nickname: "아이유애나",
-      postDate: "2일",
-      content: "아이유 도무송 스티커 판매 시작되었습니다!4",
-      images: IUImage,
-      likeCount: 40,
-      commentCount: 27,
-    },
-    // 다른 포스트들...
-  ];
+const PostList = ({ posts = [] }) => {
+  // const posts = [
+  //   {
+  //     id: 1,
+  //     userProfile: NewjeansProfile,
+  //     nickname: "뉴진스",
+  //     postDate: "1일",
+  //     content:
+  //       "NewJeans ID Card 판매 조사합니다. 구매 의향이 있으시면 좋아요 눌러주세요!!",
+  //     images: NewjeansImage,
+  //     likeCount: 102,
+  //     commentCount: 0,
+  //   },
+  //   {
+  //     id: 2,
+  //     userProfile: IUProfile,
+  //     nickname: "아이유애나",
+  //     postDate: "2일",
+  //     content: "아이유 도무송 스티커 판매 시작되었습니다!",
+  //     images: IUImage,
+  //     likeCount: 40,
+  //     commentCount: 27,
+  //   },
+  //   {
+  //     id: 3,
+  //     userProfile: IUProfile,
+  //     nickname: "아이유애나",
+  //     postDate: "2일",
+  //     content: "아이유 도무송 스티커 판매 시작되었습니다!3",
+  //     images: null,
+  //     likeCount: 40,
+  //     commentCount: 27,
+  //   },
+  //   {
+  //     id: 4,
+  //     userProfile: IUProfile,
+  //     nickname: "아이유애나",
+  //     postDate: "2일",
+  //     content: "아이유 도무송 스티커 판매 시작되었습니다!4",
+  //     images: IUImage,
+  //     likeCount: 40,
+  //     commentCount: 27,
+  //   },
+  //   // 다른 포스트들...
+  // ];
   return (
     <PostBox>
       {posts.length > 0 ? (

@@ -10,6 +10,7 @@ import arrow from "../../img/chevron-right.svg";
 import { emptyOrderItems } from "../../redux/orderSlice";
 import { fontWeight } from "@mui/system";
 import DaumPostCode from "react-daum-postcode";
+import zIndex from "@mui/material/styles/zIndex";
 
 const PaymentPageWrapper = styled.div`
   display: flex;
@@ -25,17 +26,16 @@ const PaymentPageWrapper = styled.div`
 const PaymentTitle = styled.div`
   display: flex;
   flex-direction: row;
-  width: 84%;
   font-size: ${26 / 19.2}vw;
   font-weight: bold;
   padding: ${40 / 19.2}vw 0 0 0;
+  margin: 0 auto 0 0;
 `;
 
 const Breadcrumb = styled.div`
   display: flex;
   align-items: flex-end;
   margin: auto 0 0 0;
-  self-align: flex-end;
 `;
 
 const Item = styled.div`
@@ -214,6 +214,7 @@ const PayButton = styled.div`
   font-size: ${14 / 19.2}vw;
   padding: 0;
   margin: ${23 / 19.2}vw 0;
+  cursor: grab;
 `;
 
 const PaymentMethodSelectionLabel = styled.label`
@@ -374,6 +375,7 @@ const ConfirmButton = styled.div`
   align-self: center;
   border: ${1 / 19.2}vw solid
     ${(e) => e.$color === "white" && "rgba(156,156,156,0.5)"};
+  cursor: grab;
 `;
 
 const Button = styled.div`
@@ -393,6 +395,7 @@ const Button = styled.div`
   align-self: center;
   border: ${1 / 19.2}vw solid
     ${(e) => e.$color === "white" && "rgba(156,156,156,0.5)"};
+  cursor: grab;
 `;
 
 const PaymentMethodEnum = {
@@ -883,14 +886,16 @@ const Payment = () => {
         ChangedRefundAccount={(e) => SetRefundAccount(e)}
         ChangedRefundBank={(e) => SetRefundBank(e)}
       />
-      <PaymentTitle>주문 결제</PaymentTitle>
-      <Breadcrumb>
-        <Item>장바구니</Item>
-        <img src={arrow} style={Arrow} alt="arrow" />
-        <BoldItem>주문/결제</BoldItem>
-        <img src={arrow} style={Arrow} alt="arrow" />
-        <Item>완료</Item>
-      </Breadcrumb>
+      <div style={{ display: "flex", width: "100vw" }}>
+        <PaymentTitle>주문 결제</PaymentTitle>
+        <Breadcrumb>
+          <Item>장바구니</Item>
+          <img src={arrow} style={Arrow} alt="arrow" />
+          <BoldItem>주문/결제</BoldItem>
+          <img src={arrow} style={Arrow} alt="arrow" />
+          <Item>완료</Item>
+        </Breadcrumb>
+      </div>
       <PaymentWrapper>
         <PaymentTableWrapper>
           <PaymentTableHead>
@@ -1126,8 +1131,14 @@ const Payment = () => {
             marginTop: `${30 / 19.2}vw`,
           }}
         >
-          <div>결제 시 개인정보 제공에 동의합니다.</div>
-          <div style={{ marginLeft: `${100 / 19.2}vw` }}>
+          <div
+            style={{
+              margin: `0 auto 0 0`,
+            }}
+          >
+            결제 시 개인정보 제공에 동의합니다.
+          </div>
+          <div>
             <svg
               viewBox="0 0 20 20"
               fill="none"

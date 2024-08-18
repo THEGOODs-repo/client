@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const SellerProfile = () => {
   const [profileData, setProfileData] = useState(null);
@@ -9,10 +9,10 @@ const SellerProfile = () => {
     // 서버에서 프로필 데이터를 가져오는 함수
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get('/api/seller/profile'); // API 엔드포인트는 실제로 사용하는 엔드포인트로 대체해야 합니다.
+        const response = await axios.get("/api/seller/profile"); // API 엔드포인트는 실제로 사용하는 엔드포인트로 대체해야 합니다.
         setProfileData(response.data);
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error("Error fetching profile data:", error);
       }
     };
 
@@ -36,13 +36,19 @@ const SellerProfile = () => {
           <div className="profile-details">
             <h2>{profileData.name}</h2>
             <p>{profileData.bio}</p>
-            <div className="follower-count">Followers: {profileData.followers}</div>
-            <div className="wishlist-count">Wishlist: {profileData.wishlist}</div>
+            <div className="follower-count">
+              Followers: {profileData.followers}
+            </div>
+            <div className="wishlist-count">
+              Wishlist: {profileData.wishlist}
+            </div>
           </div>
         </div>
       )}
       <div className="follow-button">
-        <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>
+        <button onClick={handleFollow}>
+          {isFollowing ? "Unfollow" : "Follow"}
+        </button>
       </div>
     </div>
   );

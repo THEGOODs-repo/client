@@ -132,7 +132,7 @@ const CreatePost = () => {
             {selectedFiles.length < 4 &&
               [...Array(4 - selectedFiles.length)].map((_, index) => (
                 <AddPlaceholder key={index} onClick={open}>
-                  <img src={plus} alt="add" />
+                  <img src={plus} style={{ width: "10px" }} alt="add" />
                 </AddPlaceholder>
               ))}
           </AddFile>
@@ -269,8 +269,8 @@ const AddFile = styled.div`
 `;
 
 const AddPlaceholder = styled.div`
-  width: 100px;
-  height: 100px;
+  width: ${100 / 19.2}vw;
+  height: ${100 / 19.2}vw;
   border: 1px dashed #9c9c9c;
   border-radius: 5px;
   display: flex;
@@ -300,8 +300,8 @@ const Write = styled.textarea`
 
 const ImagePreviewContainer = styled.div`
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: ${100 / 19.2}vw;
+  height: ${100 / 19.2}vw;
   display: inline-block;
 `;
 

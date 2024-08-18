@@ -14,6 +14,7 @@ import axios from "axios";
 const Post = () => {
   const [posts, setPosts] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
+  const [error, setError] = useState(null); // 에러 상태 추가
   const token = useSelector((state) => state.login.token);
 
   const handleClick = () => {
@@ -24,7 +25,7 @@ const Post = () => {
     const fetchPopularPosts = async () => {
       try {
         const response = await axios.get(
-          "https://dev.the-goods.store/api/posts/popular",
+          "https://dev.the-goods.store/api/posts/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -35,14 +36,18 @@ const Post = () => {
           },
         );
         console.log("Full API response:", response);
-        console.log("API response:", response.data); // 전체 응답 데이터 확인
-        console.log("API response result:", response.data.result);
         if (response.data.isSuccess) {
-          setPosts(response.data.result.posts); // 데이터 위치에 맞게 수정
+          setPosts(response.data.result.posts);
+          setError(null); // 성공 시 에러 초기화
         } else {
           console.error("API response error:", response.data.message);
         }
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setError("로그인이 필요합니다.");
+        } else {
+          setError("포스트를 불러오는 데 실패했습니다."); // 기타 에러 처리
+        }
         console.error("Failed to fetch posts:", error);
       }
     };
@@ -51,10 +56,6 @@ const Post = () => {
       fetchPopularPosts();
     }
   }, [token]);
-
-  useEffect(() => {
-    console.log("posts:", posts);
-  }, [posts]);
 
   return (
     <div>
@@ -78,7 +79,13 @@ const Post = () => {
           <ToggleOption isFollowed={isFollowed}>팔로우</ToggleOption>
           <ToggleSlider isFollowed={isFollowed} />
         </ToggleWrapper>
-        <PostList posts={posts} /> {/* PostList 컴포넌트에 데이터 전달 */}
+
+        {error ? ( // 에러 메시지 렌더링
+          <ErrorMessage>{error}</ErrorMessage>
+        ) : (
+          <PostList posts={posts} /> // PostList 컴포넌트에 데이터 전달
+        )}
+
         <Link to="/CreatePost">
           <WriteButton>
             <img
@@ -96,6 +103,13 @@ const Post = () => {
 };
 
 export default Post;
+
+const ErrorMessage = styled.div`
+  text-align: center;
+  color: black;
+  font-size: 1.2em;
+  margin-top: 20px;
+`;
 
 const Background = styled.div`
   background-color: #f9f9f9;

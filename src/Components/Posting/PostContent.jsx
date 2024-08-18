@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import heartImage from "../../img/Group_277.png";
 import heartFullImage from "../../img/Group_278.png";
 import commentImage from "../../img/Group_277_1.png";
-import ModalPost from "./ModalPost";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 const PostContent = ({ post }) => {
@@ -19,37 +18,41 @@ const PostContent = ({ post }) => {
     <>
       <GlobalStyle />
       <PostContainer>
-        <PostHeader>
-          <StyledLink to="/Seller">
-            <ProfilePicture src={post.userProfile} alt="프로필 사진" />
-          </StyledLink>
-          <UserInfo>
-            <UserName>{post.nickname}</UserName>
-            <PostDate> &nbsp;ㆍ {post.postDate} 전</PostDate>
-          </UserInfo>
-          <FollowButton>팔로우</FollowButton>
-        </PostHeader>
         <StyledLink to={`/posting/${post.id}`}>
+          <PostHeader>
+            <StyledLink to={`/seller/${post.memberId}`}>
+              <ProfilePicture
+                src={post.userProfile || require("../../img/profile-image.png")}
+                alt="프로필 사진"
+              />
+            </StyledLink>
+            <UserInfo>
+              <UserName>{post.nickname}</UserName>
+              <PostDate> &nbsp;ㆍ {post.postDate} 전</PostDate>
+            </UserInfo>
+            <FollowButton>팔로우</FollowButton>
+          </PostHeader>
           {post.images && <PostImage src={post.images} alt="포스트 이미지" />}
           <PostContentText>{post.content}</PostContentText>
+
+          <Divider />
+          <PostFooter>
+            <LikeContainer onClick={toggleLike}>
+              <LikeIcon
+                src={liked ? heartFullImage : heartImage}
+                alt="하트"
+                className={liked ? "liked" : ""}
+              />
+              <LikeCount className={liked ? "liked" : ""}>
+                {likeCountState}
+              </LikeCount>
+            </LikeContainer>
+            <CommentContainer>
+              <CommentIcon src={commentImage} alt="댓글" />
+              <CommentCount>{post.commentCount}</CommentCount>
+            </CommentContainer>
+          </PostFooter>
         </StyledLink>
-        <Divider />
-        <PostFooter>
-          <LikeContainer onClick={toggleLike}>
-            <LikeIcon
-              src={liked ? heartFullImage : heartImage}
-              alt="하트"
-              className={liked ? "liked" : ""}
-            />
-            <LikeCount className={liked ? "liked" : ""}>
-              {likeCountState}
-            </LikeCount>
-          </LikeContainer>
-          <CommentContainer>
-            <CommentIcon src={commentImage} alt="댓글" />
-            <CommentCount>{post.commentCount}</CommentCount>
-          </CommentContainer>
-        </PostFooter>
       </PostContainer>
     </>
   );
@@ -79,8 +82,8 @@ const PostHeader = styled.div`
 `;
 
 const ProfilePicture = styled.img`
-  width: ${50 / 19.2}vw;
-  height: ${50 / 19.2}vw;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   margin-right: 10px;
 `;

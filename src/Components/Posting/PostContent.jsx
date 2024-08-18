@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import heartImage from "../../img/Group_277.png";
 import heartFullImage from "../../img/Group_278.png";
 import commentImage from "../../img/Group_277_1.png";
-import ModalPost from "./ModalPost";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 const PostContent = ({ post }) => {
@@ -21,7 +20,10 @@ const PostContent = ({ post }) => {
       <PostContainer>
         <PostHeader>
           <StyledLink to="/Seller">
-            <ProfilePicture src={post.userProfile} alt="프로필 사진" />
+            <ProfilePicture
+              src={post.userProfile || require("../../img/profile-image.png")}
+              alt="프로필 사진"
+            />
           </StyledLink>
           <UserInfo>
             <UserName>{post.nickname}</UserName>
@@ -79,8 +81,8 @@ const PostHeader = styled.div`
 `;
 
 const ProfilePicture = styled.img`
-  width: ${50 / 19.2}vw;
-  height: ${50 / 19.2}vw;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   margin-right: 10px;
 `;

@@ -18,40 +18,41 @@ const PostContent = ({ post }) => {
     <>
       <GlobalStyle />
       <PostContainer>
-        <PostHeader>
-          <StyledLink to="/Seller">
-            <ProfilePicture
-              src={post.userProfile || require("../../img/profile-image.png")}
-              alt="프로필 사진"
-            />
-          </StyledLink>
-          <UserInfo>
-            <UserName>{post.nickname}</UserName>
-            <PostDate> &nbsp;ㆍ {post.postDate} 전</PostDate>
-          </UserInfo>
-          <FollowButton>팔로우</FollowButton>
-        </PostHeader>
         <StyledLink to={`/posting/${post.id}`}>
+          <PostHeader>
+            <StyledLink to={`/seller/${post.memberId}`}>
+              <ProfilePicture
+                src={post.userProfile || require("../../img/profile-image.png")}
+                alt="프로필 사진"
+              />
+            </StyledLink>
+            <UserInfo>
+              <UserName>{post.nickname}</UserName>
+              <PostDate> &nbsp;ㆍ {post.postDate} 전</PostDate>
+            </UserInfo>
+            <FollowButton>팔로우</FollowButton>
+          </PostHeader>
           {post.images && <PostImage src={post.images} alt="포스트 이미지" />}
           <PostContentText>{post.content}</PostContentText>
+
+          <Divider />
+          <PostFooter>
+            <LikeContainer onClick={toggleLike}>
+              <LikeIcon
+                src={liked ? heartFullImage : heartImage}
+                alt="하트"
+                className={liked ? "liked" : ""}
+              />
+              <LikeCount className={liked ? "liked" : ""}>
+                {likeCountState}
+              </LikeCount>
+            </LikeContainer>
+            <CommentContainer>
+              <CommentIcon src={commentImage} alt="댓글" />
+              <CommentCount>{post.commentCount}</CommentCount>
+            </CommentContainer>
+          </PostFooter>
         </StyledLink>
-        <Divider />
-        <PostFooter>
-          <LikeContainer onClick={toggleLike}>
-            <LikeIcon
-              src={liked ? heartFullImage : heartImage}
-              alt="하트"
-              className={liked ? "liked" : ""}
-            />
-            <LikeCount className={liked ? "liked" : ""}>
-              {likeCountState}
-            </LikeCount>
-          </LikeContainer>
-          <CommentContainer>
-            <CommentIcon src={commentImage} alt="댓글" />
-            <CommentCount>{post.commentCount}</CommentCount>
-          </CommentContainer>
-        </PostFooter>
       </PostContainer>
     </>
   );

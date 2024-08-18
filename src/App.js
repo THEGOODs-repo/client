@@ -175,7 +175,7 @@ function App() {
               <Route path="productEnroll" element={<ProductEnroll />} />
             </Route>
 
-            <Route path="/seller/:id" element={<Seller />} />
+            <Route path="/seller" element={<Seller />} />
             <Route path="/shoppingList" element={<ShoppingList />} />
             <Route
               path="/noncustomerorder"

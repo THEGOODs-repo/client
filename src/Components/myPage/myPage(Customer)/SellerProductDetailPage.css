@@ -1,0 +1,54 @@
+.product-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.product-info {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.product-info img {
+  width: 200px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-details h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.product-details p {
+  margin: 5px 0;
+}
+
+.product-details button {
+  margin: 10px 5px 0 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sales-info {
+  margin-top: 20px;
+}
+
+.sales-info table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sales-info th, .sales-info td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.sales-info th {
+  background-color: #f2f2f2;
+}

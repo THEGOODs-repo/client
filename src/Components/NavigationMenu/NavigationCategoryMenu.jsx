@@ -106,7 +106,7 @@ function NavigationCategoryMenu() {
   };
 
   return (
-    <NavBar>
+    <NavBar style={{zIndex:10000}}>
       {/* <NavItem>
         <Icon src={categoryIcon} alt="Category" onClick={toggleCategory} />
         <Label onClick={toggleCategory}>카테고리</Label>
@@ -141,19 +141,19 @@ function NavigationCategoryMenu() {
       <NavInnerContainer style={{marginRight :"50px"}}>
       <NavItem> 
 
-        <Label href="/newproduct" style={{fontWeight:"bold"}}>전체보기</Label>
+        <Label href="/" style={{fontWeight:"bold"}}>전체보기</Label>
       </NavItem>
       <NavItem>
-        <Label href="/popularproduct">아이돌</Label>
+        <Label href="/idol">아이돌</Label>
       </NavItem>
       <NavItem>
-        <Label href="/endingproduct">애니메이션</Label>
+        <Label href="/animation">애니메이션</Label>
       </NavItem>
       <NavItem>
-        <Label href="/posting">웹툰</Label>
+        <Label href="/webtoon">웹툰</Label>
       </NavItem>
       <NavItem>
-        <Label href="/posting">게임</Label>
+        <Label href="/game">게임</Label>
       </NavItem>
       </NavInnerContainer>
       </NavWrapContainer>

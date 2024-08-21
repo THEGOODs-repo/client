@@ -7,7 +7,6 @@ import IUProfile from "../../img/IMG_7790.PNG";
 import IUImage from "../../img/IMG_7791.PNG";
 
 const PostBox = styled.div`
-width :100vw;
   display : flex;
   justify-content : center;
   align-items : center;
@@ -16,6 +15,7 @@ width :100vw;
 
 const MainPost = () => {
   // 포스트에 대한 가상의 데이터
+  //여기 수정
   const posts = [
     {
       userProfile: NewjeansProfile,
@@ -36,6 +36,16 @@ const MainPost = () => {
       likeCount: 40,
       commentCount: 27,
     },
+        {
+      userProfile: IUProfile,
+      userName: "아이유애나",
+      postDate: "2일",
+      content: "아이유 도무송 스티커 판매 시작되었습니다!",
+      imageUrl: IUImage,
+      likeCount: 40,
+      commentCount: 27,
+    },
+    
     // 다른 포스트들...
   ];
 

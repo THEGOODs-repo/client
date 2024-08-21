@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styled from 'styled-components';
-import Select, { components } from 'react-select';
+import { components } from 'react-select';
 import logo from '../../img/logo.svg';
 import { useNavigate,Link } from 'react-router-dom';
 import shop from '../../img/shop.png';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setExpire, setToken } from '../../redux/loginSlice';
 
 
 const NavigationWrapper = styled.div`
@@ -106,6 +109,7 @@ const customStyles = {
 const { DropdownIndicator } = components;
 
 const CustomDropdownIndicator = (props) => {
+    
   return (
     <DropdownIndicator {...props}>
       <svg width="0.73vw" viewBox="0 0 14 11" fill="#52555B" xmlns="http://www.w3.org/2000/svg">
@@ -156,6 +160,70 @@ const NavigationMenu = () => {
   const [tag,setTag] = useState('상품');
   const navigate = useNavigate();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const alreadyUser = useSelector((state) => state.login.token);
+  //const alreadyUser = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwibWVtYmVyUm9sZSI6IkJVWUVSIiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3MTk4NjE2NzR9.bvpCEZpSCZocVBTqN51IpVAY2t810M6RhaUJthSspvDxpB3azQ2ua7FS5zJRO29CmjG7RK2zwhwDbGpJrPCXXw"
+  const dispatch = useDispatch()
+    
+
+  useEffect(() => {
+    const loginData = localStorage.getItem('persist:login');
+    console.log(alreadyUser)
+    if (loginData) {
+      const parsedLoginData = JSON.parse(loginData);
+      //const token = JSON.parse(parsedLoginData).token;
+      //console.log(token)
+      const token = parsedLoginData['token']
+      console.log(token)
+      //setIsLoggedIn((token !== 'null') && (alreadyUser !== 'null'));
+      setIsLoggedIn((token !== 'null') && (alreadyUser !== 'null'));
+    }
+  }, [isLoggedIn]);
+
+const handleLogout = async () => {
+  try {
+    // 서버에 로그아웃 요청을 보냄
+    const response = await axios.post(
+      '/api/members/logout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${alreadyUser}`,
+        },
+      }
+    );
+    dispatch(setToken(null))
+    dispatch(setExpire(null))
+    
+    // 로컬 스토리지에서 토큰 정보 삭제
+    localStorage.setItem('persist:login', JSON.stringify({
+      token: 'null',
+      expire: 'null',
+      _persist: '{"version":-1,"rehydrated":true}'
+    }));
+    setIsLoggedIn(false)
+      document.location.href = "/";
+    console.log('로그아웃 요청 성공:', response.data);
+    
+    // 로그아웃 성공 시 추가적으로 필요한 처리를 여기에 추가할 수 있습니다.
+  } catch (error) {
+        dispatch(setToken(null))
+    dispatch(setExpire(null))
+    
+    // 로컬 스토리지에서 토큰 정보 삭제
+    localStorage.setItem('persist:login', JSON.stringify({
+      token: 'null',
+      expire: 'null',
+      _persist: '{"version":-1,"rehydrated":true}'
+    }));
+    setIsLoggedIn(false)
+      document.location.href = "/";
+    console.error('로그아웃 요청 실패:', error);
+    
+    // 로그아웃 실패 시 추가적으로 필요한 처리를 여기에 추가할 수 있습니다.
+  }
+};
+
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -194,10 +262,14 @@ const NavigationMenu = () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
         />
+                <svg onClick={handleSearch} viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={SearchStyle}>
+          <path className="searchbutton" d="M26.25 24.5L18.75 17.5M21.25 11.6667C21.25 12.7391 21.0237 13.8011 20.5839 14.7919C20.1442 15.7827 19.4997 16.683 18.6872 17.4414C17.8747 18.1997 16.9101 18.8013 15.8485 19.2117C14.7869 19.6221 13.6491 19.8333 12.5 19.8333C11.3509 19.8333 10.2131 19.6221 9.15152 19.2117C8.08992 18.8013 7.12533 18.1997 6.31282 17.4414C5.5003 16.683 4.85578 15.7827 4.41605 14.7919C3.97633 13.8011 3.75 12.7391 3.75 11.6667C3.75 9.50073 4.67187 7.42351 6.31282 5.89196C7.95376 4.36041 10.1794 3.5 12.5 3.5C14.8206 3.5 17.0462 4.36041 18.6872 5.89196C20.3281 7.42351 21.25 9.50073 21.25 11.6667Z" stroke="#F0C920" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+
       </SearchWrapper>
       
       <IconWrapContainer>
-      <StyledLink to="/mine">
+      <StyledLink to="/mypage/EditProfile">
       <IconWrapper>
                         <img src={shop} alt="" style={IconStyle}/>
         <div>판매하기</div>
@@ -214,7 +286,16 @@ const NavigationMenu = () => {
       <div>장바구니</div>
       </IconWrapper>  
       </StyledLink>
-      <StyledLink to="/mypage/ManagePurchase">
+        {isLoggedIn ? (
+          <IconWrapper onClick={handleLogout}>
+            <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" style={IconStyle}>
+              <path d="M25.9497 17.1997C27.2625 15.887 28 14.1065 28 12.25C28 10.3935 27.2625 8.61301 25.9497 7.30025C24.637 5.9875 22.8565 5.25 21 5.25C19.1435 5.25 17.363 5.9875 16.0503 7.30025C14.7375 8.61301 14 10.3935 14 12.25C14 14.1065 14.7375 15.887 16.0503 17.1997C17.363 18.5125 19.1435 19.25 21 19.25C22.8565 19.25 24.637 18.5125 25.9497 17.1997Z" stroke="#52555B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M12.3379 28.0879C14.6353 25.7906 17.7511 24.5 21 24.5C24.2489 24.5 27.3647 25.7906 29.6621 28.0879C31.9594 30.3853 33.25 33.5011 33.25 36.75H8.75C8.75 33.5011 10.0406 30.3853 12.3379 28.0879Z" stroke="#52555B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <div>로그아웃</div>
+          </IconWrapper>
+        ) : (
+      <StyledLink to="/login">
       <IconWrapper>
       <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" style={IconStyle} >
 <path d="M25.9497 17.1997C27.2625 15.887 28 14.1065 28 12.25C28 10.3935 27.2625 8.61301 25.9497 7.30025C24.637 5.9875 22.8565 5.25 21 5.25C19.1435 5.25 17.363 5.9875 16.0503 7.30025C14.7375 8.61301 14 10.3935 14 12.25C14 14.1065 14.7375 15.887 16.0503 17.1997C17.363 18.5125 19.1435 19.25 21 19.25C22.8565 19.25 24.637 18.5125 25.9497 17.1997Z" stroke="#52555B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -223,6 +304,7 @@ const NavigationMenu = () => {
         <div>로그인</div>
       </IconWrapper>
       </StyledLink>
+        )}
       </IconWrapContainer>
     </NavigationWrapper>
   );

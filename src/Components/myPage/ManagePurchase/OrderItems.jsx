@@ -17,20 +17,35 @@ const OrderStatusEnum = {
   REFUND_COMP: "REFUND_COMP",
 };
 
-export default function OrderItems(data) {
+export default function OrderItems(data,type) {
   const navigate = useNavigate();
   const fileInput = React.useRef(null);
   const [DisplayReviewModal, SetDisplayReviewModal] = useState(false);
   const [DisplayConfirmModal, SetDisplayConfirmModal] = useState(false);
   const [OrderDateTime, SetOrderDateTime] = useState(new Date());
+  const [orderNum,SetOrderNum] = useState();
 
   const handleButtonClick = (e) => {
     fileInput.current.click();
   };
 
+  const handleDetailButtonClick = () => {
+  // type 변수를 선언하고 초기화 
+  // type 변수와 비교
+  if (type === true) { // 원하는 조건으로 변경할 수 있습니다. 예: type === "desiredType"
+    navigate('/mypage/manageProdct');
+
+  }
+  else{
+    navigate(`/mypage/orderDetail?itemId=${orderNum}`);
+    
+  }
+};
+
   useEffect(() => {
     SetOrderDateTime(new Date(data.orderDateTime));
-    console.log(data);
+    //console.log(data);
+    SetOrderNum(data.orderItemId);
   }, []);
 
   return (
@@ -96,7 +111,11 @@ export default function OrderItems(data) {
           <ButtonEnquiry onClick={() => handleButtonClick}>
             문의하기
           </ButtonEnquiry>
+          <ButtonEnquiry onClick={handleDetailButtonClick}>
+            상세보기
+          </ButtonEnquiry>
         </PriceContainer>
+        
         {data.orderStatus === OrderStatusEnum.DEL_START && (
           <DeliveryContainer>
             <DeliveryButton>배송조회</DeliveryButton>

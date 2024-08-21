@@ -1,15 +1,19 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import AddPicture from "../../../img/AddPicture.png";
+import { useDispatch, useSelector } from 'react-redux';
+
 
 export default function EditProfile() {
   const fileInputBackground = useRef(null);
   const fileInputProfile = useRef(null);
   const [inputNickName, setInputNickName] = useState(0);
+  const [inputIntroduce,setInputIntroduce] = useState(0);
   const [uploadBackground, setUploadBackground] = useState("");
   const [uploadProfile, setUploadProfile] = useState("");
   const [editBtn, setEditBtn] = useState(false);
-
+  //const alreadyUser = useSelector((state) => state.login.token);
+  const alreadyUser = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwibWVtYmVyUm9sZSI6IkJVWUVSIiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3MjQyNTg0Njd9.j66GVbg_ENpR2FvXpiDU_EnUfMywvUGXwnkJGHaiqNCAu9cZFDVT7e8mnmTInziwzZoB2eXBlvGsRftnnV8W4A"
   // 닉네임 글자수 표시
   const onInputNickNameHandler = (e) => {
     setInputNickName(e.target.value.length);
@@ -47,12 +51,40 @@ export default function EditProfile() {
     }
   };
 
-  // "수정" Btn
-  const handleEdit = (e) => {
-    if (editBtn === false) {
+ const handleEdit = async () => {
+    if (!editBtn) {
       setEditBtn(true);
-    } else if (editBtn === true) {
-      setEditBtn(false);
+    } else {
+      try {
+        const formData = new FormData();
+        if (uploadProfile) {
+          formData.append('profileImage', uploadProfile);
+        }
+        if (uploadBackground) {
+          formData.append('backgroundImage', uploadBackground);
+        }
+        formData.append('nickName', inputNickName);
+        formData.append('introduce', inputIntroduce);
+
+        const response = await fetch('/api/members/profile/modify', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${alreadyUser}`, // JWT 토큰 추가
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update data');
+        }
+
+        const data = await response.json();
+        console.log('Response:', data);
+
+        setEditBtn(false);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -119,6 +151,17 @@ export default function EditProfile() {
         onChange={onInputNickNameHandler}
         maxLength="14"
         placeholder="닉네임을 입력해주세요."
+      />
+      <InputContainer>
+        <h2>자기소개</h2>
+        <h3>{inputIntroduce}/160</h3>
+      </InputContainer>
+      <InputName style={{height:"150px"}}
+        disabled={!editBtn}
+        type="text"
+        onChange={onInputNickNameHandler}
+        maxLength="14"
+        placeholder="자기소개를 작성해주세요."
       />
 
       {/* Btn */}

@@ -166,8 +166,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (alreadyUser !== null) {
-  document.location.href = "/";
-}
+      document.location.href = "/";
+    }
     if (localStorage.getItem("KeepEmail") !== null) {
       SetEmailSave(true);
       SetEmail(localStorage.getItem("KeepEmail"));
@@ -220,6 +220,7 @@ const LoginPage = () => {
           dispatch(setExpire(expires));
         }
         navigate("/", { replace: true });
+        window.location.replace("/");
       }
     } catch (error) {
       if (error.response) {

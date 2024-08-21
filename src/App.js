@@ -11,12 +11,12 @@ import PasswordChange from "./Components/myPage/myPage(Customer)/PasswordChange"
 import MemberWithdrawal from "./Components/myPage/myPage(Customer)/MemberWithdrawal";
 import MyReview from "./Components/myPage/myPage(Customer)/MyReview";
 import ManagePurchaseOrderDetail from "./Components/myPage/myPage(Customer)/ManagePurchaseOrderDetail";
-import ProductTable from './Components/myPage/myPage(Customer)/ManageProduct';
+import ProductTable from "./Components/myPage/myPage(Customer)/ManageProduct";
 import ManageSeller from "./Components/myPage/myPage(Customer)/ManageSeller";
-import ManageOrderUser from './Components/myPage/myPage(Customer)/ManageOrderUser';
-import SellerProductDetailPage from './Components/myPage/myPage(Customer)/SellerProductDetailPage';
-import EnrollCorperationPage from './Components/myPage/myPage(Customer)/EnrollCorperationPage';
-import ProductEnroll from './Components/myPage/myPage(Customer)/ProductEnrollPage';
+import ManageOrderUser from "./Components/myPage/myPage(Customer)/ManageOrderUser";
+import SellerProductDetailPage from "./Components/myPage/myPage(Customer)/SellerProductDetailPage";
+import EnrollCorperationPage from "./Components/myPage/myPage(Customer)/EnrollCorperationPage";
+import ProductEnroll from "./Components/myPage/myPage(Customer)/ProductEnrollPage";
 
 // 마이페이지(사장님)
 import MyPageSellerComponent from "./Pages/MyPageSeller";
@@ -28,7 +28,6 @@ import PasswordChangeSeller from "./Components/myPage/myPage(Seller)/PasswordCha
 import MemberWithdrawalSeller from "./Components/myPage/myPage(Seller)/MemberWithdrawalSeller";
 import MyReviewSeller from "./Components/myPage/myPage(Seller)/MyReviewSeller";
 import ProfitSeller from "./Components/myPage/myPage(Seller)/ProfitSeller";
-
 
 // 포스트
 import Post from "./Pages/Post";
@@ -44,15 +43,11 @@ import SystemPage from "./Pages/SystemPage";
 import SystemNickname from "./Components/SystemPage/SystemNickname";
 import PostManage from "./Components/SystemPage/PostManage";
 import PostRegister from "./Components/SystemPage/PostRegister";
-
-
 // 로그인
 import Login from "./Pages/Login";
 import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
 import NaverLoginHandler from "./Components/Login/NaverLoginHandler";
 import Register from "./Pages/Register";
-import HelpCenter from "./Components/HelpCenter/HelpCenter";
-import HelpCenterWrite from "./Components/HelpCenter/HelpCenterWrite";
 import ShoppingList from "./Pages/ShoppingList";
 //상품상세페이지
 import ProductPageComponent from "./Components/Product/ProductPageComponent";
@@ -65,10 +60,11 @@ import CategoryPage from "./Components/Category/CategoryComponent";
 import SearchResultComponent from "./Components/Search/SearchComponent";
 import MorePage from "./Pages/MoreProductPage";
 import Payment from "./Pages/Payment";
-import NewProductPage from './Pages/NewProductPage';
+import NewProductPage from "./Pages/NewProductPage";
 import CategorySearchPage from "./Pages/CategoryPage";
 import Like from "./Pages/Like";
 import TokenTrigger from "./Components/Login/TokenTrigger";
+import NoticeHelp from "./Pages/NoticeHelp";
 
 function App() {
   return (
@@ -78,11 +74,16 @@ function App() {
           <TokenTrigger />
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
-            
             <Route
               path="/idol"
               element={<NewProductPage type="idol" />}
             /> 
+            <Route path="/newproduct" element={<NewProductPage type="new" />} />
+
+            <Route
+              path="/popularproduct"
+              element={<NewProductPage type="popular" />}
+            />
             <Route
               path="/animation"
               element={<NewProductPage type="animation" />}
@@ -169,13 +170,22 @@ function App() {
               <Route path="MyReview" element={<MyReview />} />
               <Route path="sellerReview" element={<MyReviewSeller />} />
               <Route path="profitSeller" element={<ProfitSeller />} />
-              <Route path="orderDetail" element={<ManagePurchaseOrderDetail/>}/>
-              <Route path="manageProduct" element={<ProductTable/>}/>
-              <Route path="ManageSeller" element={<ManageSeller/>}/>
-              <Route path="manageOrderUser" element={<ManageOrderUser/>}/>
-              <Route path="sellerProductDetail" element={<SellerProductDetailPage/>}/>
-              <Route path="enrollcorporate" element={<EnrollCorperationPage/>}/>
-              <Route path="productEnroll" element={<ProductEnroll/>}/>
+              <Route
+                path="orderDetail"
+                element={<ManagePurchaseOrderDetail />}
+              />
+              <Route path="manageProduct" element={<ProductTable />} />
+              <Route path="ManageSeller" element={<ManageSeller />} />
+              <Route path="manageOrderUser" element={<ManageOrderUser />} />
+              <Route
+                path="sellerProductDetail"
+                element={<SellerProductDetailPage />}
+              />
+              <Route
+                path="enrollcorporate"
+                element={<EnrollCorperationPage />}
+              />
+              <Route path="productEnroll" element={<ProductEnroll />} />
             </Route>
 
             <Route path="/seller" element={<Seller />} />
@@ -209,8 +219,6 @@ function App() {
               />
             </Route> */}
 
-
-
             <Route path="/login/*" element={<Login />} />
             <Route
               path="/api/members/kakao/callback"
@@ -223,9 +231,7 @@ function App() {
             <Route path="/register/*" element={<Register />} />
             <Route path="/shoppingList" element={<ShoppingList />} />
             <Route path="/guest/*" element={<Guest />} />
-            <Route path="/helpcenter" element={<HelpCenter />}>
-              <Route path="write" element={<HelpCenterWrite />} />
-            </Route>
+            <Route path="/help/*" element={<NoticeHelp />} />
             <Route path="/payment/*" element={<Payment />} />
 
             <Route path="/systemPage" element={<SystemPage />}>

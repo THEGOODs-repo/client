@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios"; // axios를 사용하여 API 호출
 import Comment from "../Components/Posting/Comment";
 import CommentInput from "../Components/Posting/CommentInput";
 import NavigationMenu from "../Components/NavigationMenu/NavigationMenu";
@@ -16,13 +17,43 @@ import cmtProfileImg from "../img/Ellipse 91.png";
 import styled from "styled-components";
 import IUProfile from "../img/IMG_7790.PNG";
 import IUImage from "../img/IMG_7791.PNG";
+import { useSelector } from "react-redux";
 
 const PostDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // useParams로 id 값을 받아옴
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
   const [likeCountState, setLikeCount] = useState(0);
+  const token = useSelector((state) => state.login.token);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(
+          `https://dev.the-goods.store/api/posts/${id}`, // id를 이용하여 특정 포스트 불러오기
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+            },
+          },
+        );
+        console.log("특정 포스트:", response);
+        console.log("특정 포스트 API response:", response.data);
+        if (response.data.isSuccess) {
+          setPost(response.data.result.post); // 결과 데이터를 post 상태에 저장
+        } else {
+          console.error("API response error:", response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch post:", error);
+      }
+    };
+
+    if (token) {
+      fetchPost(); // 토큰이 있을 경우 API 호출
+    }
+  }, [id, token]);
 
   const addComment = (content) => {
     const newComment = {
@@ -40,7 +71,6 @@ const PostDetail = () => {
     setLikeCount(liked ? likeCountState - 1 : likeCountState + 1);
   };
 
-  //if (!post) return <div>Loading...</div>;
 
   const formatPostDate = (dateString) => {
     const date = new Date(dateString);
@@ -72,51 +102,59 @@ const PostDetail = () => {
         ></div>
       </NavWrapContainer>
       <PageContainer>
-        <UserInfo>
-          <StyledLink to="/Seller">
-            <ProfilePicture src={IUImage} alt="프로필 사진" />
-          </StyledLink>
-          <UserInfoContent>
-            <UserName>안녕&nbsp;ㆍ</UserName>
-            <PostDate>6개월 전</PostDate>
-            <FollowButton>팔로우</FollowButton>
-          </UserInfoContent>
-        </UserInfo>
-        <PostImage src={IUProfile} alt="포스트 이미지" />
+        {!post ? (
+          <div>Loading...</div> // 로딩 중일 때 표시
+        ) : (
+          <>
+            <UserInfo>
+              <StyledLink to="/Seller">
+                <ProfilePicture
+                  src={post.userProfile || IUImage}
+                  alt="프로필 사진"
+                />
+              </StyledLink>
+              <UserInfoContent>
+                <UserName>{post.username}&nbsp;ㆍ</UserName>
+                <PostDate>{formatPostDate(post.createdAt)}</PostDate>
+                <FollowButton>팔로우</FollowButton>
+              </UserInfoContent>
+            </UserInfo>
+            <PostImage src={post.imageUrl || IUProfile} alt="포스트 이미지" />
 
-        <PostContentText>
-          아이유 도무송 스티커 판매 시작되었습니다!
-        </PostContentText>
-        <Actions>
-          <LikeContainer onClick={toggleLike}>
-            <ImgSize
-              src={liked ? heartFullImage : heartImage}
-              alt="하트"
-              className={liked ? "liked" : ""}
-            />
-            <CountText>99</CountText>
-          </LikeContainer>
-          <CommentContainer>
-            <ImgSize src={commentImage} alt="댓글" />
-            <CountText>99</CountText>
-          </CommentContainer>
-        </Actions>
-        <Separator />
+            <PostContentText>{post.content}</PostContentText>
+            <Actions>
+              <LikeContainer onClick={toggleLike}>
+                <ImgSize
+                  src={liked ? heartFullImage : heartImage}
+                  alt="하트"
+                  className={liked ? "liked" : ""}
+                />
+                <CountText>{likeCountState}</CountText>
+              </LikeContainer>
+              <CommentContainer>
+                <ImgSize src={commentImage} alt="댓글" />
+                <CountText>{comments.length}</CountText>
+              </CommentContainer>
+            </Actions>
+            <Separator />
 
-        <CommentList>
-          {comments.map((comment, index) => (
-            <Comment
-              key={index}
-              comment={comment}
-              style={{ marginTop: "1vw" }}
-            />
-          ))}
-        </CommentList>
+            <CommentList>
+              {comments.map((comment, index) => (
+                <Comment
+                  key={index}
+                  comment={comment}
+                  style={{ marginTop: "1vw" }}
+                />
+              ))}
+            </CommentList>
 
-        <CommentInputContainer>
-          <CommentInput onSubmit={addComment} />
-        </CommentInputContainer>
+            <CommentInputContainer>
+              <CommentInput onSubmit={addComment} />
+            </CommentInputContainer>
+          </>
+        )}
       </PageContainer>
+
       <BaseFooter />
     </>
   );

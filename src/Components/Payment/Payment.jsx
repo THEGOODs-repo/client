@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from "react-redux";
 import arrow from "../../img/chevron-right.svg";
 import { emptyOrderItems } from "../../redux/orderSlice";
 import { fontWeight } from "@mui/system";
+import DaumPostCode from "react-daum-postcode";
+import zIndex from "@mui/material/styles/zIndex";
 
 const PaymentPageWrapper = styled.div`
   display: flex;
@@ -24,17 +26,16 @@ const PaymentPageWrapper = styled.div`
 const PaymentTitle = styled.div`
   display: flex;
   flex-direction: row;
-  width: 84%;
   font-size: ${26 / 19.2}vw;
   font-weight: bold;
   padding: ${40 / 19.2}vw 0 0 0;
+  margin: 0 auto 0 0;
 `;
 
 const Breadcrumb = styled.div`
   display: flex;
   align-items: flex-end;
   margin: auto 0 0 0;
-  self-align: flex-end;
 `;
 
 const Item = styled.div`
@@ -213,6 +214,7 @@ const PayButton = styled.div`
   font-size: ${14 / 19.2}vw;
   padding: 0;
   margin: ${23 / 19.2}vw 0;
+  cursor: grab;
 `;
 
 const PaymentMethodSelectionLabel = styled.label`
@@ -286,6 +288,114 @@ const PaymentPrivacy = styled.div`
   div {
     margin-bottom: ${8 / 19.2}vw;
   }
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: flex-start;
+  margin: ${50 / 19.2}vw 0 0 0;
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  margin: ${5 / 19.2}vw 0;
+  padding: 0;
+  font-size: ${20 / 19.2}vw;
+  font-weight: bold;
+  justify-content: flex-start;
+  align-items: center;
+  color: #52555b;
+  flex-direction: row;
+  text-align: flex-start;
+  align-self: flex-start;
+`;
+
+const TextInput = styled.input`
+  display: flex;
+  width: ${(e) => (e.$width ? e.$width : "100%")};
+  height: ${48 / 19.2}vw;
+  font-size: ${15 / 19.2}vw;
+  border-radius: ${5 / 19.2}vw;
+  flex-shrink: 0;
+  margin: ${5 / 19.2}vw auto ${5 / 19.2}vw 0;
+  padding: 0 0 0 ${13 / 19.2}vw;
+  border: ${1 / 19.2}vw solid #9c9c9c;
+  box-sizing: border-box;
+
+  &.invalidinput {
+    border: ${1 / 19.2}vw solid #fd3c56;
+  }
+
+  &.block {
+    pointer-events: none;
+    background: rgba(156, 156, 156, 0.2);
+  }
+`;
+
+const NoticeText = styled.div`
+  display: flex;
+  width: ${(e) => (e.$width ? e.$width : "100%")};
+  height: auto;
+  font-size: ${15 / 19.2}vw;
+  border-radius: ${5 / 19.2}vw;
+  flex-shrink: 0;
+  margin: ${5 / 19.2}vw auto ${5 / 19.2}vw 0;
+  padding: ${13 / 19.2}vw 0 ${13 / 19.2}vw ${13 / 19.2}vw;
+  border: ${1 / 19.2}vw solid #9c9c9c;
+  box-sizing: border-box;
+
+  &.invalidinput {
+    border: ${1 / 19.2}vw solid #fd3c56;
+  }
+
+  &.block {
+    pointer-events: none;
+    background: rgba(156, 156, 156, 0.2);
+  }
+`;
+
+const ConfirmButton = styled.div`
+  display: flex;
+  width: ${101 / 19.2}vw;
+  height: ${48 / 19.2}vw;
+  flex-shrink: 0;
+  border-radius: ${5 / 19.2}vw;
+  color: ${(e) => (e.$color === "white" ? "#888888" : "#fff")};
+  justify-content: center;
+  align-items: center;
+  font-size: ${15 / 19.2}vw;
+  font-weight: bold;
+  padding: 0;
+  background: ${(e) => (e.$color === "white" ? "#F9F9F9" : "#f0c920")};
+  margin: 0;
+  align-self: center;
+  border: ${1 / 19.2}vw solid
+    ${(e) => e.$color === "white" && "rgba(156,156,156,0.5)"};
+  cursor: grab;
+`;
+
+const Button = styled.div`
+  display: flex;
+  width: 100%;
+  height: ${55 / 19.2}vw;
+  flex-shrink: 0;
+  border-radius: ${5 / 19.2}vw;
+  color: ${(e) => (e.$color === "white" ? "#888888" : "#fff")};
+  justify-content: center;
+  align-items: center;
+  font-size: ${24 / 19.2}vw;
+  font-weight: bold;
+  padding: 0;
+  background: ${(e) => (e.$color === "white" ? "#F9F9F9" : "#f0c920")};
+  margin: 0;
+  align-self: center;
+  border: ${1 / 19.2}vw solid
+    ${(e) => e.$color === "white" && "rgba(156,156,156,0.5)"};
+  cursor: grab;
 `;
 
 const PaymentMethodEnum = {
@@ -440,11 +550,58 @@ const HandleOptionItems = ({
         </>
       );
   } catch (error) {
-    navigate("/", { replace: true });
+    // navigate("/", { replace: true });
   }
 };
 
+const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(32, 33, 35, 0.5);
+  display: ${(e) => (e.$display ? "flex" : "none")};
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+const DaumPost = ({
+  HandleClose,
+  SetAddress,
+  SetDetailAddress,
+  SetZipCode,
+}) => {
+  const handleComplete = (data) => {
+    let extraAddress = "";
+    const { addressType, bname, buildingName } = data;
+    if (addressType === "R") {
+      if (buildingName !== "") {
+        extraAddress += `${buildingName} `;
+      }
+      if (bname !== "") {
+        extraAddress += `(${bname})`;
+      }
+      SetDetailAddress(`${extraAddress !== "" ? `${extraAddress}` : ""}`);
+    }
+    SetAddress(data.address);
+    SetZipCode(data.zonecode);
+    HandleClose();
+  };
+  return (
+    <div>
+      <DaumPostCode
+        onComplete={handleComplete}
+        className="post-code"
+        style={{ zIndex: `1000` }}
+      />
+    </div>
+  );
+};
+
 const Payment = () => {
+  const [Data, SetData] = useState(false);
   const token = useSelector((state) => state.login.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -454,7 +611,7 @@ const Payment = () => {
   const [ShowDeliveryAddressModal, SetShowDeliveryAddressModal] =
     useState(false);
   const [ShowRefundChangeModal, SetShowRefundChangeModal] = useState(false);
-  const [OrderBy, SetOrderBy] = useState("준석");
+  const [OrderBy, SetOrderBy] = useState("");
   const [OrderByPhone, SetOrderByPhone] = useState("");
   const [DeliveryName, SetDeliveryName] = useState("");
   const [DeliveryAddressNickName, SetDeliveryAddressNickName] = useState("");
@@ -465,12 +622,19 @@ const Payment = () => {
   const [DeliveryMemo, SetDeliveryMemo] = useState("");
   const [RefundBank, SetRefundBank] = useState("");
   const [RefundAccount, SetRefundAccount] = useState("");
-  const [RefundAccountHolder, SetRefundAccoutHolder] = useState("");
+  const [RefundAccountHolder, SetRefundAccountHolder] = useState("");
   const [TotalItemPrice, SetTotalItemPrice] = useState(0);
   const [TotalDeliveryFee, SetTotalDeliveryFee] = useState(0);
   const [SellerNameList, SetSellerNameList] = useState([]);
   const [DisplayPrivacy, SetDisplayPrivacy] = useState(false);
   const imp_id = `imp71121635`;
+
+  const [SearchAddress, SetSearchAddress] = useState(false);
+  const [ConfirmOrderByPhone, SetConfirmOrderByPhone] = useState("");
+  const [BlockOrderByPhone, SetBlockOrderByPhone] = useState(false);
+  const [VerifiedOrderByPhone, SetVerifiedOrderByPhone] = useState(false);
+  const [VerificationOrderByPhone, SetVerificationOrderByPhone] = useState("");
+  const [isRequesting, SetIsRequesting] = useState(false);
 
   const readyforPayment = () => {
     const script = document.createElement("script");
@@ -500,10 +664,11 @@ const Payment = () => {
       merchant_uid: new Date().getTime(), // 주문번호    name: "나이키 와플 트레이너 2 SD",
       pay_method: "card",
       name: "TheGOODs",
-      amount: TotalItemPrice + TotalDeliveryFee,
+      //amount: TotalItemPrice + TotalDeliveryFee,
+      amount: 1000,
       buyer_email: "test@portone.io",
       buyer_name: "TheGOODs",
-      buyer_tel: "010-8974-4831", //필수 파라미터 입니다.
+      buyer_tel: "010-0000-0000", //필수 파라미터 입니다.
       buyer_addr: "경기도",
       buyer_postcode: "123-456",
       m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
@@ -523,7 +688,7 @@ const Payment = () => {
 
   const getProfileData = async () => {
     try {
-      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/profile`;
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/mypage/profile`;
 
       const response = await axios.get(endpoint, {
         headers: {
@@ -547,7 +712,7 @@ const Payment = () => {
         response.data.result.accountList.forEach(
           (account) =>
             account.defaultCheck === true &&
-            (SetRefundAccoutHolder(account.owner),
+            (SetRefundAccountHolder(account.owner),
             SetRefundBank(account.bankName),
             SetRefundAccount(account.accountNum)),
         );
@@ -619,7 +784,81 @@ const Payment = () => {
     }
   };
 
-  return (
+  const HandlePhoneAuth = async () => {
+    SetBlockOrderByPhone(true);
+    if (!isRequesting && !VerifiedOrderByPhone) {
+      SetIsRequesting(true);
+      try {
+        const response = await fetchPhoneAuth();
+        // 요청 처리 완료 후, 10초 후에 다시 요청 가능하도록 설정
+        setTimeout(() => {
+          SetIsRequesting(false);
+        }, 10000);
+        return response;
+      } catch (error) {
+        // 오류 처리
+        SetIsRequesting(false);
+        throw error;
+      }
+    } else {
+      // 이미 요청 중인 경우 처리
+      console.log("에러 감지");
+      alert("잠시만 기다려주세요. 메시지가 가고 있습니다.");
+    }
+  };
+
+  const fetchPhoneAuth = async () => {
+    try {
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/phone/auth`;
+      const requestBody = {
+        phone: OrderByPhone,
+      };
+
+      const response = await axios.post(endpoint, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (
+        response.data.isSuccess === true &&
+        response.data.result.phone === OrderByPhone
+      ) {
+        console.log(response);
+      } else if (response.data.isSuccess === false) {
+        console.error(response);
+      }
+    } catch (error) {
+      console.error("Error during POST request:", error);
+    }
+  };
+
+  const fetchPhoneAuthVerify = async () => {
+    try {
+      const endpoint = `${process.env.REACT_APP_BACKEND}/api/members/phone/auth/verify`;
+      const requestBody = {
+        phone: OrderByPhone,
+        code: VerificationOrderByPhone,
+      };
+
+      const response = await axios.post(endpoint, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (
+        response.data.isSuccess === true &&
+        response.data.result.checkPhone === true
+      ) {
+        console.log(response);
+        SetVerifiedOrderByPhone(true);
+      }
+    } catch (error) {
+      alert("인증번호가 일치하지 않습니다. 확인 후 다시 입력해주세요.");
+    }
+  };
+
+  return Data ? (
     <PaymentPageWrapper>
       <PhoneChangeModal
         isOpen={ShowPhoneChangeModal}
@@ -643,18 +882,20 @@ const Payment = () => {
       <RefundChangeModal
         isOpen={ShowRefundChangeModal}
         onClose={() => SetShowRefundChangeModal(false)}
-        ChangedRefundAccountHolder={(e) => SetRefundAccoutHolder(e)}
+        ChangedRefundAccountHolder={(e) => SetRefundAccountHolder(e)}
         ChangedRefundAccount={(e) => SetRefundAccount(e)}
         ChangedRefundBank={(e) => SetRefundBank(e)}
       />
-      <PaymentTitle>주문 결제</PaymentTitle>
-      <Breadcrumb>
-        <Item>장바구니</Item>
-        <img src={arrow} style={Arrow} alt="arrow" />
-        <BoldItem>주문/결제</BoldItem>
-        <img src={arrow} style={Arrow} alt="arrow" />
-        <Item>완료</Item>
-      </Breadcrumb>
+      <div style={{ display: "flex", width: "100vw" }}>
+        <PaymentTitle>주문 결제</PaymentTitle>
+        <Breadcrumb>
+          <Item>장바구니</Item>
+          <img src={arrow} style={Arrow} alt="arrow" />
+          <BoldItem>주문/결제</BoldItem>
+          <img src={arrow} style={Arrow} alt="arrow" />
+          <Item>완료</Item>
+        </Breadcrumb>
+      </div>
       <PaymentWrapper>
         <PaymentTableWrapper>
           <PaymentTableHead>
@@ -890,8 +1131,14 @@ const Payment = () => {
             marginTop: `${30 / 19.2}vw`,
           }}
         >
-          <div>결제 시 개인정보 제공에 동의합니다.</div>
-          <div style={{ marginLeft: `${100 / 19.2}vw` }}>
+          <div
+            style={{
+              margin: `0 auto 0 0`,
+            }}
+          >
+            결제 시 개인정보 제공에 동의합니다.
+          </div>
+          <div>
             <svg
               viewBox="0 0 20 20"
               fill="none"
@@ -946,6 +1193,204 @@ const Payment = () => {
         <PayButton onClick={() => HandlePayment()}>결제하기</PayButton>
       </PaymentConfirmWrapper>
     </PaymentPageWrapper>
+  ) : (
+    <>
+      {SearchAddress ? (
+        <DaumPost
+          HandleClose={() => SetSearchAddress(false)}
+          SetAddress={(e) => SetDeliveryAddress(e)}
+          SetDetailAddress={(e) => SetDeliveryDetailAddress(e)}
+          SetZipCode={(e) => SetDeliveryZipCode(e)}
+        />
+      ) : (
+        <PaymentPageWrapper>
+          <PaymentTitle>주문 결제</PaymentTitle>
+          <Breadcrumb>
+            <Item>장바구니</Item>
+            <img src={arrow} style={Arrow} alt="arrow" />
+            <BoldItem>주문/결제</BoldItem>
+            <img src={arrow} style={Arrow} alt="arrow" />
+            <Item>완료</Item>
+          </Breadcrumb>
+
+          <InputWrapper>
+            <TextWrapper>
+              - 주문자 정보
+              <span style={{ color: "#F0C920", marginLeft: "0.26vw" }}>*</span>
+            </TextWrapper>
+            <TextInput
+              placeholder="주문자명"
+              value={OrderBy}
+              onChange={(e) => {
+                SetOrderBy(e.target.value);
+              }}
+            />
+            <TextInput
+              placeholder="주문자 핸드폰 번호"
+              value={OrderByPhone}
+              $width="90.2%"
+              onChange={(e) => {
+                SetOrderByPhone(e.target.value);
+              }}
+            />
+            <ConfirmButton
+              onClick={
+                OrderByPhone !== ""
+                  ? () => {
+                      if (BlockOrderByPhone) {
+                        SetBlockOrderByPhone(false);
+                        SetVerifiedOrderByPhone(false);
+                        SetVerificationOrderByPhone("");
+                      } else HandlePhoneAuth();
+                    }
+                  : null
+              }
+            >
+              {BlockOrderByPhone ? "변경" : "인증요청"}
+            </ConfirmButton>
+            <TextInput
+              placeholder="인증번호를 입력해주세요."
+              value={ConfirmOrderByPhone}
+              $width="90.2%"
+              onChange={(e) => {
+                SetConfirmOrderByPhone(e.target.value);
+              }}
+            />
+            <ConfirmButton
+              $color="white"
+              onClick={() => fetchPhoneAuthVerify()}
+            >
+              인증확인
+            </ConfirmButton>
+          </InputWrapper>
+          <InputWrapper>
+            <TextWrapper>
+              - 배송지 정보
+              <span style={{ color: "#F0C920", marginLeft: "0.26vw" }}>*</span>
+              <div
+                style={{
+                  marginLeft: `${15 / 19.2}vw`,
+                  display: `flex`,
+                  justifyContent: `center`,
+                  alignItems: `center`,
+                  fontSize: `${13 / 19.2}vw`,
+                }}
+              >
+                주문자정보와 동일<input type="checkbox"></input>
+              </div>
+            </TextWrapper>
+            <TextInput
+              placeholder="수령자명"
+              value={DeliveryName}
+              onChange={(e) => {
+                SetDeliveryName(e.target.value);
+              }}
+            />
+            <TextInput
+              placeholder="연락처"
+              value={DeliveryPhone}
+              onChange={(e) => {
+                SetDeliveryPhone(e.target.value);
+              }}
+            />
+            <TextInput
+              placeholder="우편번호"
+              value={DeliveryZipCode}
+              $width="35%"
+              onChange={(e) => {
+                SetDeliveryZipCode(e.target.value);
+              }}
+              style={{ marginRight: `${7 / 19.2}vw` }}
+            />
+            <ConfirmButton
+              onClick={() => {
+                SetSearchAddress(true);
+              }}
+            >
+              우편번호 찾기
+            </ConfirmButton>
+            <TextInput
+              placeholder="주소"
+              value={DeliveryAddress}
+              onChange={(e) => {}}
+              onClick={() => {
+                SetSearchAddress(true);
+              }}
+            />
+            <TextInput
+              placeholder="상세주소"
+              value={DeliveryDetailAddress}
+              onChange={(e) => {
+                SetDeliveryDetailAddress(e.target.value);
+              }}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <TextWrapper>
+              - 환불계좌 정보 (제작무산 등의 경우)
+              <span style={{ color: "#F0C920", marginLeft: "0.26vw" }}>*</span>
+            </TextWrapper>
+            <TextInput
+              placeholder="은행명"
+              $width="23%"
+              value={RefundBank}
+              onChange={(e) => {
+                SetRefundBank(e.target.value);
+              }}
+            />
+            <TextInput
+              placeholder="계좌번호"
+              $width="52%"
+              value={RefundAccount}
+              onChange={(e) => {
+                SetRefundAccount(e.target.value);
+              }}
+            />
+            <TextInput
+              placeholder="예금주명"
+              $width="23%"
+              value={RefundAccountHolder}
+              onChange={(e) => {
+                SetRefundAccountHolder(e.target.value);
+              }}
+            />
+          </InputWrapper>
+          <TextWrapper style={{ marginTop: `${20 / 19.2}vw` }}>
+            - 개인정보 수집 및 동의
+            <span style={{ color: "#F0C920", marginLeft: "0.26vw" }}>*</span>
+          </TextWrapper>
+          <NoticeText>
+            상품 주문 및 배송을 위해 입력된 개인정보를 수집합니다.
+            <br />
+            수집한 개인정보는 주문과 배송이외의 목적으로는 사용하지 않으며,
+            전자상거래 등에서의 소비자 보호에 관한 법률에 따라 5년까지
+            보관합니다.
+            <br /> 개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이
+            경우 상품 주문이 어려울 수 있습니다.
+          </NoticeText>
+          <div
+            style={{
+              margin: `${15 / 19.2}vw 0`,
+              width: "100%",
+              display: `flex`,
+              justifyContent: `flex-end`,
+              alignItems: `center`,
+              fontSize: `${15 / 19.2}vw`,
+            }}
+          >
+            <input type="checkbox" />
+            동의합니다
+          </div>
+          <Button
+            onClick={() => {
+              SetData(true);
+            }}
+          >
+            제출
+          </Button>
+        </PaymentPageWrapper>
+      )}
+    </>
   );
 };
 

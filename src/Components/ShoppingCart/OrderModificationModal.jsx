@@ -27,20 +27,18 @@ const OrderModificationModal = ({
     }
   }, [selectedOptions]);
 
-  const handleDecreaseAmount = (cartDetailId) => {
+  const handleDecreaseAmount = () => {
     const updatedOptions = selectedOptions.map((option) => {
-      if (option.cartDetailId === cartDetailId) {
-        return {
-          ...option,
-          amount: Math.max(option.amount - 1, 1),
-        };
-      }
-      return option;
+      // amount가 1보다 큰 경우에만 줄어들도록 수정
+      return {
+        ...option,
+        amount: option.amount > 1 ? option.amount - 1 : option.amount,
+      };
     });
     setSelectedOptions(updatedOptions);
   };
 
-  const handleIncreaseAmount = (cartDetailId) => {
+  const handleIncreaseAmount = () => {
     const updatedOptions = selectedOptions.map((option) => {
       const stockQuantity = getStockQuantity(option.itemOptionId);
       if (option.amount + 1 <= stockQuantity) {
@@ -137,14 +135,14 @@ const OrderModificationModal = ({
   };
 
   const getStockQuantity = (itemOptionId) => {
-    if (
-      stockInfo &&
-      stockInfo.result &&
-      stockInfo.result.cartOptionStockDTOList
-    ) {
+    if (stockInfo && Array.isArray(stockInfo)) {
       // 재고 정보 배열을 순회하면서 itemOptionId와 일치하는 아이템을 찾습니다.
-      for (const stockData of stockInfo.result.cartOptionStockDTOList) {
-        if (stockData.itemOptionId === itemOptionId) {
+      for (const stockData of stockInfo) {
+        // itemOptionId가 null이거나 일치하는 경우 재고를 반환합니다.
+        if (
+          stockData.itemOptionId === itemOptionId ||
+          stockData.itemOptionId === null
+        ) {
           return stockData.stock; // 해당 아이템의 재고를 반환합니다.
         }
       }
@@ -194,15 +192,13 @@ const OrderModificationModal = ({
                 </div>
 
                 <QuantityControl>
-                  <Button onClick={() => handleDecreaseAmount(option.cartId)}>
-                    -
-                  </Button>
+                  <Button onClick={() => handleDecreaseAmount()}>-</Button>
                   <AmountInput>
                     <span style={{ marginTop: "9px" }}>{option.amount}</span>
                   </AmountInput>
 
                   <Button
-                    onClick={() => handleIncreaseAmount(option.cartId)}
+                    onClick={() => handleIncreaseAmount()}
                     disabled={
                       option.amount >= getStockQuantity(option.itemOptionId)
                     }
@@ -351,6 +347,7 @@ const Button = styled.div`
   height: 3vh;
   text-align: center;
   border: 1px solid rgba(32, 33, 35, 0.8);
+  cursor: pointer;
 `;
 const CheckPosition = styled.div`
   margin-left: 1vw;

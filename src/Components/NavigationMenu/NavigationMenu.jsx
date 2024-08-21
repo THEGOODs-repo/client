@@ -262,6 +262,10 @@ const handleLogout = async () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
         />
+                <svg onClick={handleSearch} viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={SearchStyle}>
+          <path className="searchbutton" d="M26.25 24.5L18.75 17.5M21.25 11.6667C21.25 12.7391 21.0237 13.8011 20.5839 14.7919C20.1442 15.7827 19.4997 16.683 18.6872 17.4414C17.8747 18.1997 16.9101 18.8013 15.8485 19.2117C14.7869 19.6221 13.6491 19.8333 12.5 19.8333C11.3509 19.8333 10.2131 19.6221 9.15152 19.2117C8.08992 18.8013 7.12533 18.1997 6.31282 17.4414C5.5003 16.683 4.85578 15.7827 4.41605 14.7919C3.97633 13.8011 3.75 12.7391 3.75 11.6667C3.75 9.50073 4.67187 7.42351 6.31282 5.89196C7.95376 4.36041 10.1794 3.5 12.5 3.5C14.8206 3.5 17.0462 4.36041 18.6872 5.89196C20.3281 7.42351 21.25 9.50073 21.25 11.6667Z" stroke="#F0C920" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+
       </SearchWrapper>
       
       <IconWrapContainer>

@@ -28,13 +28,27 @@ function NewProductPage(props){
     const [productList,setProductList] = useState([]);
     const [count,setCount] = useState(0);
     const titleList = {
-        'new': '신상품',
-        'popular': '인기상품',
-        'last': '마감임박',
+        'idol': '아이돌',
+        'animation': '애니메이션',
+        'webtoon': '웹툰',
+        'game': '게임',
     };
 
     useEffect(() => {
-        axios.get(`/api/item/main?type=${props.type}&page=1`) //ENDPOINT작성
+        let url = ''
+        if (props.type == 'idol') {
+            url = `/api/item/main?type=new&page=1`
+        }
+        else if (props.type == 'animation') {
+            url = `/api/item/main?type=new&page=2`
+        }
+        else if (props.type == 'webtoon') {
+            url = `/api/item/main?type=new&page=3`
+        }
+        else if (props.type == 'game') {
+            url = `/api/item/main?type=new&page=4`
+        }
+        axios.get(url) //ENDPOINT작성
             .then(response => {
                 setCount(response.data['result']['totalElements']);
                 setProductList(response.data['result']['itemList'])
@@ -51,9 +65,7 @@ function NewProductPage(props){
                 <div style={{ borderBottom: '1px solid #9C9C9C', width:'100%',height:'3px' }}></div>
                 <NavigationCategoryMenu />
             </NavWrapContainer>
-            <div style={{width:"100%",height:"300px"}}>
-                <img src={newbanner} alt="" />
-            </div>
+            <hr />
             <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
                 <div style={{width : "66%",display:"flex",flexDirection:"column"}}>
                 <h1>{titleList[props.type]}</h1>

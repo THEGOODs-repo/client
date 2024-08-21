@@ -57,12 +57,15 @@ const BannerWrapContainer = styled.div`
   overflow: hidden;
   position: relative;
   width: 100%;
+  transform: translateY(-15%); /* 위로 10% 이동 */
 `;
+
 
 const BannerContainer = styled.div`
   display: flex;
   transition: transform 0.5s ease;
   position: relative;
+  transform: translateY(-20%); /* 위로 10% 이동 */
 `;
 
 const BannerItemContainer = styled.div`
@@ -102,6 +105,8 @@ const MainWrapContent = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+    transform: translateY(-6%); /* 위로 10% 이동 */
+
 `;
 const SubInfoContainer = styled.div`
   margin-top: 50px;
@@ -251,7 +256,7 @@ function    MainPageComponent() {
           <BannerContainer ref={bannerRef}>
             <BannerItemContainer>
               <BannerImg
-                src={likeBannerURL}
+                src={mainBannerURL}
                 alt="메인베너"
                 onClick={handleMoveLikePage}
               />

@@ -66,15 +66,24 @@ function App() {
           <TokenTrigger />
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
-            <Route path="/newproduct" element={<NewProductPage type="new" />} />
             
             <Route
-              path="/popularproduct"
-              element={<NewProductPage type="popular" />}
+              path="/idol"
+              element={<NewProductPage type="idol" />}
             /> 
             <Route
-              path="/endingproduct"
-              element={<NewProductPage type="last" />}
+              path="/animation"
+              element={<NewProductPage type="animation" />}
+            />
+            
+            <Route
+              path="/webtoon"
+              element={<NewProductPage type="webtoon" />}
+            />
+            
+            <Route
+              path="/game"
+              element={<NewProductPage type="game" />}
             />
             <Route path="/search" element={<SearchResultComponent />} />
             <Route path="/product" element={<MorePage />} />

@@ -15,6 +15,7 @@ const PostBox = styled.div`
 
 const MainPost = () => {
   // 포스트에 대한 가상의 데이터
+  //여기 수정
   const posts = [
     {
       userProfile: NewjeansProfile,

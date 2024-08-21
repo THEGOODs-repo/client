@@ -61,39 +61,33 @@ const Comment = ({ comment, likeCount }) => {
       <UserInfoContainer className="user-info">
         <ProfilePicture src={comment.cmtProfile} alt="프로필 사진" />
         <UserInfoWrapper>
-          <UserName className="username">{comment.username}</UserName>
-          <CommentContent>{comment.content}</CommentContent>
+          <NameContent>
+            <UserName className="username">{comment.username}</UserName>
+            <CommentContent>{comment.content}</CommentContent>
+          </NameContent>
           <ActionContainer>
             <Timestamp className="timestamp">
               {getTimeElapsed(comment.createdAt)}
             </Timestamp>
-            <LikeCount>좋아요 {likes}개</LikeCount>
             <ReplyText>답글 달기</ReplyText>
             <ModifyIcon onClick={openModal}>⋯</ModifyIcon>
             {showModal && (
               <ModalOverlay>
-                <Modal>
+                <Modal onClick={(e) => e.stopPropagation()}>
                   <ModalContent onClick={() => handleAction("수정")}>
                     수정
                   </ModalContent>
                   <ModalContent onClick={() => handleAction("삭제")}>
                     삭제
                   </ModalContent>
-                  <ModalContent2 onClick={() => setShowModal(false)}>
+                  <ModalContent onClick={() => setShowModal(false)}>
                     취소
-                  </ModalContent2>
+                  </ModalContent>
                 </Modal>
               </ModalOverlay>
             )}
           </ActionContainer>
         </UserInfoWrapper>
-        <LikeContainer className="like-container" onClick={toggleLike}>
-          <LikeIcon
-            src={liked ? heartFullImage : heartImage}
-            alt="하트"
-            className={liked ? "liked" : ""}
-          />
-        </LikeContainer>
       </UserInfoContainer>
     </CommentContainer>
   );
@@ -127,102 +121,79 @@ const UserInfoWrapper = styled.div`
 const UserName = styled.span`
   font-weight: bold;
   font-size: ${14 / 19.2}vw;
-  margin-top: 0.5vw;
 `;
 
 const CommentContent = styled.span`
   font-size: ${14 / 19.2}vw;
   line-height: 16px;
-  width: ${380 / 19.2}vw;
+  width: ${580 / 19.2}vw;
   word-wrap: break-word;
 `;
 
 const ActionContainer = styled.div`
   display: flex;
+  align-items: center;
+  gap: 5px;
 `;
 
 const Timestamp = styled.span`
-  margin: 0;
   font-size: ${12 / 19.2}vw;
-  color: #52555b;
-  margin-top: 4px;
-`;
-
-const LikeCount = styled.p`
-  margin: 0vw 0 0 0.5vw;
-  font-size: ${12 / 19.2}vw;
-  color: #6f737b;
-  margin-top: 2px;
-  font-weight: 700;
   font-family: "Noto Sans";
-  line-height: 1vw;
+  font-style: normal;
+  font-weight: 400;
+  line-height: ${16 / 19.2}vw;
+
+  color: #52555b;
 `;
 
 const ReplyText = styled.span`
-  margin: 0.1vw 0 0 0.5vw;
   font-size: ${12 / 19.2}vw;
-  color: #6f737b;
-  margin-top: 2px;
   font-family: "Noto Sans";
+  font-style: normal;
   font-weight: 700;
-  line-height: 1vw;
+  line-height: ${16 / 19.2}vw;
+
+  color: #6f737b;
 `;
 
 const ModifyIcon = styled.span`
-  margin: 0.1vw 0 0 0.5vw;
   font-size: 1vw;
   color: #6f737b;
-  margin-top: 1px;
   font-family: "Noto Sans";
   font-weight: 900;
   line-height: 1vw;
   cursor: pointer;
 `;
 
-const LikeContainer = styled.div`
-  display: flex;
-  cursor: pointer;
-  width: ${23 / 19.2}vw;
-  height: ${23 / 19.2}vw;
-  margin-top: 15px;
-  margin-left: -10px;
-`;
-
-const LikeIcon = styled.img`
-  &.liked {
-    // 좋아요 표시에 사용되는 스타일
-  }
-`;
 const Modal = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: ${340 / 19.2}vw;
+  height: 145px;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
 `;
 const ModalContent = styled.div`
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  height: ${50 / 19.2}vw;
-  width: ${370 / 19.2}vw;
-  align-items: center;
   justify-content: center;
-  background: #fff;
-  border-top: 1px solid #ccc;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  &:last-child {
+    border-bottom: none;
+    color: #202123;
+  }
+  &:hover {
+    background-color: #f0f0f0;
+  }
   font-family: "Noto Sans";
   font-weight: 700;
   font-size: ${16 / 19.2}vw;
   color: #fd3c56;
-`;
-const ModalContent2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: ${50 / 19.2}vw;
-  width: ${370 / 19.2}vw;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border-top: 1px solid #ccc;
-  font-family: "Noto Sans";
-  font-weight: 700;
-  font-size: ${16 / 19.2}vw;
 `;
 const ModalOverlay = styled.div`
   position: fixed;
@@ -235,4 +206,11 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1;
+`;
+const NameContent = styled.div`
+  display: flex;
+  width: ${620 / 19.2}vw;
+  gap: 5px;
+  align-items: flex-start;
+  margin-bottom: 10px;
 `;

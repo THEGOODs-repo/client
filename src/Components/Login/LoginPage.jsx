@@ -117,7 +117,7 @@ const ExtraWrapper = styled.div`
 
 const ExtraButton = styled.div`
   display: flex;
-  width: ${270 / 19.2}vw;
+  width: ${570 / 19.2}vw;
   height: ${55 / 19.2}vw;
   flex-shrink: 0;
   border-radius: ${5 / 19.2}vw;
@@ -434,13 +434,6 @@ const LoginPage = () => {
           }}
         >
           회원가입
-        </ExtraButton>
-        <ExtraButton
-          onClick={() => {
-            navigate("/guest");
-          }}
-        >
-          비회원 주문 조회
         </ExtraButton>
       </ExtraWrapper>
     </LoginWrapper>

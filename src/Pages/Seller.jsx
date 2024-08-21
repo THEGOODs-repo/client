@@ -9,6 +9,30 @@ import HeaderComponent from "../Components/Header/Header";
 import NavigationCategoryMenu from "../Components/NavigationMenu/NavigationCategoryMenu";
 
 const Seller = () => {
+  const FollowButton = styled.button`
+    font-family: "Noto Sans";
+    margin: 1vw 0 0 ${1060 / 19.2}vw;
+    width: ${110 / 19.2}vw;
+    height: ${42 / 19.2}vw;
+    background: ${({ isFollowed }) => (isFollowed ? "#eee" : "#F0C920")};
+    border-radius: 20px;
+    color: ${({ isFollowed }) => (isFollowed ? "#888" : "#fff")};
+    padding: 5px 10px;
+    border: ${({ isHovered }) =>
+      isHovered && isFollowed ? "2px solid #FD3C56" : "none"};
+    cursor: pointer;
+    margin-right: 1.5vw;
+    font-size: ${14 / 19.2}vw;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    ${({ isHovered, isFollowed }) =>
+      isHovered &&
+      isFollowed &&
+      `
+      color: #FD3C56;
+      background: #fff;
+  `}
+  `;
   const [profileData, setProfileData] = useState({
     //초기상태
     name: "John Doe",
@@ -23,105 +47,27 @@ const Seller = () => {
   const [isProductClicked, setIsProductClicked] = useState(false); // 판매 상품 버튼이 클릭되었는지 여부를 추적하는 상태
 
   const [isFollowed, setIsFollowed] = useState(false);
-  const [buttonStyle, setButtonStyle] = useState({
-    position: "absolute",
-    marginTop: "1vw",
-    marginLeft: "34vw",
-    width: `${110 / 19.2}vw`,
-    height: `${42 / 19.2}vw`,
-    background: "#F0C920",
-    borderRadius: "20px",
-    color: "#fff",
-    padding: "5px 10px",
-    border: "none",
-    cursor: "pointer",
-    marginRight: "1.5vw",
-    fontSize: `${14 / 19.2}vw`,
-    fontWeight: "700",
-  });
+  const [isHovered, setIsHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFollowButtonClick = () => {
     setIsFollowed(!isFollowed);
-    if (!isFollowed) {
-      setButtonStyle({
-        fontFamily: "Noto Sans",
-        position: "absolute",
-        marginTop: "1vw",
-        marginLeft: "34vw",
-        width: `${110 / 19.2}vw`,
-        height: `${42 / 19.2}vw`,
-        background: "#eee",
-        borderRadius: "20px",
-        color: "#888",
-        padding: "5px 10px",
-        border: "none",
-        cursor: "pointer",
-        marginRight: "1.5vw",
-        fontWeight: "700",
-        fontSize: `${14 / 19.2}vw`,
-      });
-    } else {
-      setButtonStyle({
-        fontFamily: "Noto Sans",
-        position: "absolute",
-        marginTop: "1vw",
-        marginLeft: "34vw",
-        width: `${110 / 19.2}vw`,
-        height: `${42 / 19.2}vw`,
-        background: "#F0C920",
-        borderRadius: "20px",
-        color: "#fff",
-        padding: "5px 10px",
-        border: "none",
-        cursor: "pointer",
-        marginRight: "1.5vw",
-        fontSize: `${14 / 19.2}vw`,
-        fontWeight: "700",
-      });
-    }
   };
 
   const handleMouseEnter = () => {
-    if (isFollowed) {
-      setButtonStyle({
-        fontFamily: "Noto Sans",
-        color: "#FD3C56",
-        border: "2px solid #FD3C56",
-        position: "absolute",
-        marginTop: "1vw",
-        marginLeft: "34vw",
-        width: `${110 / 19.2}vw`,
-        height: `${42 / 19.2}vw`,
-        background: "#fff",
-        borderRadius: "20px",
-        padding: "5px 10px",
-        cursor: "pointer",
-        marginRight: "1.5vw",
-        fontSize: `${14 / 19.2}vw`,
-        fontWeight: "700",
-      });
-    }
+    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (isFollowed) {
-      setButtonStyle({
-        fontFamily: "Noto Sans",
-        position: "absolute",
-        marginTop: "1vw",
-        marginLeft: "34vw",
-        width: `${110 / 19.2}vw`,
-        height: `${42 / 19.2}vw`,
-        background: "#eee",
-        borderRadius: "20px",
-        color: "#888",
-        padding: "5px 10px",
-        border: "none",
-        cursor: "pointer",
-        marginRight: "1.5vw",
-        fontSize: `${14 / 19.2}vw`,
-      });
-    }
+    setIsHovered(false);
+  };
+
+  const handleImageClick = () => {
+    setIsModalOpen(true); // 모달을 열기
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // 모달을 닫기
   };
 
   useEffect(() => {
@@ -167,16 +113,21 @@ const Seller = () => {
       </NavWrapContainer>
       <SellerBox>
         <Background>
-          <Img src={profileData.profileImageUrl} alt="프로필 사진" />
+          <Img
+            src={profileData.profileImageUrl}
+            alt="프로필 사진"
+            onClick={handleImageClick}
+          />
         </Background>
-        <button
-          style={buttonStyle}
+        <FollowButton
+          isFollowed={isFollowed}
+          isHovered={isHovered}
           onClick={handleFollowButtonClick}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           {isFollowed ? "팔로우 취소" : "팔로우"}
-        </button>
+        </FollowButton>
         <Profile>
           <Name>{profileData.name}</Name>
           <Bio>{profileData.bio}</Bio>
@@ -205,6 +156,15 @@ const Seller = () => {
       </SellerBox>
       <div style={{ marginTop: "-3vw" }}>{isFeedClicked && <PostList />}</div>
       <FixedButtons />
+
+      {isModalOpen && (
+        <Backdrop onClick={handleCloseModal}>
+          <CloseButton onClick={handleCloseModal}>X</CloseButton>
+          <Modal>
+            <ModalImage src={profileData.profileImageUrl} alt="프로필 사진" />
+          </Modal>
+        </Backdrop>
+      )}
     </div>
   );
 };
@@ -221,8 +181,8 @@ const NavWrapContainer = styled.div`
 
 const SellerBox = styled.div`
   position: relative;
-  width: ${830 / 19.2}vw;
-  margin-left: 28vw;
+  width: ${1170 / 19.2}vw;
+  margin: 0 auto;
   color: #333;
 `;
 
@@ -297,10 +257,61 @@ const ProductButton = styled.button`
   font-style: normal;
   font-size: ${16 / 19.2}vw;
   font-weight: ${(props) => (props.isClicked ? "700" : "400")};
-  width: ${80 / 19.2}vw;
+  width: ${110 / 19.2}vw;
   height: 3vw;
   background-color: transparent;
   border: none;
   border-bottom: ${(props) =>
     props.isClicked ? "0.2vw solid #F0C920" : "none"};
+`;
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); // 반투명 검정 배경
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+// 모달 스타일
+const Modal = styled.div`
+  position: relative;
+  width: ${300 / 19.2}vw;
+  height: ${300 / 19.2}vw;
+  background: #fff;
+  border-radius: 50%; // 원형 모양으로 만들기
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+// 모달 이미지 스타일
+const ModalImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+`;
+
+// 닫기 버튼 스타일
+const CloseButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  bottom: ${130 / 19.2}vw;
+  left: ${300 / 19.2}vw;
+  width: ${32 / 19.2}vw;
+  height: ${32 / 19.2}vw;
+  font-size: ${16 / 19.2}vw;
+  z-index: 1;
+  background: #202123;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
 `;

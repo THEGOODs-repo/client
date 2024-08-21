@@ -2,17 +2,64 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import HamsterImage from "../../../img/Hamster.png";
 import Switch from "../../../img/Switch.png";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
 
 export default function MyPageNavbar() {
+  
+
+  const alreadyUser = useSelector((state) => state.login.token);
+  const [userName,setUserName] = useState("");
+  const [profileImageUrl,setprofileImageUrl] = useState("");
+  
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+    const url = '/api/members/profile'; // 프로필 정보 가져오는 URL
+    const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwibWVtYmVyUm9sZSI6IkJVWUVSIiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3MjQyNTg0Njd9.j66GVbg_ENpR2FvXpiDU_EnUfMywvUGXwnkJGHaiqNCAu9cZFDVT7e8mnmTInziwzZoB2eXBlvGsRftnnV8W4A"; // JWT 토큰
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user profile');
+      }
+
+      const data = await response.json();
+      
+      // 유저 이름과 프로필 이미지 추출
+      var z = data.result.name;
+      var c = data.result.url;
+      console.log('User Name:', z);
+      console.log('Profile Image URL:', c);
+
+      setprofileImageUrl(data.result.url);
+      setUserName(data.result.name);
+      console.log(data.result.url)
+
+      // 여기서 유저 이름과 프로필 이미지를 UI에 표시하는 로직을 추가할 수 있습니다.
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  fetchUserProfile();
+  },[])
+
   return (
     <NavbarContainer>
       <ProfileContainer>
         <Img1
           style={{
-            background: `url(${HamsterImage}) center/cover`,
+            background: `url(${profileImageUrl}) center/cover`,
           }}
         />
-        <h1>햄스터</h1>
+        <h1>{userName}</h1>
       </ProfileContainer>
 
       <ListContainer>

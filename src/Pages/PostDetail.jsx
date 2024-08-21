@@ -71,6 +71,7 @@ const PostDetail = () => {
     setLikeCount(liked ? likeCountState - 1 : likeCountState + 1);
   };
 
+
   const formatPostDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -100,7 +101,6 @@ const PostDetail = () => {
           }}
         ></div>
       </NavWrapContainer>
-
       <PageContainer>
         {!post ? (
           <div>Loading...</div> // 로딩 중일 때 표시

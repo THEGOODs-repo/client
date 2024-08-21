@@ -43,7 +43,6 @@ import SystemPage from "./Pages/SystemPage";
 import SystemNickname from "./Components/SystemPage/SystemNickname";
 import PostManage from "./Components/SystemPage/PostManage";
 import PostRegister from "./Components/SystemPage/PostRegister";
-
 // 로그인
 import Login from "./Pages/Login";
 import KakaoLoginHandler from "./Components/Login/KakaoLoginHandler";
@@ -75,6 +74,10 @@ function App() {
           <TokenTrigger />
           <Routes>
             <Route path="/" element={<MainPageComponent />} />
+            <Route
+              path="/idol"
+              element={<NewProductPage type="idol" />}
+            /> 
             <Route path="/newproduct" element={<NewProductPage type="new" />} />
 
             <Route
@@ -82,8 +85,18 @@ function App() {
               element={<NewProductPage type="popular" />}
             />
             <Route
-              path="/endingproduct"
-              element={<NewProductPage type="last" />}
+              path="/animation"
+              element={<NewProductPage type="animation" />}
+            />
+            
+            <Route
+              path="/webtoon"
+              element={<NewProductPage type="webtoon" />}
+            />
+            
+            <Route
+              path="/game"
+              element={<NewProductPage type="game" />}
             />
             <Route path="/search" element={<SearchResultComponent />} />
             <Route path="/product" element={<MorePage />} />

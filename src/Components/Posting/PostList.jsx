@@ -16,6 +16,7 @@ const PostItem = styled.div`
   width: 100%;
 `;
 //{ posts = [] } 추가하기 api 완성되면!
+
 const PostList = ({ posts = [] }) => {
   return (
     <PostBox>
